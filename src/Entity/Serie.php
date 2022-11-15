@@ -20,6 +20,10 @@ class Serie
     #[ORM\JoinColumn(nullable: false)]
     private ?Type $type = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Genre $genre = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +49,18 @@ class Serie
     public function setType(Type $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getGenre(): ?Genre
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(Genre $genre): self
+    {
+        $this->genre = $genre;
 
         return $this;
     }
