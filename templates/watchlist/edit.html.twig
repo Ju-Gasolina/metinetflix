@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Watchlist{% endblock %}
+
+{% block body %}
+    <h1>Edit Watchlist</h1>
+
+    {{ include('watchlist/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_watchlist_index') }}">back to list</a>
+
+    {{ include('watchlist/_delete_form.html.twig') }}
+{% endblock %}

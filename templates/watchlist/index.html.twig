@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Watchlist index{% endblock %}
+
+{% block body %}
+    <h1>Watchlist index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Total_duration</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for watchlist in watchlists %}
+            <tr>
+                <td>{{ watchlist.id }}</td>
+                <td>{{ watchlist.totalDuration }}</td>
+                <td>
+                    <a href="{{ path('app_watchlist_show', {'id': watchlist.id}) }}">show</a>
+                    <a href="{{ path('app_watchlist_edit', {'id': watchlist.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_watchlist_new') }}">Create new</a>
+{% endblock %}

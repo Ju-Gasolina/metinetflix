@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Watchlist{% endblock %}
+
+{% block body %}
+    <h1>Create new Watchlist</h1>
+
+    {{ include('watchlist/_form.html.twig') }}
+
+    <a href="{{ path('app_watchlist_index') }}">back to list</a>
+{% endblock %}
