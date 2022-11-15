@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\SerieRepository;
+use App\Repository\SeasonRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: SerieRepository::class)]
-class Serie
+#[ORM\Entity(repositoryClass: SeasonRepository::class)]
+class Season
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,11 +18,7 @@ class Serie
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Type $type = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Genre $genre = null;
+    private ?Serie $serie = null;
 
     public function getId(): ?int
     {
@@ -41,26 +37,14 @@ class Serie
         return $this;
     }
 
-    public function getType(): ?Type
+    public function getSerie(): ?Serie
     {
-        return $this->type;
+        return $this->serie;
     }
 
-    public function setType(?Type $type): self
+    public function setSerie(?Serie $serie): self
     {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function getGenre(): ?Genre
-    {
-        return $this->genre;
-    }
-
-    public function setGenre(?Genre $genre): self
-    {
-        $this->genre = $genre;
+        $this->serie = $serie;
 
         return $this;
     }
