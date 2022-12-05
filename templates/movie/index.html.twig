@@ -3,9 +3,7 @@
 {% block title %}Movie index{% endblock %}
 
 {% block main %}
-    <h1>Movie index</h1>
-
-    <div class="container pb-5">
+    <div class="container pb-5 pt-5">
         <div class="row">
             {% for movie in movies %}
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
@@ -14,7 +12,7 @@
                         <div class="card-body">
                             <p class="card-title h5">{{ movie.title }}</p>
                             <p class="card-text">{{ movie.release_date }}</p>
-                            <a href="#" class="stretched-link"
+                            <a href="{{ path('app_movie_show', {id: movie.id}) }}" class="stretched-link"
                                title="Cliquez pour voir les informations détaillées"></a>
                         </div>
                     </div>

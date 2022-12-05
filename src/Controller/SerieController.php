@@ -9,16 +9,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\SerieParsing;
 
 #[Route('/serie')]
 class SerieController extends AbstractController
 {
     #[Route('/', name: 'app_serie_index', methods: ['GET'])]
-    public function index(SerieRepository $serieRepository): Response
+    public function index(Request $request, SerieParsing $serieParsing): Response
     {
-        return $this->render('serie/index.html.twig', [
-            'series' => $serieRepository->findAll(),
-        ]);
+        $page = $request->query->get('page');
+
+        if(empty($page))
+        {
+            return $this->redirectToRoute('app_serie_index', ['page' => 1], Response::HTTP_SEE_OTHER);
+        }
+        else if($page < 1 || $page > 10)
+        {
+            throw $this->createNotFoundException('The page does not exist');
+        }
+        else
+        {
+            return $this->render('serie/index.html.twig', [
+                'series' => $serieParsing->popularParsing($page),
+            ]);
+        }
     }
 
     #[Route('/new', name: 'app_serie_new', methods: ['GET', 'POST'])]
@@ -41,10 +55,10 @@ class SerieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_serie_show', methods: ['GET'])]
-    public function show(Serie $serie): Response
+    public function show(int $id, SerieParsing $serieParsing): Response
     {
         return $this->render('serie/show.html.twig', [
-            'serie' => $serie,
+            'serie' => $serieParsing->serieParsing($id),
         ]);
     }
 
