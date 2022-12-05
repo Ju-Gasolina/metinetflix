@@ -1,12 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block main %}
 
 
-<div class="example-wrapper">
+    <h1>Login</h1>
 
-    <h1>Hello</h1>
-</div>
+    <form action="{{ path('app_login') }}" method="post">
+        <label for="username">Email:</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="_password">
+
+
+
+        <button type="submit">login</button>
+    </form>
+
+{#    {{ form_start(loginForm) }}#}
+{#    {{ form_row(loginForm.email) }}#}
+{#    {{ form_row(loginForm.password) }}#}
+
+
+{#    <button type="submit" class="btn btn-dark">Login</button>#}
+{#    {{ form_end(loginForm) }}#}
 {% endblock %}
