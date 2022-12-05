@@ -16,8 +16,21 @@ class SerieController extends AbstractController
     #[Route('/', name: 'app_serie_index', methods: ['GET'])]
     public function index(SerieRepository $serieRepository): Response
     {
+
+        $client = HttpClient::create();
+        $response = $client->request('GET', 'https://api.github.com/repos/symfony/symfony-docs');
+
+        //$statusCode = $response->getStatusCode();
+
+        //$contentType = $response->getHeaders()['content-type'][0];
+
+        $content = $response->getContent();
+
+        //$content = $response->toArray();
+
         return $this->render('serie/index.html.twig', [
             'series' => $serieRepository->findAll(),
+            'data' => $content,
         ]);
     }
 
