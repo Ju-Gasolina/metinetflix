@@ -12,7 +12,7 @@
                         <div class="card-body">
                             <p class="card-title h5">{{ serie.name }}</p>
                             <p class="card-text">{{ serie.first_air_date }}</p>
-                            <a href="#" class="stretched-link"
+                            <a href="{{ path('app_serie_show', {id: serie.id}) }}" class="stretched-link"
                                title="Cliquez pour voir les informations détaillées"></a>
                         </div>
                     </div>

@@ -55,10 +55,10 @@ class MovieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_movie_show', methods: ['GET'])]
-    public function show(Movie $movie): Response
+    public function show(int $id, MovieParsing $movieParsing): Response
     {
-        return $this->render('movie/show.html.twig', [
-            'movie' => $movie,
+        return $this->render('movie/index.html.twig', [
+            'movie' => $movieParsing->movieParsing($id),
         ]);
     }
 
