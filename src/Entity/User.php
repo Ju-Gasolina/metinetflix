@@ -4,9 +4,10 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,6 +22,18 @@ class User
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $birthday = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $gender = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $firstname = null;
+
+    #[ORM\Column(length: 512)]
+    private ?string $lastname = null;
 
     public function getId(): ?int
     {
@@ -59,6 +72,69 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        // TODO: Implement getRoles() method.
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getUserIdentifier(): string
+    {
+        // TODO: Implement getUserIdentifier() method.
+    }
+
+    public function getBirthday(): ?string
+    {
+        return $this->birthday;
+    }
+
+    public function setBirthday(string $birthday): self
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): self
+    {
+        $this->lastname = $lastname;
 
         return $this;
     }
