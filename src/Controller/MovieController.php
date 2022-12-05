@@ -25,10 +25,10 @@ class MovieController extends AbstractController
 
         $movies = array();
         foreach($items['results'] as $item) {
-            array_push($movies, array(
+            $movies[] = array(
                 'title' => $item['title'],
                 'release_date' => $item['release_date'],
-                'poster_path' => 'https://image.tmdb.org/t/p/original/'.$item['poster_path']));
+                'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item['poster_path']);
         }
 
 

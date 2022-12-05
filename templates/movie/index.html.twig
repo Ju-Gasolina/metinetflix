@@ -5,26 +5,21 @@
 {% block main %}
     <h1>Movie index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Release date</th>
-                <th>Picture</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for movie in movies %}
-            <tr>
-                <td>{{ movie.title }}</td>
-                <td>{{ movie.release_date }}</td>
-                <td><a href="{{ movie.poster_path }}" target="_blanck">{{ movie.poster_path }}</a></td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="container pb-5">
+        <div class="row">
+            {% for movie in movies %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card text-center">
+                        <img class="card-img-top" src="{{ movie.poster_path }}" alt="{{ movie.title }}">
+                        <div class="card-body">
+                            <p class="card-title h5">{{ movie.title }}</p>
+                            <p class="card-text">{{ movie.release_date }}</p>
+                            <a href="#" class="stretched-link"
+                               title="Cliquez pour voir les informations détaillées"></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
