@@ -30,7 +30,6 @@ class GenreController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $genreRepository->save($genre, true);
-
             return $this->redirectToRoute('app_genre_index', [], Response::HTTP_SEE_OTHER);
         }
 
