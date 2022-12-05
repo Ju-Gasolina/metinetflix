@@ -6,6 +6,7 @@ use App\Entity\Serie;
 use App\Form\SerieType;
 use App\Repository\SerieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,10 +15,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class SerieController extends AbstractController
 {
     #[Route('/', name: 'app_serie_index', methods: ['GET'])]
-    public function index(SerieRepository $serieRepository): Response
+    public function index(): Response
     {
+        $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
+        //https://api.themoviedb.org/3/movie/now_playing?api_key=###&page=1
+
+        $client = HttpClient::create();
+        $response = $client->request('GET', 'https://api.themoviedb.org/3/tv/popular/?api_key='.$apiKey.'&page=1');
+        $items = $response->toArray();
+
+        $series = array();
+        foreach($items['results'] as $item) {
+            $series[] = array(
+                'name' => $item['name'],
+                'first_air_date' => $item['first_air_date'],
+                'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item['poster_path']);
+        }
+
+
         return $this->render('serie/index.html.twig', [
-            'series' => $serieRepository->findAll(),
+            'series' => $series,
         ]);
     }
 

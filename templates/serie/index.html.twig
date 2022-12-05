@@ -16,12 +16,9 @@
         <tbody>
         {% for serie in series %}
             <tr>
-                <td>{{ serie.id }}</td>
                 <td>{{ serie.name }}</td>
-                <td>
-                    <a href="{{ path('app_serie_show', {'id': serie.id}) }}">show</a>
-                    <a href="{{ path('app_serie_edit', {'id': serie.id}) }}">edit</a>
-                </td>
+                <td>{{ serie.first_air_date }}</td>
+                <td>{{ serie.poster_path }}</td>
             </tr>
         {% else %}
             <tr>
