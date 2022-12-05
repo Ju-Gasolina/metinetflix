@@ -5,28 +5,21 @@
 {% block main %}
     <h1>Serie index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for serie in series %}
-            <tr>
-                <td>{{ serie.name }}</td>
-                <td>{{ serie.first_air_date }}</td>
-                <td><img src="{{ serie.poster_path }}"> </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_serie_new') }}">Create new</a>
+    <div class="container pb-5">
+        <div class="row">
+            {% for serie in series %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card text-center">
+                        <img class="card-img-top" src="{{ serie.poster_path }}" alt="{{ serie.name }}">
+                        <div class="card-body">
+                            <p class="card-title h5">{{ serie.name }}</p>
+                            <p class="card-text">{{ serie.first_air_date }}</p>
+                            <a href="#" class="stretched-link"
+                               title="Cliquez pour voir les informations détaillées"></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
