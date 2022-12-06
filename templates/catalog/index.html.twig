@@ -19,7 +19,18 @@
                         </div>
                     </div>
                 </div>
+
+
+
+
             {% endfor %}
+
+
         </div>
+    </div>
+
+    <div class="bottom-buttons">
+        <a href="{{ path('app_catalog', {page: currentPage - 1}) }}" class="previous round">&#8249;</a>
+        <a href="{{ path('app_catalog', {page: currentPage + 1}) }}" class="next round">&#8250;</a>
     </div>
 {% endblock %}

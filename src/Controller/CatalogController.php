@@ -26,11 +26,12 @@ class CatalogController extends AbstractController
         }
         else
         {
-            $catalogArray = $catalogParsing->popularParsing(1);
+            $catalogArray = $catalogParsing->popularParsing($page);
             shuffle($catalogArray);
             return $this->render('catalog/index.html.twig', [
                 'controller_name' => 'CatalogController',
                 'catalog' =>  $catalogArray,
+                'currentPage' => $page
             ]);
         }
 

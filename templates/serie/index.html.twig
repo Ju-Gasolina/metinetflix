@@ -3,6 +3,7 @@
 {% block title %}Serie index{% endblock %}
 
 {% block main %}
+
     <div class="container pb-5 pt-5">
         <div class="row">
             {% for serie in series %}
@@ -20,5 +21,10 @@
                 </div>
             {% endfor %}
         </div>
+    </div>
+
+    <div class="bottom-buttons">
+        <a href="{{ path('app_serie_index', {page: currentPage - 1}) }}" class="previous round">&#8249;</a>
+        <a href="{{ path('app_serie_index', {page: currentPage + 1}) }}" class="next round">&#8250;</a>
     </div>
 {% endblock %}
