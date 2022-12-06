@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Card;
 use Symfony\Component\HttpClient\HttpClient;
 
 class MovieParsing
@@ -16,11 +17,14 @@ class MovieParsing
 
         $movies = array();
         foreach($items['results'] as $item) {
-            $movies[] = array(
-                'id' => $item['id'],
-                'title' => $item['title'],
-                'release_date' => $item['release_date'],
-                'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item['poster_path']);
+            $card = new Card(
+                $item['id'],
+                $item['title'],
+                $item['release_date'],
+                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'app_movie_show'
+                );
+            $movies[] = $card;
         }
 
         return $movies;
