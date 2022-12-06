@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Card;
 use Symfony\Component\HttpClient\HttpClient;
 
 class SerieParsing
@@ -16,11 +17,13 @@ class SerieParsing
 
         $series = array();
         foreach ($items['results'] as $item) {
-            $series[] = array(
-                'id' => $item['id'],
-                'name' => $item['name'],
-                'first_air_date' => $item['first_air_date'],
-                'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item['poster_path']);
+            $card = new Card(
+                $item['id'],
+                $item['name'],
+                $item['first_air_date'],
+                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+            'app_serie_show');
+            $series[] = $card;
         }
 
         return $series;
