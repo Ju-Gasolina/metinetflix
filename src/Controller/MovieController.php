@@ -9,32 +9,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpClient\HttpClient;
+use App\Service\MovieParsing;
 
 #[Route('/movie')]
 class MovieController extends AbstractController
 {
     #[Route('/', name: 'app_movie_index', methods: ['GET'])]
-    public function index(): Response
+    public function index(Request $request, MovieParsing $movieParsing): Response
     {
+        $page = $request->query->get('page');
 
-        $client = HttpClient::create();
-        $response = $client->request('GET', 'https://api.themoviedb.org/3/movie/popular?api_key=357ffc10ea12b3e3226406719d3f9fe5');
-
-        $items = $response->toArray();
-
-        $movies = array();
-        foreach($items['results'] as $item) {
-            $movies[] = array(
-                'title' => $item['title'],
-                'release_date' => $item['release_date'],
-                'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item['poster_path']);
+        if(empty($page))
+        {
+            return $this->redirectToRoute('app_movie_index', ['page' => 1], Response::HTTP_SEE_OTHER);
         }
-
-
-        return $this->render('movie/index.html.twig', [
-            'movies' => $movies,
-        ]);
+        else if($page < 1 || $page > 10)
+        {
+            throw $this->createNotFoundException('The page does not exist');
+        }
+        else
+        {
+            return $this->render('movie/index.html.twig', [
+                'movies' => $movieParsing->popularParsing($page),
+            ]);
+        }
     }
 
     #[Route('/new', name: 'app_movie_new', methods: ['GET', 'POST'])]
@@ -57,10 +55,10 @@ class MovieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_movie_show', methods: ['GET'])]
-    public function show(Movie $movie): Response
+    public function show(int $id, MovieParsing $movieParsing): Response
     {
         return $this->render('movie/show.html.twig', [
-            'movie' => $movie,
+            'movie' => $movieParsing->movieParsing($id),
         ]);
     }
 
