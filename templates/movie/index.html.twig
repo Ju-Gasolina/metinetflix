@@ -8,12 +8,13 @@
             {% for movie in movies %}
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                     <div class="card text-center">
-                        <img class="card-img-top" src="{{ movie.poster_path }}" alt="{{ movie.title }}">
+                        <a href="{{ path('app_movie_show', {id: movie.id}) }}" title="Cliquez pour voir les informations détaillées de ce film">
+                            <img class="card-img-top" src="{{ movie.poster_path }}" alt="{{ movie.title }}">
+                        </a>
                         <div class="card-body">
                             <p class="card-title h5">{{ movie.title }}</p>
                             <p class="card-text">{{ movie.release_date }}</p>
-                            <a href="{{ path('app_movie_show', {id: movie.id}) }}" class="stretched-link"
-                               title="Cliquez pour voir les informations détaillées"></a>
+                            <a href="#" title="Ajouter ce film à votre watchlist" class="bi bi-heart text-danger"></a>
                         </div>
                     </div>
                 </div>
