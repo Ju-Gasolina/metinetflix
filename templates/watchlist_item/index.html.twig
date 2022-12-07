@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WatchlistItem index{% endblock %}
+
+{% block main %}
+    <h1>WatchlistItem index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Item_type</th>
+                <th>Start_date</th>
+                <th>Finish_date</th>
+                <th>Episode_progress</th>
+                <th>Mark</th>
+                <th>Personnal_note</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for watchlist_item in watchlist_items %}
+            <tr>
+                <td>{{ watchlist_item.id }}</td>
+                <td>{{ watchlist_item.itemType }}</td>
+                <td>{{ watchlist_item.startDate ? watchlist_item.startDate|date('Y-m-d') : '' }}</td>
+                <td>{{ watchlist_item.finishDate ? watchlist_item.finishDate|date('Y-m-d') : '' }}</td>
+                <td>{{ watchlist_item.episodeProgress }}</td>
+                <td>{{ watchlist_item.mark }}</td>
+                <td>{{ watchlist_item.personnalNote }}</td>
+                <td>
+                    <a href="{{ path('app_watchlist_item_show', {'id': watchlist_item.id}) }}">show</a>
+                    <a href="{{ path('app_watchlist_item_edit', {'id': watchlist_item.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_watchlist_item_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WatchlistItem{% endblock %}
+
+{% block main %}
+    <h1>WatchlistItem</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ watchlist_item.id }}</td>
+            </tr>
+            <tr>
+                <th>Item_type</th>
+                <td>{{ watchlist_item.itemType }}</td>
+            </tr>
+            <tr>
+                <th>Start_date</th>
+                <td>{{ watchlist_item.startDate ? watchlist_item.startDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Finish_date</th>
+                <td>{{ watchlist_item.finishDate ? watchlist_item.finishDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Episode_progress</th>
+                <td>{{ watchlist_item.episodeProgress }}</td>
+            </tr>
+            <tr>
+                <th>Mark</th>
+                <td>{{ watchlist_item.mark }}</td>
+            </tr>
+            <tr>
+                <th>Personnal_note</th>
+                <td>{{ watchlist_item.personnalNote }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_watchlist_item_index') }}">back to list</a>
+
+    <a href="{{ path('app_watchlist_item_edit', {'id': watchlist_item.id}) }}">edit</a>
+
+    {{ include('watchlist_item/_delete_form.html.twig') }}
+{% endblock %}

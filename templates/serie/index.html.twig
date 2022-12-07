@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Serie index{% endblock %}
+
+{% block main %}
+
+    <div class="container pb-5 pt-5">
+        <div class="row">
+            {% for serie in series %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card text-center">
+                        <a href="{{ path(serie.pathName, {id: serie.id}) }}" title="Cliquez pour voir les informations détaillées de cette série">
+                            <img class="card-img-top" src="{{ serie.posterPath }}" alt="{{ serie.title }}">
+                        </a>
+                        <div class="card-body">
+                            <p class="card-title h5">{{ serie.title }}</p>
+                            <p class="card-text">{{ serie.releaseDate }}</p>
+                            <a href="#" title="Ajouter cette série à votre watchlist" class="bi bi-heart text-danger"></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="bottom-buttons">
+        <a href="{{ path('app_serie_index', {page: currentPage - 1}) }}" class="previous round">&#8249;</a>
+        <a href="{{ path('app_serie_index', {page: currentPage + 1}) }}" class="next round">&#8250;</a>
+    </div>
+{% endblock %}

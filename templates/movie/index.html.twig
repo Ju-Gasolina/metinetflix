@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Movie index{% endblock %}
+
+{% block main %}
+    <div class="container pb-5 pt-5">
+        <div class="row">
+            {% for movie in movies %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card text-center">
+                        <a href="{{ path(movie.pathName, {id: movie.id}) }}" title="Cliquez pour voir les informations détaillées de ce film">
+                            <img class="card-img-top" src="{{ movie.posterPath }}" alt="{{ movie.title }}">
+                        </a>
+                        <div class="card-body">
+                            <p class="card-title h5">{{ movie.title }}</p>
+                            <p class="card-text">{{ movie.releaseDate }}</p>
+                            <a href="{{ path('app_watchlist_item_new', {type: 'movie', id: movie.id}) }}" title="Ajouter ce film à votre watchlist" class="bi bi-heart text-danger"></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="bottom-buttons">
+        <a href="{{ path('app_movie_index', {page: currentPage - 1}) }}" class="previous round">&#8249;</a>
+        <a href="{{ path('app_movie_index', {page: currentPage + 1}) }}" class="next round">&#8250;</a>
+    </div>
+{% endblock %}

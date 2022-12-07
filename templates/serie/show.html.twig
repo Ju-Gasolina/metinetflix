@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Serie{% endblock %}
+
+{% block main %}
+    <img class="image-rognage" src="{{ serie.backdrop_path }}" alt="{{ serie.name }}">
+
+    <h1 class="text-dark text-center mt-2">{{ serie.name }}</h1>
+
+    <div class="container pb-5 pt-5 border-bottom">
+        <div class="row">
+            <div class="col-lg-6 col-sm">
+                <div>
+                    <div class="card-deck mb-3">
+                        <div class="card mb-4 box-shadow box-min-height">
+                            <div class="card-header">
+                                <p class="text-center my-0 font-weight-normal h4">Informations</p>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled text-start m-0">
+                                    <li>Titre original : {{ serie.original_name }}</li>
+                                    <li>Langue original : {{ serie.original_language }}</li>
+                                    <li>Première date de diffusion : : {{ serie.first_air_date }}</li>
+                                    <li>Dernière date de diffusion : {{ serie.last_air_date }}</li>
+                                    <li>Nombre de saisons : {{ serie.number_of_seasons }}</li>
+                                    <li>Nombre d'épisodes : {{ serie.number_of_episodes }}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4 box-shadow box-min-height">
+                            <div class="card-header">
+                                <p class="text-center my-0 font-weight-normal h4">Description</p>
+                            </div>
+                            <div class="card-body">
+                                <p class="justify mb-0">{{ serie.overview }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm">
+                <div>
+                    <div class="card-deck mb-3">
+                        <div class="card mb-4 box-shadow box-min-height">
+                            <div class="card-header">
+                                <p class="text-center my-0 font-weight-normal h4">Genres</p>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled text-start m-0">
+                                    {% for genre in serie.genres %}
+                                        <li>- {{ genre }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4 box-shadow box-min-height">
+                            <div class="card-header">
+                                <p class="text-center my-0 font-weight-normal h4">Créateurs</p>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled text-start m-0">
+                                    {% for creator in serie.creators %}
+                                        <li>- {{ creator }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
