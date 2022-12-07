@@ -6,21 +6,43 @@
     <h1>Watchlist</h1>
 
     <table class="table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Watchlist_id</th>
+                <th>Item_type</th>
+                <th>Serie_id</th>
+                <th>Season_id</th>
+                <th>Episode_id</th>
+                <th>Saga_id</th>
+                <th>Movie_id</th>
+                <th>Movie_genres</th>
+                <th>Start_date</th>
+                <th>Finish_date</th>
+                <th>Episode_progress</th>
+                <th>Mark</th>
+                <th>Personnal_note</th>
+            </tr>
+        </thead>
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ watchlist.id }}</td>
-            </tr>
-            <tr>
-                <th>Total_duration</th>
-                <td>{{ watchlist.totalDuration }}</td>
-            </tr>
+            {% for watchlistItem in watchlistItems %}
+                <tr>
+                    <td>{{ watchlistItem.id ?? "null" }}</td>
+                    <td>{{ watchlistItem.watchlist.id ?? "null" }}</td>
+                    <td>{{ watchlistItem.itemType.id ?? "null" }}</td>
+                    <td>{{ watchlistItem.serie.id ?? "null" }}</td>
+                    <td>{{ watchlistItem.season.id ?? "null" }}</td>
+                    <td>{{ watchlistItem.episode ?? "null" }}</td>
+                    <td>{{ watchlistItem.saga.id ?? "null" }}</td>
+                    <td>{{ watchlistItem.movie.id ?? "null" }}</td>
+                    <td>{{ watchlistItem.movie.genres ?? "null" }}</td>
+                    <td>{{ watchlistItem.startDate ?? "null" }}</td>
+                    <td>{{ watchlistItem.finishDate ?? "null" }}</td>
+                    <td>{{ watchlistItem.episodeProgress ?? "null" }}</td>
+                    <td>{{ watchlistItem.mark ?? "null" }}</td>
+                    <td>{{ watchlistItem.personnalNote ?? "null" }}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_watchlist_index') }}">back to list</a>
-
-    <a href="{{ path('app_watchlist_edit', {'id': watchlist.id}) }}">edit</a>
-
-    {{ include('watchlist/_delete_form.html.twig') }}
 {% endblock %}

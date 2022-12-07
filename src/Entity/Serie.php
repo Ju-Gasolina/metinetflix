@@ -16,13 +16,8 @@ class Serie
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Type $type = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Genre $genre = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $genres = null;
 
     public function getId(): ?int
     {
@@ -41,26 +36,14 @@ class Serie
         return $this;
     }
 
-    public function getType(): ?Type
+    public function getGenres(): ?string
     {
-        return $this->type;
+        return $this->genres;
     }
 
-    public function setType(?Type $type): self
+    public function setGenres(string $genres): self
     {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function getGenre(): ?Genre
-    {
-        return $this->genre;
-    }
-
-    public function setGenre(?Genre $genre): self
-    {
-        $this->genre = $genre;
+        $this->genres = $genres;
 
         return $this;
     }

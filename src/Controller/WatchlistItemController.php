@@ -5,10 +5,16 @@ namespace App\Controller;
 use App\Entity\WatchlistItem;
 use App\Form\WatchlistItemType;
 use App\Repository\WatchlistItemRepository;
+use App\Service\MovieParsing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+use App\Entity\Movie;
+use App\Repository\MovieRepository;
+
+use App\Repository\WatchlistRepository;
 
 #[Route('/watchlist/item')]
 class WatchlistItemController extends AbstractController
@@ -21,23 +27,61 @@ class WatchlistItemController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_watchlist_item_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, WatchlistItemRepository $watchlistItemRepository): Response
+    #[Route('/new/{type}/{id}', name: 'app_watchlist_item_new', methods: ['GET', 'POST'])]
+    public function new(String $type,
+                        Int $id,
+                        WatchlistItemRepository $watchlistItemRepository,
+                        MovieParsing $movieParsing,
+                        MovieRepository $movieRepository,
+                        WatchlistRepository $watchlistRepository,
+    ): Response
     {
-        $watchlistItem = new WatchlistItem();
-        $form = $this->createForm(WatchlistItemType::class, $watchlistItem);
-        $form->handleRequest($request);
+        if($type == "movie")
+        {
+            //Movie API request
+            $result = $movieParsing->movieParsing($id);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $watchlistItemRepository->save($watchlistItem, true);
+            if(!isset($movie))
+            {
+                $movie = new Movie();
+                $movie->setName($result['original_title']);
+                $movie->setDuration($result['runtime']);
+                $movieRepository->save($movie, true);
+            }
 
-            return $this->redirectToRoute('app_watchlist_item_index', [], Response::HTTP_SEE_OTHER);
+            //Movie creation
+            $movie = $movieRepository->findOneBy(["name" => $result['original_title']]);
+
+            if(!isset($movie))
+            {
+                $movie = new Movie();
+                $movie->setGenres("ss");
+                $movie->setName($result['original_title']);
+                $movie->setDuration($result['runtime']);
+                $movieRepository->save($movie, true);
+            }
+
+            //Watchlist find request
+            $watchlist = $watchlistRepository->find(1);
+
+            //WatchlistItem creation
+            $watchlistItem = $watchlistItemRepository->findOneBy(["movie" => $movie->getId()]);
+
+            if(!isset($watchlistItem))
+            {
+                $watchlistItem = new WatchlistItem();
+                $watchlistItem->setWatchlist($watchlist);
+                $watchlistItem->setItemType("movie");
+                $watchlistItem->setMovie($movie);
+                $watchlistItemRepository->save($watchlistItem, true);
+            }
+
+            return $this->redirectToRoute('app_watchlist_show', ['id' => $watchlist->getId()]);
         }
-
-        return $this->renderForm('watchlist_item/new.html.twig', [
-            'watchlist_item' => $watchlistItem,
-            'form' => $form,
-        ]);
+        else
+        {
+            return $this->redirect('/');
+        }
     }
 
     #[Route('/{id}', name: 'app_watchlist_item_show', methods: ['GET'])]
