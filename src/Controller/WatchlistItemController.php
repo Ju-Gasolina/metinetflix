@@ -41,21 +41,13 @@ class WatchlistItemController extends AbstractController
             //Movie API request
             $result = $movieParsing->movieParsing($id);
 
-            if(!isset($movie))
-            {
-                $movie = new Movie();
-                $movie->setName($result['original_title']);
-                $movie->setDuration($result['runtime']);
-                $movieRepository->save($movie, true);
-            }
-
             //Movie creation
             $movie = $movieRepository->findOneBy(["name" => $result['original_title']]);
 
             if(!isset($movie))
             {
                 $movie = new Movie();
-                $movie->setGenres("ss");
+                $movie->setGenres(json_encode($result['genres']));
                 $movie->setName($result['original_title']);
                 $movie->setDuration($result['runtime']);
                 $movieRepository->save($movie, true);
