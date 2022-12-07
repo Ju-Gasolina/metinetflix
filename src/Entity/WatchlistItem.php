@@ -16,27 +16,32 @@ class WatchlistItem
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Watchlist $watchlist = null;
 
     #[ORM\Column(length: 255)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?string $item_type = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Serie $serie = null;
 
     #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Season $season = null;
 
     #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Episode $episode = null;
 
     #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Saga $saga = null;
 
     #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Movie $movie = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -56,7 +61,7 @@ class WatchlistItem
 
     public function __construct()
     {
-        $this->episode = new ArrayCollection();
+
     }
 
     public function getId(): ?int

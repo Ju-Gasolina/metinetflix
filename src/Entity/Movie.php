@@ -18,19 +18,11 @@ class Movie
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Type $type = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Genre $genre = null;
-
     #[ORM\Column]
     private ?int $duration = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Saga $saga = null;
 
     #[ORM\ManyToMany(targetEntity: Editor::class)]
@@ -38,6 +30,9 @@ class Movie
 
     #[ORM\ManyToMany(targetEntity: Actor::class)]
     private Collection $actors;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $genres = null;
 
     public function __construct()
     {
@@ -58,30 +53,6 @@ class Movie
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getType(): ?Type
-    {
-        return $this->type;
-    }
-
-    public function setType(?Type $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function getGenre(): ?Genre
-    {
-        return $this->genre;
-    }
-
-    public function setGenre(?Genre $genre): self
-    {
-        $this->genre = $genre;
 
         return $this;
     }
@@ -154,6 +125,18 @@ class Movie
     public function removeActor(Actor $actor): self
     {
         $this->actors->removeElement($actor);
+
+        return $this;
+    }
+
+    public function getGenres(): ?string
+    {
+        return $this->genres;
+    }
+
+    public function setGenres(?string $genres): self
+    {
+        $this->genres = $genres;
 
         return $this;
     }
