@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Movie;
 use App\Form\MovieType;
 use App\Repository\MovieRepository;
+use phpDocumentor\Reflection\Types\Object_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,23 +37,25 @@ class MovieController extends AbstractController
         }
     }
 
-    #[Route('/new', name: 'app_movie_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, MovieRepository $movieRepository): Response
+    #[Route('/new/{idTMDB}', name: 'app_movie_new', methods: ['GET', 'POST'])]
+    public function new(Int $idTMDB, MovieParsing $movieParsing, MovieRepository $movieRepository): Response
     {
-        $movie = new Movie();
-        $form = $this->createForm(MovieType::class, $movie);
-        $form->handleRequest($request);
+        //Movie API request
+        $result = $movieParsing->movieParsing($idTMDB);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        //Movie creation
+        $movie = $movieRepository->findOneBy(["name" => $result['original_title']]);
+
+        if(!isset($movie))
+        {
+            $movie = new Movie();
+            $movie->setGenres(json_encode($result['genres']));
+            $movie->setName($result['original_title']);
+            $movie->setDuration($result['runtime']);
             $movieRepository->save($movie, true);
-
-            return $this->redirectToRoute('app_movie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('movie/new.html.twig', [
-            'movie' => $movie,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('app_watchlist_item_add', ['type' => 'movie', 'idEntity' => $movie->getId()]);
     }
 
     #[Route('/{id}', name: 'app_movie_show', methods: ['GET'])]
@@ -60,24 +63,6 @@ class MovieController extends AbstractController
     {
         return $this->render('movie/show.html.twig', [
             'movie' => $movieParsing->movieParsing($id),
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_movie_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Movie $movie, MovieRepository $movieRepository): Response
-    {
-        $form = $this->createForm(MovieType::class, $movie);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $movieRepository->save($movie, true);
-
-            return $this->redirectToRoute('app_movie_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('movie/edit.html.twig', [
-            'movie' => $movie,
-            'form' => $form,
         ]);
     }
 

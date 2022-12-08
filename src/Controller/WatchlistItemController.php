@@ -19,56 +19,12 @@ use App\Repository\WatchlistRepository;
 #[Route('/watchlist/item')]
 class WatchlistItemController extends AbstractController
 {
-    #[Route('/', name: 'app_watchlist_item_index', methods: ['GET'])]
-    public function index(WatchlistItemRepository $watchlistItemRepository): Response
-    {
-        return $this->render('watchlist_item/index.html.twig', [
-            'watchlist_items' => $watchlistItemRepository->findAll(),
-        ]);
-    }
-
-    #[Route('/new/{type}/{id}', name: 'app_watchlist_item_new', methods: ['GET', 'POST'])]
-    public function new(String $type,
-                        Int $id,
-                        WatchlistItemRepository $watchlistItemRepository,
-                        MovieParsing $movieParsing,
-                        MovieRepository $movieRepository,
-                        WatchlistRepository $watchlistRepository,
-    ): Response
+    #[Route('/new/{type}/{idTMDB}', name: 'app_watchlist_item_new', methods: ['GET', 'POST'])]
+    public function new(String $type, Int $idTMDB): Response
     {
         if($type == "movie")
         {
-            //Movie API request
-            $result = $movieParsing->movieParsing($id);
-
-            //Movie creation
-            $movie = $movieRepository->findOneBy(["name" => $result['original_title']]);
-
-            if(!isset($movie))
-            {
-                $movie = new Movie();
-                $movie->setGenres(json_encode($result['genres']));
-                $movie->setName($result['original_title']);
-                $movie->setDuration($result['runtime']);
-                $movieRepository->save($movie, true);
-            }
-
-            //Watchlist find request
-            $watchlist = $watchlistRepository->find(1);
-
-            //WatchlistItem creation
-            $watchlistItem = $watchlistItemRepository->findOneBy(["movie" => $movie->getId()]);
-
-            if(!isset($watchlistItem))
-            {
-                $watchlistItem = new WatchlistItem();
-                $watchlistItem->setWatchlist($watchlist);
-                $watchlistItem->setItemType("movie");
-                $watchlistItem->setMovie($movie);
-                $watchlistItemRepository->save($watchlistItem, true);
-            }
-
-            return $this->redirectToRoute('app_watchlist_show', ['id' => $watchlist->getId()]);
+            return $this->redirectToRoute('app_movie_new', ['idTMDB' => $idTMDB]);
         }
         else
         {
@@ -76,30 +32,34 @@ class WatchlistItemController extends AbstractController
         }
     }
 
-    #[Route('/{id}', name: 'app_watchlist_item_show', methods: ['GET'])]
-    public function show(WatchlistItem $watchlistItem): Response
+    #[Route('/add/{type}/{idEntity}', name: 'app_watchlist_item_add', methods: ['GET', 'POST'])]
+    public function add(String $type,
+                        Int $idEntity,
+                        WatchlistRepository $watchlistRepository,
+                        WatchlistItemRepository $watchlistItemRepository,
+                        movieRepository $movieRepository
+    ): Response
     {
-        return $this->render('watchlist_item/show.html.twig', [
-            'watchlist_item' => $watchlistItem,
-        ]);
-    }
+        //Watchlist find request
+        $watchlist = $watchlistRepository->findOneBy(['id' => 1]);
 
-    #[Route('/{id}/edit', name: 'app_watchlist_item_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, WatchlistItem $watchlistItem, WatchlistItemRepository $watchlistItemRepository): Response
-    {
-        $form = $this->createForm(WatchlistItemType::class, $watchlistItem);
-        $form->handleRequest($request);
+        //WatchlistItem creation
+        $watchlistItem = $watchlistItemRepository->findOneBy([$type => $idEntity]);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if(!isset($watchlistItem)) {
+            $watchlistItem = new WatchlistItem();
+            $watchlistItem->setWatchlist($watchlist);
+            $watchlistItem->setItemType($type);
+
+            if($type == "movie") {
+                $movie = $movieRepository->find($idEntity);
+                $watchlistItem->setMovie($movie);
+            }
+
             $watchlistItemRepository->save($watchlistItem, true);
-
-            return $this->redirectToRoute('app_watchlist_item_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('watchlist_item/edit.html.twig', [
-            'watchlist_item' => $watchlistItem,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('app_watchlist_show', ['id' => $watchlist->getId()]);
     }
 
     #[Route('/{id}', name: 'app_watchlist_item_delete', methods: ['POST'])]

@@ -14,7 +14,7 @@
                         <div class="card-body">
                             <p class="card-title h5">{{ movie.title }}</p>
                             <p class="card-text">{{ movie.releaseDate }}</p>
-                            <a href="{{ path('app_watchlist_item_new', {type: 'movie', id: movie.id}) }}" title="Ajouter ce film à votre watchlist" class="bi bi-heart text-danger"></a>
+                            <a href="{{ path('app_watchlist_item_new', {type: 'movie', idTMDB: movie.id}) }}" title="Ajouter ce film à votre watchlist" class="bi bi-heart text-danger"></a>
                         </div>
                     </div>
                 </div>
