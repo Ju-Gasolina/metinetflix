@@ -3,13 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Serie;
-use App\Form\SerieType;
 use App\Repository\SerieRepository;
+use App\Service\SerieParsing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\SerieParsing;
 
 #[Route('/serie')]
 class SerieController extends AbstractController
@@ -36,23 +35,24 @@ class SerieController extends AbstractController
         }
     }
 
-    #[Route('/new', name: 'app_serie_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, SerieRepository $serieRepository): Response
+    #[Route('/new/{idTMDB}', name: 'app_serie_new', methods: ['GET', 'POST'])]
+    public function new(Int $idTMDB, SerieParsing $serieParsing, SerieRepository $serieRepository): Response
     {
-        $serie = new Serie();
-        $form = $this->createForm(SerieType::class, $serie);
-        $form->handleRequest($request);
+        //Serie API request
+        $result = $serieParsing->serieParsing($idTMDB);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        //Movie creation
+        $serie = $serieRepository->findOneBy(["name" => $result['original_name']]);
+
+        if(!isset($serie))
+        {
+            $serie = new Serie();
+            $serie->setGenres(json_encode($result['genres']));
+            $serie->setName($result['original_name']);
             $serieRepository->save($serie, true);
-
-            return $this->redirectToRoute('app_serie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('serie/new.html.twig', [
-            'serie' => $serie,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('app_watchlist_item_add', ['type' => 'serie', 'idEntity' => $serie->getId()]);
     }
 
     #[Route('/{id}', name: 'app_serie_show', methods: ['GET'])]
@@ -60,24 +60,6 @@ class SerieController extends AbstractController
     {
         return $this->render('serie/show.html.twig', [
             'serie' => $serieParsing->serieParsing($id),
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_serie_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Serie $serie, SerieRepository $serieRepository): Response
-    {
-        $form = $this->createForm(SerieType::class, $serie);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $serieRepository->save($serie, true);
-
-            return $this->redirectToRoute('app_serie_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('serie/edit.html.twig', [
-            'serie' => $serie,
-            'form' => $form,
         ]);
     }
 

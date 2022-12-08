@@ -3,18 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\WatchlistItem;
-use App\Form\WatchlistItemType;
 use App\Repository\WatchlistItemRepository;
-use App\Service\MovieParsing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-use App\Entity\Movie;
-use App\Repository\MovieRepository;
-
 use App\Repository\WatchlistRepository;
+use App\Repository\MovieRepository;
+use App\Repository\SerieRepository;
+
 
 #[Route('/watchlist/item')]
 class WatchlistItemController extends AbstractController
@@ -25,6 +23,10 @@ class WatchlistItemController extends AbstractController
         if($type == "movie")
         {
             return $this->redirectToRoute('app_movie_new', ['idTMDB' => $idTMDB]);
+        }
+        else if($type == "serie")
+        {
+            return $this->redirectToRoute('app_serie_new', ['idTMDB' => $idTMDB]);
         }
         else
         {
@@ -37,7 +39,8 @@ class WatchlistItemController extends AbstractController
                         Int $idEntity,
                         WatchlistRepository $watchlistRepository,
                         WatchlistItemRepository $watchlistItemRepository,
-                        movieRepository $movieRepository
+                        movieRepository $movieRepository,
+                        serieRepository $serieRepository
     ): Response
     {
         //Watchlist find request
@@ -54,6 +57,11 @@ class WatchlistItemController extends AbstractController
             if($type == "movie") {
                 $movie = $movieRepository->find($idEntity);
                 $watchlistItem->setMovie($movie);
+            }
+            else if($type == "serie")
+            {
+                $serie = $serieRepository->find($idEntity);
+                $watchlistItem->setSerie($serie);
             }
 
             $watchlistItemRepository->save($watchlistItem, true);
