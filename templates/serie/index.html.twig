@@ -15,7 +15,7 @@
                         <div class="card-body">
                             <p class="card-title h5">{{ serie.title }}</p>
                             <p class="card-text">{{ serie.releaseDate }}</p>
-                            <a href="#" title="Ajouter cette série à votre watchlist" class="bi bi-heart text-danger"></a>
+                            <a href="{{ path('app_watchlist_item_new', {type: 'serie', idTMDB: serie.id}) }}" title="Ajouter cette série à votre watchlist" class="bi bi-heart text-danger"></a>
                         </div>
                     </div>
                 </div>
