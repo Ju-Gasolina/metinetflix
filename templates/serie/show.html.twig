@@ -7,7 +7,7 @@
 
     <h1 class="text-dark text-center mt-2">{{ serie.name }}</h1>
 
-    <div class="container pb-5 pt-5 border-bottom">
+    <div class="container pb-5 pt-5">
         <div class="row">
             <div class="col-lg-6 col-sm">
                 <div>
@@ -64,6 +64,19 @@
                                 <ul class="list-unstyled text-start m-0">
                                     {% for creator in serie.creators %}
                                         <li>- {{ creator }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4 box-shadow box-min-height">
+                            <div class="card-header">
+                                <p class="text-center my-0 font-weight-normal h4">Saisons</p>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled text-start m-0">
+                                    {% for season in serie.seasons %}
+                                        <li>- {{ season.title }} <a href="{{ path('app_season_show', {idTV: serie.id, idTVSeason: season.id}) }}">(Voir)</a></li>
                                     {% endfor %}
                                 </ul>
                             </div>

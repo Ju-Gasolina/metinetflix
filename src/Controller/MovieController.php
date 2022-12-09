@@ -3,9 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Movie;
-use App\Form\MovieType;
-use App\Repository\MovieRepository;
-use phpDocumentor\Reflection\Types\Object_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,15 +61,5 @@ class MovieController extends AbstractController
         return $this->render('movie/show.html.twig', [
             'movie' => $movieParsing->movieParsing($id),
         ]);
-    }
-
-    #[Route('/{id}', name: 'app_movie_delete', methods: ['POST'])]
-    public function delete(Request $request, Movie $movie, MovieRepository $movieRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$movie->getId(), $request->request->get('_token'))) {
-            $movieRepository->remove($movie, true);
-        }
-
-        return $this->redirectToRoute('app_movie_index', [], Response::HTTP_SEE_OTHER);
     }
 }
