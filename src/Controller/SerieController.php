@@ -62,14 +62,4 @@ class SerieController extends AbstractController
             'serie' => $serieParsing->serieParsing($id),
         ]);
     }
-
-    #[Route('/{id}', name: 'app_serie_delete', methods: ['POST'])]
-    public function delete(Request $request, Serie $serie, SerieRepository $serieRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$serie->getId(), $request->request->get('_token'))) {
-            $serieRepository->remove($serie, true);
-        }
-
-        return $this->redirectToRoute('app_serie_index', [], Response::HTTP_SEE_OTHER);
-    }
 }
