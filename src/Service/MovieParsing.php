@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Card;
+use PhpParser\Node\Expr\Array_;
 use Symfony\Component\HttpClient\HttpClient;
 
 class MovieParsing
@@ -24,6 +25,29 @@ class MovieParsing
                 'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
                 'app_movie_show'
                 );
+            $movies[] = $card;
+        }
+
+        return $movies;
+    }
+
+    public function upcomingParsing(int $page): array
+    {
+        $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
+
+        $client = HttpClient::create();
+        $response = $client->request('GET', 'https://api.themoviedb.org/3/movie/upcoming?api_key='.$apiKey.'&language=fr-FR&page='.$page);
+        $items = $response->toArray();
+
+        $movies = array();
+        foreach($items['results'] as $item) {
+            $card = new Card(
+                $item['id'],
+                $item['title'],
+                $item['release_date'],
+                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'app_movie_show'
+            );
             $movies[] = $card;
         }
 
