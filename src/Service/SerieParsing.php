@@ -29,6 +29,30 @@ class SerieParsing
         return $series;
     }
 
+
+    public function onTheAirParsing(int $page): array
+    {
+        $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
+
+        $client = HttpClient::create();
+        $response = $client->request('GET', 'https://api.themoviedb.org/3/tv/on_the_air?api_key='.$apiKey.'&language=fr-FR&page='.$page);
+        $items = $response->toArray();
+
+        $movies = array();
+        foreach($items['results'] as $item) {
+            $card = new Card(
+                $item['id'],
+                $item['name'],
+                $item['first_air_date'],
+                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'app_serie_show'
+            );
+            $movies[] = $card;
+        }
+
+        return $movies;
+    }
+
     public function serieParsing(int $id): array
     {
         $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
