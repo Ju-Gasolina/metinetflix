@@ -6,12 +6,11 @@ use Symfony\Component\HttpClient\HttpClient;
 
 class SeasonParsing
 {
-    public function seasonParsing(int $idTV, int $idTVSeason): array
+    public function seasonParsing(int $idTV, int $seasonNumber): array
     {
         $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
-
         $client = HttpClient::create();
-        $response = $client->request('GET', 'https://api.themoviedb.org/3/tv/'.$idTV.'/season/'.$idTVSeason.'?api_key=' . $apiKey . '&language=fr-FR');
+        $response = $client->request('GET', 'https://api.themoviedb.org/3/tv/'.$idTV.'/season/'.$seasonNumber.'?api_key=' . $apiKey . '&language=fr-FR');
         $item = $response->toArray();
 
         $overview = !empty($item['overview']) ? $item['overview'] : "Aucune description";
