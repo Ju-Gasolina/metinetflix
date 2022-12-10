@@ -68,22 +68,14 @@
                                 </ul>
                             </div>
                         </div>
-
-                        <div class="card mb-4 box-shadow box-min-height">
-                            <div class="card-header">
-                                <p class="text-center my-0 font-weight-normal h4">Saisons</p>
-                            </div>
-                            <div class="card-body">
-                                <ul class="list-unstyled text-start m-0">
-                                    {% for season in serie.seasons %}
-                                        <li>- {{ season.name}} <a href="{{ path('app_season_show', {idTV: serie.id, idTVSeason: season.season_number}) }}">(Voir)</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
+
+            {{ component('horizontal-carousel', {
+                title: 'Saisons',
+                items: serie.seasons,
+            }) }}
         </div>
     </div>
 {% endblock %}
