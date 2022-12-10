@@ -6,18 +6,14 @@
     <div class="container pb-5 pt-5">
         <div class="row">
             {% for movie in movies %}
-                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                    <div class="card text-center">
-                        <a href="{{ path(movie.pathName, {id: movie.id}) }}" title="Cliquez pour voir les informations détaillées">
-                            <img class="card-img-top" src="{{ movie.posterPath }}" alt="{{ movie.title }}">
-                        </a>
-                        <div class="card-body">
-                            <p class="card-title h5">{{ movie.title }}</p>
-                            <p class="card-text">{{ movie.releaseDate }}</p>
-                            <a href="{{ path('app_watchlist_item_new', {type: movie.type, idTMDB: movie.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger"></a>
-                        </div>
-                    </div>
-                </div>
+                {{ component('card', {
+                    id: movie.id,
+                    title: movie.title,
+                    releaseDate: movie.releaseDate,
+                    posterPath: movie.posterPath,
+                    pathName: movie.pathName,
+                    type: movie.type
+                }) }}
             {% endfor %}
         </div>
     </div>

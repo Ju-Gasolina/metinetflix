@@ -7,18 +7,14 @@
     <div class="container pb-5 pt-5">
         <div class="row">
             {% for serie in series %}
-                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                    <div class="card text-center">
-                        <a href="{{ path(serie.pathName, {id: serie.id}) }}" title="Cliquez pour voir les informations détaillées">
-                            <img class="card-img-top" src="{{ serie.posterPath }}" alt="{{ serie.title }}">
-                        </a>
-                        <div class="card-body">
-                            <p class="card-title h5">{{ serie.title }}</p>
-                            <p class="card-text">{{ serie.releaseDate }}</p>
-                            <a href="{{ path('app_watchlist_item_new', {type: serie.type, idTMDB: serie.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger"></a>
-                        </div>
-                    </div>
-                </div>
+                {{ component('card', {
+                    id: serie.id,
+                    title: serie.title,
+                    releaseDate: serie.releaseDate,
+                    posterPath: serie.posterPath,
+                    pathName: serie.pathName,
+                    type: serie.type
+                }) }}
             {% endfor %}
         </div>
     </div>
