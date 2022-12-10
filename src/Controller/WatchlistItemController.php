@@ -39,8 +39,8 @@ class WatchlistItemController extends AbstractController
                         Int $idEntity,
                         WatchlistRepository $watchlistRepository,
                         WatchlistItemRepository $watchlistItemRepository,
-                        movieRepository $movieRepository,
-                        serieRepository $serieRepository
+                        MovieRepository $movieRepository,
+                        SerieRepository $serieRepository
     ): Response
     {
         //Watchlist find request

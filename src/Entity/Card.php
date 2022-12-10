@@ -9,18 +9,19 @@ class Card
     private String $releaseDate;
     private String $posterPath;
     private String $pathName;
+    private String $type;
 
 
 
 
-
-    public function __construct(String $_id, String $_title, String $_releaseDate, String $_posterPath, String $_pathName)
+    public function __construct(String $_id, String $_title, String $_releaseDate, String $_posterPath, String $_pathName, String $_type)
     {
         $this->title = $_title;
         $this->id = $_id;
         $this->releaseDate = $_releaseDate;
         $this->posterPath = $_posterPath;
         $this->pathName = $_pathName;
+        $this->type = $_type;
     }
 
     /**
@@ -66,6 +67,12 @@ class Card
         return $this->posterPath;
     }
 
-
+    /**
+     * @return String
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
 
 }

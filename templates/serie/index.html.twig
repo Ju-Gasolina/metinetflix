@@ -9,13 +9,13 @@
             {% for serie in series %}
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                     <div class="card text-center">
-                        <a href="{{ path(serie.pathName, {id: serie.id}) }}" title="Cliquez pour voir les informations détaillées de cette série">
+                        <a href="{{ path(serie.pathName, {id: serie.id}) }}" title="Cliquez pour voir les informations détaillées">
                             <img class="card-img-top" src="{{ serie.posterPath }}" alt="{{ serie.title }}">
                         </a>
                         <div class="card-body">
                             <p class="card-title h5">{{ serie.title }}</p>
                             <p class="card-text">{{ serie.releaseDate }}</p>
-                            <a href="{{ path('app_watchlist_item_new', {type: 'serie', idTMDB: serie.id}) }}" title="Ajouter cette série à votre watchlist" class="bi bi-heart text-danger"></a>
+                            <a href="{{ path('app_watchlist_item_new', {type: serie.type, idTMDB: serie.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger"></a>
                         </div>
                     </div>
                 </div>

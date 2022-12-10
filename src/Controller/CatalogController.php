@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CatalogController extends AbstractController
 {
-    #[Route('/catalog', name: 'app_catalog')]
+    #[Route('/catalog', name: 'app_catalog_index')]
     public function index(Request $request, CatalogParsing $catalogParsing): Response
     {
 
@@ -18,7 +18,7 @@ class CatalogController extends AbstractController
 
         if(empty($page))
         {
-            return $this->redirectToRoute('app_catalog', ['page' => 1], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_catalog_index', ['page' => 1], Response::HTTP_SEE_OTHER);
         }
         else if($page < 1 || $page > 10)
         {
