@@ -3,37 +3,31 @@
 {% block title %}Home{% endblock %}
 
 {% block main %}
-
-
     <section class="home-container-1">
         <div class="container h-100">
             <div class="h-100 d-flex flex-column align-items-center justify-content-center">
                 <p class="h1 text-white text-center"> Un gestionnaire de watchlists vous permettant facilement de voir où vous en êtes !</p>
 
                 <a class="button-basic-custom" href="{{ path('app_catalog_index') }}">Catalogue</a>
-
-
             </div>
-
         </div>
-
     </section>
 
     <section class="home-container-2">
         <div>
-                <div class="container-crl">
-                    <div class="carousel-crl">
-                        <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
-                        <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
-                        <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
-                        <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
-                        <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
-                        <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
-                        <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
-                        <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
-                        <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
-                    </div>
+            <div class="container-crl">
+                <div class="carousel-crl">
+                    <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
+                    <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
+                    <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
+                    <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
+                    <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
+                    <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
+                    <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
+                    <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
+                    <div class="carousel__face cards-crl"><span class="span-crl"> <i class="bi bi-play-circle icon-crl"></i>  </span></div>
                 </div>
+            </div>
         </div>
     </section>
 
@@ -43,7 +37,6 @@
                 <div class="col-4">
                     <div class="h-100 card-deck">
                         <div class="card h-100 box-shadow box-min-height">
-
                         </div>
                     </div>
                 </div>
@@ -51,11 +44,8 @@
                 <div class="col-8">
                     <div class="card-deck ">
                         <div class="card mb-4 box-shadow box-min-height">
-
                         </div>
-
                         <div class="card box-shadow box-min-height">
-
                         </div>
                     </div>
                 </div>
@@ -64,38 +54,23 @@
     </section>
 
     <section class="home-container-4">
-
         <h1 class="text-white text-center mt-2">A venir</h1>
         <div class="container pb-5 pt-5 ">
             <div class="row">
-
                 <h6>Bootstrap 4 horizontally scrollable card groups</h6>
                 <div class="d-flex flex-row flex-nowrap overflow-auto">
                     {% for item in items %}
-                        <div class="col-2 mx-2">
-                            <div class="card text-center">
-                                <a href="{{ path(item.pathName, {id: item.id}) }}" title="Cliquez pour voir les informations détaillées">
-                                    <img class="card-img-top" src="{{ item.posterPath }}" alt="{{ item.title }}">
-                                </a>
-                                <div class="card-body">
-                                    <p class="card-title h5 text-truncate">{{ item.title }}</p>
-                                </div>
-                            </div>
-                        </div>
+                        {{ component('carousel-card', {
+                            id: item.id,
+                            title: item.title,
+                            posterPath: item.posterPath,
+                            pathName: item.pathName,
+                        }) }}
                     {% endfor %}
                 </div>
-
-
             </div>
         </div>
     </section>
-
-
-
-
-    
-
-
 {% endblock %}
 
 
