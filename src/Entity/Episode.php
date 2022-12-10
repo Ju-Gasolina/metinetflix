@@ -32,6 +32,9 @@ class Episode
     #[ORM\ManyToMany(targetEntity: Actor::class)]
     private Collection $actors;
 
+    #[ORM\Column]
+    private ?int $idTMDB = null;
+
     public function __construct()
     {
         $this->editors = new ArrayCollection();
@@ -123,6 +126,18 @@ class Episode
     public function removeEditor(Editor $editor): self
     {
         $this->editors->removeElement($editor);
+
+        return $this;
+    }
+
+    public function getIdTMDB(): ?int
+    {
+        return $this->idTMDB;
+    }
+
+    public function setIdTMDB(int $idTMDB): self
+    {
+        $this->idTMDB = $idTMDB;
 
         return $this;
     }

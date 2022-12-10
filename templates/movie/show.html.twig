@@ -5,7 +5,10 @@
 {% block main %}
     <img class="image-rognage" src="{{ movie.backdrop_path }}" alt="{{ movie.title }}">
 
-    <h1 class="text-dark text-center mt-2">{{ movie.title }}</h1>
+    <h1 class="text-dark text-center mt-2">
+        {{ movie.title }}
+        <a href="{{ path('app_watchlist_item_new', {type: movie.type, idTMDB: movie.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger"></a>
+    </h1>
 
     <div class="container pb-5 pt-5">
         <div class="row">

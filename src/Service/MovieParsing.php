@@ -79,7 +79,8 @@ class MovieParsing
             'release_date' => $item['release_date'],
             'runtime' => $item['runtime'],
             'overview' => $overview,
-            'genres' => $genres);
+            'genres' => $genres,
+            'type' => 'movie');
 
         return $movie;
     }

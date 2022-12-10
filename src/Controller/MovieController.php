@@ -38,18 +38,20 @@ class MovieController extends AbstractController
     #[Route('/new/{idTMDB}', name: 'app_movie_new', methods: ['GET', 'POST'])]
     public function new(Int $idTMDB, MovieParsing $movieParsing, MovieRepository $movieRepository): Response
     {
-        //Movie API request
-        $result = $movieParsing->movieParsing($idTMDB);
-
-        //Movie creation
-        $movie = $movieRepository->findOneBy(["name" => $result['original_title']]);
+        //Movie find request
+        $movie = $movieRepository->findOneBy(["idTMDB" => $idTMDB]);
 
         if(!isset($movie))
         {
+            //Movie API request
+            $result = $movieParsing->movieParsing($idTMDB);
+
+            //Movie creation
             $movie = new Movie();
             $movie->setGenres(json_encode($result['genres']));
             $movie->setName($result['original_title']);
             $movie->setDuration($result['runtime']);
+            $movie->setIdTMDB($result['id']);
             $movieRepository->save($movie, true);
         }
 

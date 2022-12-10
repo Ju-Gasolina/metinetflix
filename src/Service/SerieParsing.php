@@ -89,6 +89,7 @@ class SerieParsing
         }
 
         $serie = array(
+            'type' => 'serie',
             'id' => $item['id'],
             'name' => $item['name'],
             'backdrop_path' => 'https://image.tmdb.org/t/p/original/' . $item['backdrop_path'],

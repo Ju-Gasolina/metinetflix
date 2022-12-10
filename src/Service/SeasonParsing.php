@@ -16,7 +16,8 @@ class SeasonParsing
         $overview = !empty($item['overview']) ? $item['overview'] : "Aucune description";
 
         $season = array(
-            'id' => $item['id'],
+            'type' => 'season',
+            'id' => $idTV.'-'.$seasonNumber,
             'name' => $item['name'],
             'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
             'season_number' => $item['season_number'],

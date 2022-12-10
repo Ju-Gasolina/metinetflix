@@ -12,13 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\WatchlistRepository;
 use App\Repository\MovieRepository;
 use App\Repository\SerieRepository;
-
+use App\Repository\SeasonRepository;
 
 #[Route('/watchlist/item')]
 class WatchlistItemController extends AbstractController
 {
     #[Route('/new/{type}/{idTMDB}', name: 'app_watchlist_item_new', methods: ['GET', 'POST'])]
-    public function new(String $type, Int $idTMDB): Response
+    public function new(String $type, String $idTMDB): Response
     {
         if($type == "movie")
         {
@@ -27,6 +27,10 @@ class WatchlistItemController extends AbstractController
         else if($type == "serie")
         {
             return $this->redirectToRoute('app_serie_new', ['idTMDB' => $idTMDB]);
+        }
+        else if($type == "season")
+        {
+            return $this->redirectToRoute('app_season_new', ['idTMDB' => $idTMDB]);
         }
         else
         {
@@ -40,7 +44,8 @@ class WatchlistItemController extends AbstractController
                         WatchlistRepository $watchlistRepository,
                         WatchlistItemRepository $watchlistItemRepository,
                         MovieRepository $movieRepository,
-                        SerieRepository $serieRepository
+                        SerieRepository $serieRepository,
+                        SeasonRepository $seasonRepository
     ): Response
     {
         //Watchlist find request
@@ -62,6 +67,15 @@ class WatchlistItemController extends AbstractController
             {
                 $serie = $serieRepository->find($idEntity);
                 $watchlistItem->setSerie($serie);
+            }
+            else if($type == "season")
+            {
+                $season = $seasonRepository->find($idEntity);
+                $watchlistItem->setSeason($season);
+            }
+            else
+            {
+                return $this->redirect('/');
             }
 
             $watchlistItemRepository->save($watchlistItem, true);

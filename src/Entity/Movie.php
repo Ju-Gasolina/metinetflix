@@ -34,6 +34,9 @@ class Movie
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $genres = null;
 
+    #[ORM\Column]
+    private ?int $idTMDB = null;
+
     public function __construct()
     {
         $this->editors = new ArrayCollection();
@@ -137,6 +140,18 @@ class Movie
     public function setGenres(?string $genres): self
     {
         $this->genres = $genres;
+
+        return $this;
+    }
+
+    public function getIdTMDB(): ?int
+    {
+        return $this->idTMDB;
+    }
+
+    public function setIdTMDB(int $idTMDB): self
+    {
+        $this->idTMDB = $idTMDB;
 
         return $this;
     }
