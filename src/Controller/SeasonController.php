@@ -16,7 +16,7 @@ use App\Service\SerieParsing;
 #[Route('/season')]
 class SeasonController extends AbstractController
 {
-    #[Route('/new/{idTMDB}', name: 'app_season_new', methods: ['GET', 'POST'])]
+    #[Route('/new/{idTMDB}', name: 'app_season_new', methods: ['GET'])]
     public function new(String $idTMDB, SeasonParsing $seasonParsing, SeasonRepository $seasonRepository, SerieParsing $serieParsing, SerieRepository $serieRepository): Response
     {
         //Season find request

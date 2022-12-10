@@ -35,7 +35,7 @@ class SerieController extends AbstractController
         }
     }
 
-    #[Route('/new/{idTMDB}', name: 'app_serie_new', methods: ['GET', 'POST'])]
+    #[Route('/new/{idTMDB}', name: 'app_serie_new', methods: ['GET'])]
     public function new(Int $idTMDB, SerieParsing $serieParsing, SerieRepository $serieRepository): Response
     {
         //Serie find request

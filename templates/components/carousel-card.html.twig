@@ -5,6 +5,7 @@
         </a>
         <div class="card-body">
             <p class="card-title h5 text-truncate">{{ this.title }}</p>
+            <a href="{{ path('app_watchlist_item_new', {type: this.type, idTMDB: this.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger"></a>
         </div>
     </div>
 </div>

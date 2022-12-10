@@ -35,7 +35,7 @@ class MovieController extends AbstractController
         }
     }
 
-    #[Route('/new/{idTMDB}', name: 'app_movie_new', methods: ['GET', 'POST'])]
+    #[Route('/new/{idTMDB}', name: 'app_movie_new', methods: ['GET'])]
     public function new(Int $idTMDB, MovieParsing $movieParsing, MovieRepository $movieRepository): Response
     {
         //Movie find request
