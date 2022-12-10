@@ -26,20 +26,8 @@ class Episode
     #[ORM\Column]
     private ?int $duration = null;
 
-    #[ORM\ManyToMany(targetEntity: Editor::class)]
-    private Collection $editors;
-
-    #[ORM\ManyToMany(targetEntity: Actor::class)]
-    private Collection $actors;
-
     #[ORM\Column]
     private ?int $idTMDB = null;
-
-    public function __construct()
-    {
-        $this->editors = new ArrayCollection();
-        $this->actors = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -78,54 +66,6 @@ class Episode
     public function setDuration(?int $duration): self
     {
         $this->duration = $duration;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Actor>
-     */
-    public function getActors(): Collection
-    {
-        return $this->actors;
-    }
-
-    public function addActor(Actor $actor): self
-    {
-        if (!$this->actors->contains($actor)) {
-            $this->actors->add($actor);
-        }
-
-        return $this;
-    }
-
-    public function removeActor(Actor $actor): self
-    {
-        $this->actors->removeElement($actor);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Editor>
-     */
-    public function getEditors(): Collection
-    {
-        return $this->editors;
-    }
-
-    public function addEditor(Editor $editor): self
-    {
-        if (!$this->editors->contains($editor)) {
-            $this->editors->add($editor);
-        }
-
-        return $this;
-    }
-
-    public function removeEditor(Editor $editor): self
-    {
-        $this->editors->removeElement($editor);
 
         return $this;
     }
