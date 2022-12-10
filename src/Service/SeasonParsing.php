@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Card;
 use Symfony\Component\HttpClient\HttpClient;
 
 class SeasonParsing
@@ -10,19 +11,33 @@ class SeasonParsing
     {
         $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
         $client = HttpClient::create();
-        $response = $client->request('GET', 'https://api.themoviedb.org/3/tv/'.$idTV.'/season/'.$seasonNumber.'?api_key=' . $apiKey . '&language=fr-FR');
+        $response = $client->request('GET', 'https://api.themoviedb.org/3/tv/'.$idTV.'/season/'.$seasonNumber.'?api_key='.$apiKey.'&language=fr-FR');
         $item = $response->toArray();
 
         $overview = !empty($item['overview']) ? $item['overview'] : "Aucune description";
 
+        $episodes = array();
+        foreach($item['episodes'] as $episode) {
+            $card = new Card(
+                $idTV.'-'.$seasonNumber.'-'.$episode['episode_number'],
+                $episode['name'],
+                $episode['air_date'] ?? "",
+                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'app_episode_show',
+                'episode');
+            $episodes[] = $card;
+        }
+
         $season = array(
-            'id' => $item['id'],
+            'id' => $idTV.'-'.$seasonNumber,
             'name' => $item['name'],
             'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
             'season_number' => $item['season_number'],
             'air_date' => $item['air_date'],
             'number_of_episodes' => count($item['episodes']),
-            'overview' => $overview);
+            'overview' => $overview,
+            'episodes' => $episodes,
+            'type' => 'season');
 
         return $season;
     }

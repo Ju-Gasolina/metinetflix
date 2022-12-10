@@ -19,6 +19,9 @@ class Serie
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $genres = null;
 
+    #[ORM\Column]
+    private ?int $idTMDB = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class Serie
     public function setGenres(string $genres): self
     {
         $this->genres = $genres;
+
+        return $this;
+    }
+
+    public function getIdTMDB(): ?int
+    {
+        return $this->idTMDB;
+    }
+
+    public function setIdTMDB(int $idTMDB): self
+    {
+        $this->idTMDB = $idTMDB;
 
         return $this;
     }

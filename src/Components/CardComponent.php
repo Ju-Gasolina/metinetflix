@@ -9,7 +9,6 @@ class CardComponent
 {
     public String $id;
     public String $title;
-    public String $releaseDate;
     public String $posterPath;
     public String $pathName;
     public String $type;

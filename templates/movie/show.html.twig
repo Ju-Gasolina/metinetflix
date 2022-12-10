@@ -5,7 +5,10 @@
 {% block main %}
     <img class="image-rognage" src="{{ movie.backdrop_path }}" alt="{{ movie.title }}">
 
-    <h1 class="text-dark text-center mt-2">{{ movie.title }}</h1>
+    <h1 class="text-dark text-center mt-2">
+        {{ movie.title }}
+        <a href="{{ path('app_watchlist_item_new', {type: movie.type, idTMDB: movie.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger"></a>
+    </h1>
 
     <div class="container pb-5 pt-5">
         <div class="row">
@@ -25,7 +28,13 @@
                                 </ul>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-lg-6 col-sm">
+                <div>
+                    <div class="card-deck mb-3">
                         <div class="card mb-4 box-shadow box-min-height">
                             <div class="card-header">
                                 <p class="text-center my-0 font-weight-normal h4">Description</p>
@@ -37,7 +46,9 @@
                     </div>
                 </div>
             </div>
+        </div>
 
+        <div class="row">
             <div class="col-lg-6 col-sm">
                 <div>
                     <div class="card-deck mb-3">
@@ -53,14 +64,20 @@
                                 </ul>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-lg-6 col-sm">
+                <div>
+                    <div class="card-deck mb-3">
                         <div class="card mb-4 box-shadow box-min-height">
                             <div class="card-header">
-                                <p class="text-center my-0 font-weight-normal h4">Créateurs</p>
+                                <p class="text-center my-0 font-weight-normal h4">Saga</p>
                             </div>
                             <div class="card-body">
                                 <ul class="list-unstyled text-start m-0">
-                                    <li>[Non disponible]</li>
+                                    <li>[ TEST NON FAIT - belongs_to_collection ]</li>
                                 </ul>
                             </div>
                         </div>

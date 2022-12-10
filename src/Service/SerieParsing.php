@@ -13,7 +13,7 @@ class SerieParsing
         $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
 
         $client = HttpClient::create();
-        $response = $client->request('GET', 'https://api.themoviedb.org/3/tv/popular?api_key=' . $apiKey . '&language=fr-FR&page='.$page);
+        $response = $client->request('GET', 'https://api.themoviedb.org/3/tv/popular?api_key='.$apiKey.'&language=fr-FR&page='.$page);
         $items = $response->toArray();
 
         $series = array();
@@ -59,7 +59,7 @@ class SerieParsing
         $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
 
         $client = HttpClient::create();
-        $response = $client->request('GET', 'https://api.themoviedb.org/3/tv/'.$id.'?api_key=' . $apiKey . '&language=fr-FR');
+        $response = $client->request('GET', 'https://api.themoviedb.org/3/tv/'.$id.'?api_key='.$apiKey.'&language=fr-FR');
         $item = $response->toArray();
 
         $overview = !empty($item['overview']) ? $item['overview'] : "Aucune description";
@@ -101,7 +101,8 @@ class SerieParsing
             'overview' => $overview,
             'genres' => $genres,
             'creators' => $creators,
-            'seasons' => $seasons);
+            'seasons' => $seasons,
+            'type' => 'serie');
 
         return $serie;
     }

@@ -35,20 +35,22 @@ class SerieController extends AbstractController
         }
     }
 
-    #[Route('/new/{idTMDB}', name: 'app_serie_new', methods: ['GET', 'POST'])]
+    #[Route('/new/{idTMDB}', name: 'app_serie_new', methods: ['GET'])]
     public function new(Int $idTMDB, SerieParsing $serieParsing, SerieRepository $serieRepository): Response
     {
-        //Serie API request
-        $result = $serieParsing->serieParsing($idTMDB);
-
-        //Movie creation
-        $serie = $serieRepository->findOneBy(["name" => $result['original_name']]);
+        //Serie find request
+        $serie = $serieRepository->findOneBy(["idTMDB" => $idTMDB]);
 
         if(!isset($serie))
         {
+            //Serie API request
+            $result = $serieParsing->serieParsing($idTMDB);
+
+            //Serie creation
             $serie = new Serie();
             $serie->setGenres(json_encode($result['genres']));
             $serie->setName($result['original_name']);
+            $serie->setIdTMDB($result['id']);
             $serieRepository->save($serie, true);
         }
 

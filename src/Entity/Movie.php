@@ -25,20 +25,11 @@ class Movie
     #[ORM\JoinColumn(nullable: true)]
     private ?Saga $saga = null;
 
-    #[ORM\ManyToMany(targetEntity: Editor::class)]
-    private Collection $editors;
-
-    #[ORM\ManyToMany(targetEntity: Actor::class)]
-    private Collection $actors;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $genres = null;
 
-    public function __construct()
-    {
-        $this->editors = new ArrayCollection();
-        $this->actors = new ArrayCollection();
-    }
+    #[ORM\Column]
+    private ?int $idTMDB = null;
 
     public function getId(): ?int
     {
@@ -81,54 +72,6 @@ class Movie
         return $this;
     }
 
-    /**
-     * @return Collection<int, Editor>
-     */
-    public function getEditors(): Collection
-    {
-        return $this->editors;
-    }
-
-    public function addEditor(Editor $editor): self
-    {
-        if (!$this->editors->contains($editor)) {
-            $this->editors->add($editor);
-        }
-
-        return $this;
-    }
-
-    public function removeEditor(Editor $editor): self
-    {
-        $this->editors->removeElement($editor);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Actor>
-     */
-    public function getActors(): Collection
-    {
-        return $this->actors;
-    }
-
-    public function addActor(Actor $actor): self
-    {
-        if (!$this->actors->contains($actor)) {
-            $this->actors->add($actor);
-        }
-
-        return $this;
-    }
-
-    public function removeActor(Actor $actor): self
-    {
-        $this->actors->removeElement($actor);
-
-        return $this;
-    }
-
     public function getGenres(): ?string
     {
         return $this->genres;
@@ -137,6 +80,18 @@ class Movie
     public function setGenres(?string $genres): self
     {
         $this->genres = $genres;
+
+        return $this;
+    }
+
+    public function getIdTMDB(): ?int
+    {
+        return $this->idTMDB;
+    }
+
+    public function setIdTMDB(int $idTMDB): self
+    {
+        $this->idTMDB = $idTMDB;
 
         return $this;
     }

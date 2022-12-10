@@ -11,4 +11,5 @@ class CarouselCardComponent
     public String $title;
     public String $posterPath;
     public String $pathName;
+    public String $type;
 }

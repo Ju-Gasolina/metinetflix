@@ -3,14 +3,12 @@
 {% block title %}Serie index{% endblock %}
 
 {% block main %}
-
     <div class="container pb-5 pt-5">
         <div class="row">
             {% for serie in series %}
                 {{ component('card', {
                     id: serie.id,
                     title: serie.title,
-                    releaseDate: serie.releaseDate,
                     posterPath: serie.posterPath,
                     pathName: serie.pathName,
                     type: serie.type

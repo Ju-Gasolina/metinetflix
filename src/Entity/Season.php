@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SeasonRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\String_;
 
 #[ORM\Entity(repositoryClass: SeasonRepository::class)]
 class Season
@@ -19,6 +20,9 @@ class Season
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Serie $serie = null;
+
+    #[ORM\Column]
+    private ?string $idTMDB = null;
 
     public function getId(): ?int
     {
@@ -45,6 +49,18 @@ class Season
     public function setSerie(?Serie $serie): self
     {
         $this->serie = $serie;
+
+        return $this;
+    }
+
+    public function getIdTMDB(): ?string
+    {
+        return $this->idTMDB;
+    }
+
+    public function setIdTMDB(string $idTMDB): self
+    {
+        $this->idTMDB = $idTMDB;
 
         return $this;
     }
