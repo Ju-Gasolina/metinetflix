@@ -23,13 +23,13 @@ class SerieParsing
                 $item['name'],
                 $item['first_air_date'],
                 'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
-            'app_serie_show');
+                'app_serie_show',
+                'serie');
             $series[] = $card;
         }
 
         return $series;
     }
-
 
     public function onTheAirParsing(int $page): array
     {
@@ -39,19 +39,19 @@ class SerieParsing
         $response = $client->request('GET', 'https://api.themoviedb.org/3/tv/on_the_air?api_key='.$apiKey.'&language=fr-FR&page='.$page);
         $items = $response->toArray();
 
-        $movies = array();
+        $series = array();
         foreach($items['results'] as $item) {
             $card = new Card(
                 $item['id'],
                 $item['name'],
                 $item['first_air_date'],
                 'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
-                'app_serie_show'
-            );
-            $movies[] = $card;
+                'app_serie_show',
+                'serie');
+            $series[] = $card;
         }
 
-        return $movies;
+        return $series;
     }
 
     public function serieParsing(int $id): array
@@ -86,8 +86,8 @@ class SerieParsing
                 "name" => $season['name'],
                 "air_date" => $season['air_date'] ?? "",
                 "poster_path"=>'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
-                "path"=>'app_season_show'
-            );
+                "path"=>'app_season_show',
+                "type"=>'season');
             $seasons[] = $card;
         }
 

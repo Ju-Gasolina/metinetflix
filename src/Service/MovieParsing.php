@@ -23,8 +23,8 @@ class MovieParsing
                 $item['title'],
                 $item['release_date'],
                 'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
-                'app_movie_show'
-                );
+                'app_movie_show',
+                'movie');
             $movies[] = $card;
         }
 
@@ -46,8 +46,8 @@ class MovieParsing
                 $item['title'],
                 $item['release_date'],
                 'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
-                'app_movie_show'
-            );
+                'app_movie_show',
+                'movie');
             $movies[] = $card;
         }
 
