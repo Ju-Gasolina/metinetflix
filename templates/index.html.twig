@@ -54,22 +54,10 @@
     </section>
 
     <section class="home-container-4">
-        <h1 class="text-white text-center mt-2">A venir</h1>
-        <div class="container pb-5 pt-5 ">
-            <div class="row">
-                <h6>Bootstrap 4 horizontally scrollable card groups</h6>
-                <div class="d-flex flex-row flex-nowrap overflow-auto">
-                    {% for item in items %}
-                        {{ component('carousel-card', {
-                            id: item.id,
-                            title: item.title,
-                            posterPath: item.posterPath,
-                            pathName: item.pathName,
-                        }) }}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
+        {{ component('horizontal-carousel', {
+            title: 'A venir',
+            items: items,
+        }) }}
     </section>
 {% endblock %}
 

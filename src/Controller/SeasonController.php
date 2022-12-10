@@ -10,11 +10,13 @@ use App\Service\SeasonParsing;
 #[Route('/season')]
 class SeasonController extends AbstractController
 {
-    #[Route('/{idTV}/{idTVSeason}', name: 'app_season_show', methods: ['GET'])]
-    public function show(int $idTV, int $idTVSeason, SeasonParsing $seasonParsing): Response
+    #[Route('/{id}', name: 'app_season_show', methods: ['GET'])]
+    public function show(String $id, SeasonParsing $seasonParsing): Response
     {
+        $ids = explode("-", $id);
+
         return $this->render('season/show.html.twig', [
-            'season' => $seasonParsing->seasonParsing($idTV, $idTVSeason),
+            'season' => $seasonParsing->seasonParsing($ids[0], $ids[1]),
         ]);
     }
 }

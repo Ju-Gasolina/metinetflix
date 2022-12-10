@@ -77,21 +77,16 @@ class SerieParsing
         if(count($creators) == 0) array_push($genres, "Aucun créateur");
 
         $seasons = array();
-
-        foreach ($item['seasons'] as $season) {
-
-
-            $card = array(
-                "season_number"=>$season['season_number'],
-                "name" => $season['name'],
-                "air_date" => $season['air_date'] ?? "",
-                "poster_path"=>'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
-                "path"=>'app_season_show',
-                "type"=>'season');
+        foreach($item['seasons'] as $season) {
+            $card = new Card(
+                $item['id'].'-'.$season['season_number'],
+                $season['name'],
+                $season['air_date'] ?? "",
+                'https://image.tmdb.org/t/p/original/' . $season['poster_path'],
+                'app_season_show',
+                'season');
             $seasons[] = $card;
         }
-
-
 
         $serie = array(
             'id' => $item['id'],
