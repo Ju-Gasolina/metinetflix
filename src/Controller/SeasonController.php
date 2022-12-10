@@ -13,7 +13,7 @@ class SeasonController extends AbstractController
     #[Route('/{idTV}/{idTVSeason}', name: 'app_season_show', methods: ['GET'])]
     public function show(int $idTV, int $idTVSeason, SeasonParsing $seasonParsing): Response
     {
-        return $this->render('movie/show.html.twig', [
+        return $this->render('season/show.html.twig', [
             'season' => $seasonParsing->seasonParsing($idTV, $idTVSeason),
         ]);
     }

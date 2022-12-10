@@ -76,7 +76,7 @@
                             <div class="card-body">
                                 <ul class="list-unstyled text-start m-0">
                                     {% for season in serie.seasons %}
-                                        <li>- {{ season.title }} <a href="{{ path('app_season_show', {idTV: serie.id, idTVSeason: season.id}) }}">(Voir)</a></li>
+                                        <li>- {{ season.name}} <a href="{{ path('app_season_show', {idTV: serie.id, idTVSeason: season.season_number}) }}">(Voir)</a></li>
                                     {% endfor %}
                                 </ul>
                             </div>
