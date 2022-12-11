@@ -70,6 +70,15 @@ class MovieParsing
         }
         if(count($genres) == 0) array_push($genres, "Aucun genre");
 
+
+        $belongs_to_collection = new Card(
+         $item['belongs_to_collection']['id'] ?? 0,
+         $item['belongs_to_collection']['name'] ?? 'Aucune',
+         $item['belongs_to_collection']['release_date'] ?? 0,
+         'https://image.tmdb.org/t/p/original/' . ($item['belongs_to_collection']['backdrop_path'] ?? ""),
+         'app_saga_show',
+         'saga' );
+
         $movie = array(
             'id' => $item['id'],
             'title' => $item['title'],
@@ -80,6 +89,7 @@ class MovieParsing
             'runtime' => $item['runtime'],
             'overview' => $overview,
             'genres' => $genres,
+            'belongs_to_collection' => $belongs_to_collection,
             'type' => 'movie');
 
         return $movie;

@@ -14,6 +14,7 @@ use App\Repository\MovieRepository;
 use App\Repository\SerieRepository;
 use App\Repository\SeasonRepository;
 use App\Repository\EpisodeRepository;
+use App\Repository\SagaRepository;
 
 #[Route('/watchlist/item')]
 class WatchlistItemController extends AbstractController
@@ -37,6 +38,10 @@ class WatchlistItemController extends AbstractController
         {
             return $this->redirectToRoute('app_episode_new', ['idTMDB' => $idTMDB]);
         }
+        else if($type == "saga")
+        {
+            return $this->redirectToRoute('app_saga_new', ['idTMDB' => $idTMDB]);
+        }
         else
         {
             return $this->redirect('/');
@@ -51,7 +56,8 @@ class WatchlistItemController extends AbstractController
                         MovieRepository $movieRepository,
                         SerieRepository $serieRepository,
                         SeasonRepository $seasonRepository,
-                        EpisodeRepository $episodeRepository
+                        EpisodeRepository $episodeRepository,
+                        SagaRepository $sagaRepository
     ): Response
     {
         //Watchlist find request
@@ -83,6 +89,11 @@ class WatchlistItemController extends AbstractController
             {
                 $episode = $episodeRepository->find($idEntity);
                 $watchlistItem->setEpisode($episode);
+            }
+            else if($type == "saga")
+            {
+                $saga = $sagaRepository->find($idEntity);
+                $watchlistItem->setSaga($saga);
             }
             else
             {
