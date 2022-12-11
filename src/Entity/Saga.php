@@ -16,6 +16,9 @@ class Saga
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\Column]
+    private ?int $idTMDB = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +32,18 @@ class Saga
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getIdTMDB(): ?int
+    {
+        return $this->idTMDB;
+    }
+
+    public function setIdTMDB(int $idTMDB): self
+    {
+        $this->idTMDB = $idTMDB;
 
         return $this;
     }
