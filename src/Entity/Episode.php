@@ -15,6 +15,9 @@ class Episode
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Serie $serie = null;
@@ -24,14 +27,23 @@ class Episode
     private ?Season $season = null;
 
     #[ORM\Column]
-    private ?int $duration = null;
-
-    #[ORM\Column]
-    private ?int $idTMDB = null;
+    private ?string $idTMDB = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getSerie(): ?Serie
@@ -58,24 +70,12 @@ class Episode
         return $this;
     }
 
-    public function getDuration(): ?int
-    {
-        return $this->duration;
-    }
-
-    public function setDuration(?int $duration): self
-    {
-        $this->duration = $duration;
-
-        return $this;
-    }
-
-    public function getIdTMDB(): ?int
+    public function getIdTMDB(): ?string
     {
         return $this->idTMDB;
     }
 
-    public function setIdTMDB(int $idTMDB): self
+    public function setIdTMDB(string $idTMDB): self
     {
         $this->idTMDB = $idTMDB;
 

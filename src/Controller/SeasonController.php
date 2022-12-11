@@ -35,6 +35,7 @@ class SeasonController extends AbstractController
                 //Serie API request
                 $result2 = $serieParsing->serieParsing($ids[0]);
 
+                //Serie creation
                 $serie = new Serie();
                 $serie->setGenres(json_encode($result2['genres']));
                 $serie->setName($result2['original_name']);
@@ -45,6 +46,7 @@ class SeasonController extends AbstractController
             //Season API request
             $result = $seasonParsing->seasonParsing($ids[0], $ids[1]);
 
+            //Season creation
             $season = new Season();
             $season->setName($result['name']);
             $season->setSerie($serie);
