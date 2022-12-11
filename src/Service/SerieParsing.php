@@ -106,4 +106,26 @@ class SerieParsing
 
         return $serie;
     }
+
+    function queryParsing(int $page, String $query): array
+    {
+        $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
+
+        $client = HttpClient::create();
+        $response = $client->request('GET', 'https://api.themoviedb.org/3/search/tv?api_key='.$apiKey.'&language=fr-FR&page='.$page.'&query='.$query.'&include_adult=false');        $items = $response->toArray();
+
+        $series = array();
+        foreach($items['results'] as $item) {
+            $card = new Card(
+                $item['id'],
+                $item['name'],
+                $item['first_air_date'],
+                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'app_serie_show',
+                'serie');
+            $series[] = $card;
+        }
+
+        return $series;
+    }
 }

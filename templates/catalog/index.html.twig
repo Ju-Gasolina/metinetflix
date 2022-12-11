@@ -6,42 +6,57 @@
 
     <div class="sidebar-container">
         <div id="sidebar" class="sidebar-filter">
-            <p class="h4 text-light">Filtres</p>
+            <p class="h4 text-light text-center">Advanced Search</p>
 
-            <select class="form-select" aria-label="Filter select">
-                <option selected><i class="bi bi-twitter"></i> Filter</option>
-                <option value="1"><i class="bi bi-instagram"></i>All</option>
-                <option value="2"><i class="bi bi-facebook"></i>Active</option>
-                <option value="3"><i class="bi bi-twitter"></i>Inactive</option>
-            </select>
+
 
             <div class="input-group">
                 <label class="input-group-text" for=""><i class="bi bi-funnel"></i></label>
                 <select class="form-select" aria-label="Filter select">
                     <option selected><i class="bi bi-funnel"></i> Filter</option>
-                    <option value="1"><i class="bi bi-instagram"></i>All</option>
-                    <option value="2"><i class="bi bi-instagram"></i>Active</option>
+                    <option value="1">All</option>
+                    <option value="2">Active</option>
                     <option value="3">Inactive</option>
                 </select>
             </div>
 
-            <select class="form-select" aria-label="Filter select">
-                <option selected>&#x29E9; Filter</option>
-                <option value="1">All</option>
-                <option value="2">Active</option>
-                <option value="3">Inactive</option>
-            </select>
+            <p class="h3">Tri</p>
+            <div class="container">
+
+                <p class="h4 text-light text-center">Alphabetical</p>
+                <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked>
+                <label class="btn btn-secondary" for="option1">Asc</label>
+
+                <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
+                <label class="btn btn-secondary" for="option2">Desc</label>
+
+            </div>
+
+
+
         </div>
 
-        <div id="burger-btn" class="sidebar-burger-btn">
-            <span class="sidebar-burger-line sidebar-lines-close"></span>
-            <span class="sidebar-burger-line sidebar-lines-close"></span>
-            <span class="sidebar-burger-line sidebar-lines-close"></span>
+        <div class="sidebar-burger-container">
+            <div id="burger-btn" class="sidebar-burger-btn">
+                <span class="sidebar-burger-line sidebar-lines-close"></span>
+                <span class="sidebar-burger-line sidebar-lines-close"></span>
+                <span class="sidebar-burger-line sidebar-lines-close"></span>
+            </div>
         </div>
+
 
     </div>
 
+    <div class="container w-50 pt-3 ">
 
+        {{ form_start(queryForm) }}
+        <div class="input-group mb-3 row search-bar">
+            {{ form_widget(queryForm.query) }}
+            {{ form_widget(queryForm.search) }}
+        </div>
+            {{ form_end(queryForm) }}
+
+    </div>
 
 
     <div class="container">

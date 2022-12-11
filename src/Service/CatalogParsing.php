@@ -29,4 +29,15 @@ class CatalogParsing
 
         return array_merge($arrayMovies, $arraySeries);
     }
+
+    public function queryParsing(int $page, string $query): array
+    {
+        $serieParsing = new SerieParsing();
+        $movieParsing = new MovieParsing();
+
+        $arrayMovies = $movieParsing->queryParsing($page, $query);
+        $arraySeries = $serieParsing->queryParsing($page, $query);
+
+        return array_merge($arrayMovies, $arraySeries);
+    }
 }
