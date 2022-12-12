@@ -7,6 +7,7 @@ use App\Form\SagaType;
 use App\Repository\SagaRepository;
 use App\Service\SagaParsing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,7 +22,7 @@ use App\Entity\Card;
 class SagaController extends AbstractController
 {
     #[Route('/', name: 'app_saga_index', methods: ['GET'])]
-    public function index(Request $request, SagaParsing $sagaParsing): Response
+    public function index(Request $request, SagaRepository $sagaRepository): Response
     {
         $page = $request->query->get('page');
 
@@ -35,8 +36,30 @@ class SagaController extends AbstractController
         }
         else
         {
+            $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
+
+            $sagas = array();
+
+            $items = $sagaRepository->findWithOffsetAndLimit((($page-1)*20),20);
+
+            foreach($items as $item)
+            {
+                $client = HttpClient::create();
+                $response = $client->request('GET', 'https://api.themoviedb.org/3/collection/'.$item->getIdTMDB().'?api_key='.$apiKey.'&language=fr-FR');
+                $item = $response->toArray();
+
+                $saga = new Card(
+                    $item['id'],
+                    $item['name'],
+                    $item['release_date'] ?? 0,
+                    'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                    'app_saga_show',
+                    'saga');
+                $sagas[] = $saga;
+            }
+
             return $this->render('saga/index.html.twig', [
-                'sagas' => $sagaParsing->indexParsing($page),
+                'sagas' => $sagas,
                 'currentPage' => $page
             ]);
         }
@@ -82,6 +105,59 @@ class SagaController extends AbstractController
         }
 
         return $this->redirectToRoute('app_watchlist_item_add', ['type' => 'saga', 'idEntity' => $saga->getId()]);
+    }
+
+    #[Route('/fill-db/{popularPage}', name: 'app_saga_fill_db', methods: ['GET'])]
+    public function fillDB(int $popularPage, SagaParsing $sagaParsing, SagaRepository $sagaRepository): Response
+    {
+        $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
+        $flush = false;
+        $cpt = $popularPage;
+        $limit = 10;
+
+        do
+        {
+            $client = HttpClient::create();
+            $response = $client->request('GET', 'https://api.themoviedb.org/3/movie/popular?api_key='.$apiKey.'&language=fr-FR&page='.$cpt);
+            $items = $response->toArray();
+
+            foreach($items['results'] as $item) {
+                $client2 = HttpClient::create();
+                $response2 = $client2->request('GET', 'https://api.themoviedb.org/3/movie/'.$item['id'].'?api_key='.$apiKey.'&language=fr-FR');
+                $item2 = $response2->toArray();
+
+                if(isset($item2['belongs_to_collection'])) {
+                    //Saga find request
+                    $saga = $sagaRepository->findOneBy(["idTMDB" => $item2['belongs_to_collection']['id']]);
+
+                    if(!isset($saga))
+                    {
+                        $flush = true;
+
+                        //Saga API request
+                        $result = $sagaParsing->sagaParsing($item2['belongs_to_collection']['id']);
+
+                        //Saga creation
+                        $saga = new Saga();
+                        $saga->setName($result['name']);
+                        $saga->setIdTMDB($result['id']);
+                        $sagaRepository->save($saga);
+                    }
+                }
+            }
+
+            if($flush)
+            {
+                $sagaRepository->flush();
+                $flush = false;
+            }
+
+            $cpt++;
+        }while($cpt < $limit);
+
+        $nextPopularPage = $popularPage + $limit;
+
+        return $this->redirectToRoute('app_saga_fill_db', ['popularPage' => $nextPopularPage]);
     }
 
     #[Route('/{id}', name: 'app_saga_show', methods: ['GET'])]

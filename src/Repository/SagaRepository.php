@@ -39,6 +39,20 @@ class SagaRepository extends ServiceEntityRepository
         }
     }
 
+    public function findWithOffsetAndLimit(int $offset, int $limit): array
+    {
+        return $this->createQueryBuilder('s')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function flush(): void
+    {
+        $this->getEntityManager()->flush();
+    }
+
 //    /**
 //     * @return Saga[] Returns an array of Saga objects
 //     */
