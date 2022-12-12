@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Saga index{% endblock %}
+
+{% block main %}
+    <div class="container pb-5 pt-5">
+        <div class="row">
+            {% for saga in sagas %}
+                {{ component('card', {
+                    id: saga.id,
+                    title: saga.title,
+                    posterPath: saga.posterPath,
+                    pathName: saga.pathName,
+                    type: saga.type
+                }) }}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="bottom-buttons">
+        <a href="{{ path('app_saga_index', {page: currentPage - 1}) }}" class="previous round">&#8249;</a>
+        <a href="{{ path('app_saga_index', {page: currentPage + 1}) }}" class="next round">&#8250;</a>
+    </div>
+{% endblock %}
