@@ -5,41 +5,50 @@
 {% block main %}
     <img class="image-rognage" src="{{ episode.poster_path }}" alt="{{ episode.name }}">
 
-    <h1 class="text-dark text-center mt-2">
-        {{ episode.name }}
-        <a href="{{ path('app_watchlist_item_new', {type: episode.type, idTMDB: episode.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger"></a>
-    </h1>
+    <img class="poster-on-banner" src="{{ episode.poster_path }}" alt="{{ episode.name }}">
 
-    <div class="container pb-5 pt-5">
-        <div class="row">
-            <div class="col-lg-6 col-sm">
-                <div>
-                    <div class="card-deck mb-3">
-                        <div class="card mb-4 box-shadow box-min-height">
-                            <div class="card-header">
-                                <p class="text-center my-0 font-weight-normal h4">Informations</p>
-                            </div>
-                            <div class="card-body">
-                                <ul class="list-unstyled text-start m-0">
-                                    <li>Numéro de saison : {{ episode.season_number }}</li>
-                                    <li>Numéro de l'épisode : {{ episode.episode_number }}</li>
-                                    <li>Date de diffusion : {{ episode.air_date }}</li>
-                                </ul>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <div  id="title-for-poster-on-banner" class="card box-shadow translate-title-for-poster-on-banner">
+            <div class="card-header border-0">
+                <h1 class="text-dark text-center mt-2 h3">{{ episode.name }}</h1>
+            </div>
+        </div>
+
+        <a href="{{ path('app_watchlist_item_new', {type: episode.type, idTMDB: episode.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger translate-title-for-poster-on-banner h3 mt-3"></a>
+    </div>
+
+    <div class="translate-block-for-poster-on-banner">
+        <div class="container pb-5 pt-5">
+            <div class="row">
+                <div class="col-lg-6 col-sm">
+                    <div>
+                        <div class="card-deck mb-3">
+                            <div class="card mb-4 box-shadow box-min-height">
+                                <div class="card-header">
+                                    <p class="text-center my-0 font-weight-normal h4">Informations</p>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled text-start m-0">
+                                        <li>Numéro de saison : {{ episode.season_number }}</li>
+                                        <li>Numéro de l'épisode : {{ episode.episode_number }}</li>
+                                        <li>Date de diffusion : {{ episode.air_date }}</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-lg-6 col-sm">
-                <div>
-                    <div class="card-deck mb-3">
-                        <div class="card mb-4 box-shadow box-min-height">
-                            <div class="card-header">
-                                <p class="text-center my-0 font-weight-normal h4">Description</p>
-                            </div>
-                            <div class="card-body">
-                                <p class="justify mb-0">{{ episode.overview }}</p>
+                <div class="col-lg-6 col-sm">
+                    <div>
+                        <div class="card-deck mb-3">
+                            <div class="card mb-4 box-shadow box-min-height">
+                                <div class="card-header">
+                                    <p class="text-center my-0 font-weight-normal h4">Description</p>
+                                </div>
+                                <div class="card-body">
+                                    <p class="justify mb-0">{{ episode.overview }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>

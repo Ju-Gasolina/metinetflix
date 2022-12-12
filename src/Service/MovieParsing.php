@@ -108,6 +108,7 @@ class MovieParsing
             'id' => $item['id'],
             'title' => $item['title'],
             'backdrop_path' => 'https://image.tmdb.org/t/p/original/' . $item['backdrop_path'],
+            'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
             'original_title' => $item['original_title'],
             'original_language' => $item['original_language'],
             'release_date' => $item['release_date'],

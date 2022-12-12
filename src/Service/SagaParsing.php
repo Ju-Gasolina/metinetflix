@@ -34,6 +34,7 @@ class SagaParsing
             'id' => $item['id'],
             'name' => $item['name'],
             'backdrop_path' => 'https://image.tmdb.org/t/p/original/' . $item['backdrop_path'],
+            'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
             'overview' => $overview,
             'movies' => $movies,
             'type' => 'saga');

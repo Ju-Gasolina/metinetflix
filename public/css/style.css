@@ -3,7 +3,7 @@
     width: 100%;
     height: 400px;
     object-fit: cover;
-    object-position: top;
+    object-position: center;
 }
 
 .image-rognage img{
@@ -276,3 +276,29 @@
 
 
 /*SEARCHBAR*/
+
+.poster-on-banner
+{
+    height: 400px;
+    width: auto;
+    position: relative;
+    transform: translate(300px, -200px);
+    z-index: 2;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+#title-for-poster-on-banner
+{
+    width: 35%;
+}
+
+
+.translate-title-for-poster-on-banner
+{
+    transform: translateY(-370px);
+}
+
+.translate-block-for-poster-on-banner
+{
+    transform: translateY(-300px);
+}

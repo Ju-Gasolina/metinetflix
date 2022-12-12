@@ -92,6 +92,7 @@ class SerieParsing
             'id' => $item['id'],
             'name' => $item['name'],
             'backdrop_path' => 'https://image.tmdb.org/t/p/original/' . $item['backdrop_path'],
+            'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
             'original_name' => $item['original_name'],
             'original_language' => $item['original_language'],
             'first_air_date' => $item['first_air_date'],
