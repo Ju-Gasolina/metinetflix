@@ -20,17 +20,32 @@
                 </select>
             </div>
 
-            <p class="h3">Tri</p>
-            <div class="container">
 
-                <p class="h4 text-light text-center">Alphabetical</p>
-                <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked>
-                <label class="btn btn-secondary" for="option1">Asc</label>
+            {{ form_start(filtersForm) }}
 
-                <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
-                <label class="btn btn-secondary" for="option2">Desc</label>
+            <p class="h4 text-light">Sort</p>
 
+            <div id="alphabetical-container" class="container ">
+
+
+                {% for child in filtersForm.alphabetical %}
+
+                    {{ form_widget(child) }}
+                    {{ form_label(child)}}
+
+                {% endfor %}
             </div>
+
+            <p class="h4 text-light">Filters</p>
+
+            <div class="mt-2 d-flex align-content-center justify-content-center">
+                {{ form_widget(filtersForm.search) }}
+            </div>
+
+            {{ form_end(filtersForm) }}
+
+
+
 
 
 
@@ -54,7 +69,7 @@
             {{ form_widget(queryForm.query) }}
             {{ form_widget(queryForm.search) }}
         </div>
-            {{ form_end(queryForm) }}
+        {{ form_end(queryForm) }}
 
     </div>
 
@@ -88,10 +103,32 @@
         let sidebar = document.getElementById("sidebar");
         let main = document.getElementById("main");
         let burgerLines = document.getElementsByClassName("sidebar-burger-line");
-
         let burgerBtn = document.getElementById("burger-btn");
         let isOpenSideBar = false;
-        console.log(burgerLines);
+        let alphabeticalContainer = document.getElementById("alphabetical-container");
+        let checkedBox = document.querySelector('input[name="filters[alphabetical]"]:checked');
+
+        if(checkedBox){
+            let label = checkedBox.nextElementSibling;
+            label.style.backgroundColor= '#8B1489';
+            checkedBox.style.backgroundColor = '#8B1489';
+        }
+
+        console.log(checkedBox);
+
+        alphabeticalContainer.childNodes.forEach((node)=>{
+
+            if(node.tagName === 'LABEL'){
+                node.addEventListener('click', ()=>{
+                    console.log('click');
+                    resetRadioButtons();
+                    node.style.backgroundColor = '#8B1489';
+                })
+                node.classList.add('btn');
+                node.classList.add('btn-secondary');
+            }
+
+        })
 
 
         burgerBtn.addEventListener('click',()=>{
@@ -117,6 +154,17 @@
 
 
         })
+
+        function resetRadioButtons(){
+            alphabeticalContainer.childNodes.forEach((node)=>{
+                if(node.tagName === 'LABEL'){
+                    node.style.backgroundColor = '#202529';
+                }
+
+
+            })
+        }
+        
 
 
 

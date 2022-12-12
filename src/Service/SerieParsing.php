@@ -128,4 +128,31 @@ class SerieParsing
 
         return $series;
     }
+
+    public function sortParsing(int $page, String $sortBy): array
+    {
+        $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
+
+        $client = HttpClient::create();
+        $response = $client
+            ->request(
+                'GET',
+                'https://api.themoviedb.org/3/discover/tv?api_key='.$apiKey.'&language=fr-FR&sort_by='.$sortBy.'&page='.$page.'&with_watch_monetization_types=flatrate&with_status=0&with_type=0'
+            );
+        $items = $response->toArray();
+
+        $series = array();
+        foreach ($items['results'] as $item) {
+            $card = new Card(
+                $item['id'],
+                $item['name'],
+                $item['first_air_date'],
+                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'app_serie_show',
+                'serie');
+            $series[] = $card;
+        }
+
+        return $series;
+    }
 }

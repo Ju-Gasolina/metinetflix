@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\FiltersType;
 use App\Form\RegistrationFormType;
 use App\Form\SearchType;
 use App\Service\CatalogParsing;
@@ -18,18 +19,16 @@ class CatalogController extends AbstractController
     public function index( Request $request, CatalogParsing $catalogParsing): Response
     {
 
-        $defaultData = ['message' => 'Type your search here'];
+
 
         $queryForm = $this->createForm(SearchType::class);
-
         $queryForm->handleRequest($request);
 
-
+        $filtersForm = $this->createForm(FiltersType::class);
+        $filtersForm->handleRequest($request);
 
 
         $page = $request->query->get('page');
-
-
 
 
 
@@ -48,12 +47,38 @@ class CatalogController extends AbstractController
             if ($queryForm->isSubmitted() && $queryForm->isValid()) {
                 $data = $queryForm->getData();
 
-                $catalogArray = $catalogParsing->queryParsing($page, $data['query']);
+                $catalogArray = $catalogParsing->queryParsing($page, $data['alphabetical']);
                 usort($catalogArray, function($first,$second){
                     return strtolower($first->getTitle()) > strtolower($second->getTitle());
                 });
 
-            }else{
+            }
+            else if($filtersForm->isSubmitted() && $filtersForm->isValid()){
+
+                $data = $filtersForm->getData();
+
+                //TODO Faire les tris de tableaux pour chaque cas
+
+                $catalogArray = $catalogParsing->sortParsing($page, $data['alphabetical']);
+                if($data['alphabetical'] === 'date.asc'){
+                    usort($catalogArray, function($first,$second){
+                        return $first->getReleaseDate() > $second->getReleaseDate();
+                    });
+                }
+                else if($data['alphabetical'] === 'date.desc'){
+                    usort($catalogArray, function($first,$second){
+                        return $first->getReleaseDate() < $second->getReleaseDate();
+                    });
+                }else{
+                    usort($catalogArray, function($first,$second){
+                        return strtolower($first->getTitle()) > strtolower($second->getTitle());
+                    });
+                }
+
+
+
+            }
+            else{
                 $catalogArray = $catalogParsing->popularParsing($page);
                 shuffle($catalogArray);
             }
@@ -63,7 +88,8 @@ class CatalogController extends AbstractController
                 'controller_name' => 'CatalogController',
                 'catalog' =>  $catalogArray,
                 'currentPage' => $page,
-                'queryForm' => $queryForm->createView()
+                'queryForm' => $queryForm->createView(),
+                'filtersForm' => $filtersForm->createView()
             ]);
         }
 

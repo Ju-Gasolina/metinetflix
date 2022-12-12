@@ -8,7 +8,14 @@
             <div class="h-100 d-flex flex-column align-items-center justify-content-center">
                 <p class="h1 text-white text-center">Une watchlist vous permettant de gérer facilement vos films, séries, etc et vous pemettant de voir où vous en êtes !</p>
 
-                <a class="button-basic-custom" href="{{ path('app_catalog_index') }}">Catalogue</a>
+
+                <a class="text-decoration-none" href="{{ path('app_catalog_index') }}">
+                    {{ component('button', {
+                        title: 'Catalogue',
+
+                    }) }}
+                </a>
+
             </div>
         </div>
     </section>
