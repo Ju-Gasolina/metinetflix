@@ -36,10 +36,27 @@
                 {% endfor %}
             </div>
 
-            <p class="h4 text-light">Filters</p>
+            <p class="h4 text-light">Release date</p>
+
+            <div>
+                {{ form_widget(filtersForm.minDate) }}
+                {{ form_widget(filtersForm.maxDate) }}
+            </div>
+
+            <p class="h4 text-light">Duration</p>
+
+            <div>
+                {{ form_widget(filtersForm.maxTime) }}
+            </div>
+
 
             <div class="mt-2 d-flex align-content-center justify-content-center">
                 {{ form_widget(filtersForm.search) }}
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
             </div>
 
             {{ form_end(filtersForm) }}
