@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+
+
+.sidebar-filter{
+    top:10px;
+    margin-top: 10px;
+    margin-left: 10px;
+    border: solid 1px;
+    border-radius: 10px;
+    position: sticky;
+    background-color: #202529;
+    width: 300px;
+    height: 700px;
+    display:none;
+    transition: all 0.2s ease;
+}
+.sidebar-burger-btn{
+    height: 50px;
+    width: 50px;
+
+    margin-top:10px;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+
+
+}
+
+.sidebar-burger-container{
+
+    height: 700px;
+    position: sticky;
+    top: 10px;
+
+}
+
+.sidebar-container{
+    position: absolute;
+    height: 423vh;
+    z-index: 2;
+    display: flex;
+    flex-direction: row;
+
+
+}
+
+
+
+
+.sidebar-burger-btn span{
+
+    border: solid 1px #202529;
+    border-radius: 8px;
+    background-color: #8B1489;
+    transition: all 0.2s ease;
+}
+
+.sidebar-lines-open{
+    height: 100%;
+    width: 10px;
+    border: solid 1px #202529;
+    border-radius: 8px;
+    background-color: #8B1489;
+    transition: all 0.2s ease;
+}
+
+.sidebar-lines-close{
+
+    width: 100%;
+    height: 10px;
+    border: solid 1px #202529;
+    border-radius: 8px;
+    background-color: #8B1489;
+    transition: all 0.2s ease;
+}
+
+#alphabetical-container label {
+    margin : 10px 0;
+    width : 132px;
+    background-color: #202529;
+    border: solid 1px #8B1489;
+}
