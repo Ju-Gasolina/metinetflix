@@ -44,5 +44,10 @@
                 </div>
             </div>
         </div>
+
+        {{ component('horizontal-carousel', {
+            title: 'Films',
+            items: saga.movies
+        }) }}
     </div>
 {% endblock %}

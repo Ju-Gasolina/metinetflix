@@ -10,6 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use App\Entity\Saga;
+use App\Repository\SagaRepository;
+use App\Service\SagaParsing;
+
 #[Route('/movie')]
 class MovieController extends AbstractController
 {
@@ -36,7 +40,7 @@ class MovieController extends AbstractController
     }
 
     #[Route('/new/{idTMDB}', name: 'app_movie_new', methods: ['GET'])]
-    public function new(Int $idTMDB, MovieParsing $movieParsing, MovieRepository $movieRepository): Response
+    public function new(Int $idTMDB, MovieParsing $movieParsing, MovieRepository $movieRepository, SagaParsing $sagaParsing, SagaRepository $sagaRepository): Response
     {
         //Movie find request
         $movie = $movieRepository->findOneBy(["idTMDB" => $idTMDB]);
@@ -52,6 +56,27 @@ class MovieController extends AbstractController
             $movie->setName($result['original_title']);
             $movie->setDuration($result['runtime']);
             $movie->setIdTMDB($result['id']);
+
+            if(isset($result['belongs_to_collection']))
+            {
+                //Saga find request
+                $saga = $sagaRepository->findOneBy(["idTMDB" => $result['belongs_to_collection']->getId()]);
+
+                if(!isset($saga))
+                {
+                    //Saga API request
+                    $result2 = $sagaParsing->sagaParsing($result['belongs_to_collection']->getId());
+
+                    //Saga creation
+                    $saga = new Saga();
+                    $saga->setName($result2['name']);
+                    $saga->setIdTMDB($result2['id']);
+                    $sagaRepository->save($saga, true);
+                }
+
+                $movie->setSaga($saga);
+            }
+
             $movieRepository->save($movie, true);
         }
 
