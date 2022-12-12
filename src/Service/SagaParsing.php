@@ -3,6 +3,7 @@
 namespace App\Service;
 
 
+use App\Entity\Card;
 use Symfony\Component\HttpClient\HttpClient;
 
 class SagaParsing
@@ -17,11 +18,24 @@ class SagaParsing
 
         $overview = !empty($item['overview']) ? $item['overview'] : "Aucune description";
 
+        $movies = array();
+        foreach($item['parts'] as $movie) {
+            $card = new Card(
+                $movie['id'],
+                $movie['title'],
+                $movie['release_date'] ?? "",
+                'https://image.tmdb.org/t/p/original/' . $movie['poster_path'],
+                'app_movie_show',
+                'movie');
+            $movies[] = $card;
+        }
+
         $saga = array(
             'id' => $item['id'],
             'name' => $item['name'],
             'backdrop_path' => 'https://image.tmdb.org/t/p/original/' . $item['backdrop_path'],
             'overview' => $overview,
+            'movies' => $movies,
             'type' => 'saga');
 
         return $saga;
