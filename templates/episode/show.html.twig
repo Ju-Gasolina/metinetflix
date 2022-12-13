@@ -3,19 +3,12 @@
 {% block title %}Episode{% endblock %}
 
 {% block main %}
-    <img class="image-rognage" src="{{ episode.poster_path }}" alt="{{ episode.name }}">
-
-    <img class="poster-on-banner" src="{{ episode.poster_path }}" alt="{{ episode.name }}">
-
-    <div class="d-flex flex-column justify-content-center align-items-center">
-        <div  id="title-for-poster-on-banner" class="card box-shadow translate-title-for-poster-on-banner">
-            <div class="card-header border-0">
-                <h1 class="text-dark text-center mt-2 h3">{{ episode.name }}</h1>
-            </div>
-        </div>
-
-        <a href="{{ path('app_watchlist_item_new', {type: episode.type, idTMDB: episode.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger translate-title-for-poster-on-banner h3 mt-3"></a>
-    </div>
+    {{ component('show-header', {
+        posterPath: episode.poster_path,
+        name: episode.name,
+        type: episode.type,
+        id: episode.id,
+    }) }}
 
     <div class="translate-block-for-poster-on-banner">
         <div class="container pb-5 pt-5">
