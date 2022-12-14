@@ -89,4 +89,19 @@ class CatalogParsing
 
 
     }
+
+    public function queryMaker(int $page, array $filters = [] ,string $sortBy=null ){
+        $serieParsing = new SerieParsing();
+        $movieParsing = new MovieParsing();
+
+        $arrayMovies = $movieParsing->queryMaker($page,$filters,$sortBy);
+        $arraySeries = $serieParsing->queryMaker($page,$filters,$sortBy);
+
+
+        return array_merge($arrayMovies, $arraySeries);
+
+    }
+
+
+
 }

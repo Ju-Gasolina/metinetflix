@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,7 +25,7 @@ class FiltersType extends AbstractType
 
         $builder
             ->add(
-                'alphabetical',
+                'sortBy',
                 ChoiceType::class,
                 [
 
@@ -54,27 +55,38 @@ class FiltersType extends AbstractType
             )
             ->add( 'minDate', DateType::class, [
 
+                    'attr' => ['class' => 'input-date d-flex'],
                     'widget' => 'choice',
                     'required' => 'false',
                 ]
             )
             ->add( 'maxDate', DateType::class, [
 
+                    'attr' => ['class' => 'input-date d-flex'],
                     'widget' => 'choice',
                     'required' => 'false',
                 ]
             )
 
-            ->add('maxTime', TimeType::class, [
-                'input'  => 'datetime',
-                'widget' => 'choice',
-                'required' => 'false',
+            ->add('maxTime', IntegerType::class, [
+                'attr'=>[
+                    'class'=>'form-control form-icon-trailing input-max-time',
+                    'placeholder'=>'Max time (m)'
+
+                ],
+                'required' => false
+
             ])
+
             ->add('includeAdult', CheckboxType::class, [
                 'label'    => 'Show this entry publicly?',
+                'value' => false,
                 'required' => false,
                 'attr' => [
-                    'class' => ''
+                    'class' => 'toggle-checkbox'
+                ],
+                'label_attr' => [
+                    'class' => 'form-check-label'
                 ]
             ])
             ->add('search', SubmitType::class, array('attr' => array('class' => 'button-basic-custom text-center')));

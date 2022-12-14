@@ -19,16 +19,17 @@ class CatalogController extends AbstractController
     public function index( Request $request, CatalogParsing $catalogParsing): Response
     {
 
-
-
         $queryForm = $this->createForm(SearchType::class);
         $queryForm->handleRequest($request);
 
         $filtersForm = $this->createForm(FiltersType::class);
         $filtersForm->handleRequest($request);
 
+        $currentQuery = $request->query->get('query');
 
         $page = $request->query->get('page');
+
+        // TODO passer en string le tableau de filtrers puis le passer dans la requête.
 
 
 
@@ -42,41 +43,49 @@ class CatalogController extends AbstractController
         }
         else
         {
-            $catalogArray = [];
+
             //TODO gérer les cas ou il y'a une recherche et la pagination en même temps.
             if ($queryForm->isSubmitted() && $queryForm->isValid()) {
-                $data = $queryForm->getData();
+                $page = 1;
 
-                $catalogArray = $catalogParsing->queryParsing($page, $data['alphabetical']);
+                $data = $queryForm->getData();
+                $currentQuery = $data['query'];
+
+                $catalogArray = $catalogParsing->queryParsing($page, $data['query']);
                 usort($catalogArray, function($first,$second){
                     return strtolower($first->getTitle()) > strtolower($second->getTitle());
                 });
 
             }
             else if($filtersForm->isSubmitted() && $filtersForm->isValid()){
-
+                $page = 1;
                 $data = $filtersForm->getData();
 
-                //TODO Faire les tris de tableaux pour chaque cas
 
-                $catalogArray = $catalogParsing->sortParsing($page, $data['alphabetical']);
-                if($data['alphabetical'] === 'date.asc'){
-                    usort($catalogArray, function($first,$second){
-                        return $first->getReleaseDate() > $second->getReleaseDate();
-                    });
-                }
-                else if($data['alphabetical'] === 'date.desc'){
-                    usort($catalogArray, function($first,$second){
-                        return $first->getReleaseDate() < $second->getReleaseDate();
-                    });
-                }else{
-                    usort($catalogArray, function($first,$second){
-                        return strtolower($first->getTitle()) > strtolower($second->getTitle());
-                    });
-                }
+                $catalogArray = $catalogParsing->queryMaker(
+                    $page,
+                    ['primary_release_date.gte' => $data['minDate'],
+                        'primary_release_date.lte' => $data['maxDate'],
+                        'include_adult' => $data['includeAdult'],
+                        'with_runtime.lte' => $data['maxTime'],
+                    ],
+                    $data['sortBy']
 
 
+                );
 
+                usort($catalogArray, function($first,$second){
+                    return $first->getReleaseDate() > $second->getReleaseDate();
+                });
+
+
+            }
+            else if($currentQuery){
+
+                $catalogArray = $catalogParsing->queryParsing($page, $currentQuery);
+                usort($catalogArray, function($first,$second){
+                    return strtolower($first->getTitle()) > strtolower($second->getTitle());
+                });
             }
             else{
                 $catalogArray = $catalogParsing->popularParsing($page);
@@ -84,53 +93,21 @@ class CatalogController extends AbstractController
             }
 
 
+
             return $this->render('catalog/index.html.twig', [
                 'controller_name' => 'CatalogController',
                 'catalog' =>  $catalogArray,
                 'currentPage' => $page,
                 'queryForm' => $queryForm->createView(),
-                'filtersForm' => $filtersForm->createView()
+                'filtersForm' => $filtersForm->createView(),
+                'currentFilters' => is_null($filtersForm->getData()) ? null : $filtersForm->getData(),
+                'currentQuery' => $currentQuery,
+
+
             ]);
         }
 
 
     }
 
-//    #[Route('/catalog/query', name: 'app_catalog_query')]
-//    public function query(Request $request, CatalogParsing $catalogParsing): Response
-//    {
-//
-//        $page = $request->query->get('page');
-//        $query = $request->query->get('query');
-//
-//
-//
-//        if(empty($page))
-//        {
-//            return $this->redirectToRoute('app_catalog_query', ['page' => 1, 'query' => $query], Response::HTTP_SEE_OTHER);
-//        }
-//        else if($page < 1 || $page > 10)
-//        {
-//            throw $this->createNotFoundException('The page does not exist');
-//        }
-//        else
-//        {
-//            $catalogArray = $catalogParsing->queryParsing($page, 'coucou');
-//
-//            usort($catalogArray, function($first,$second){
-//                return strtolower($first->getTitle()) > strtolower($second->getTitle());
-//            });
-//
-//
-//
-//            //shuffle($catalogArray);
-//            return $this->render('catalog/index.html.twig', [
-//                'controller_name' => 'CatalogController',
-//                'catalog' =>  $catalogArray,
-//                'currentPage' => $page,
-//            ]);
-//        }
-
-
-//    }
 }
