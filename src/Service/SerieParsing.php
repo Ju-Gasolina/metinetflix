@@ -4,7 +4,9 @@ namespace App\Service;
 
 use App\Entity\Card;
 use App\Entity\Season;
+use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Component\HttpClient\HttpClient;
+use function PHPUnit\Framework\isEmpty;
 
 class SerieParsing
 {
@@ -113,7 +115,9 @@ class SerieParsing
         $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
 
         $client = HttpClient::create();
-        $response = $client->request('GET', 'https://api.themoviedb.org/3/search/tv?api_key='.$apiKey.'&language=fr-FR&page='.$page.'&query='.$query.'&include_adult=false');        $items = $response->toArray();
+        $response = $client->request('GET', 'https://api.themoviedb.org/3/search/tv?api_key='.$apiKey.'&language=fr-FR&page='.$page.'&query='.$query.'&include_adult=false');
+        $items = $response->toArray();
+
 
         $series = array();
         foreach($items['results'] as $item) {
@@ -155,5 +159,65 @@ class SerieParsing
         }
 
         return $series;
+    }
+
+    public function queryMaker(int $page, array $filters=[], String $sortBy = null):array
+    {
+
+        $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
+        $query =  'https://api.themoviedb.org/3/discover/tv?api_key='.$apiKey.'&language=fr-FR';
+        $keysFilters = array_keys($filters);
+        if(isEmpty($filters) && !is_null($sortBy) ){
+
+            $query .= '&sort_by=' . $this->formateSortBy($sortBy);
+            foreach ($keysFilters as $keyFilter){
+
+                if(gettype($filters[$keyFilter]) === 'object'){
+                    $query .= '&'.$keyFilter.'='.$filters[$keyFilter]->format('Y-m-d');
+                }else if($keyFilter === 'include_adult'){
+                    $query .= '&'.$keyFilter.'=';
+                    $query .= $filters[$keyFilter] ? 'true' : 'false';
+                }
+
+            }
+        }else if(is_null($filters)){
+            $query .= '&sort_by=' . $this->formateSortBy($sortBy);
+        }
+
+
+
+        $client = HttpClient::create();
+        $response = $client
+            ->request(
+                'GET',
+                $query
+            );
+        $items = $response->toArray();
+
+        $series = array();
+        foreach ($items['results'] as $item) {
+            $card = new Card(
+                $item['id'],
+                $item['name'],
+                $item['first_air_date'],
+                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'app_serie_show',
+                'serie');
+            $series[] = $card;
+        }
+
+        return $series;
+    }
+
+
+    function formateSortBy(string $sortBy): string
+    {
+        if($sortBy === 'date.asc'){
+            return 'first_air_date.asc';
+        }elseif($sortBy === 'date.desc'){
+            return 'first_air_date.desc';
+        }
+        return $sortBy;
+
     }
 }

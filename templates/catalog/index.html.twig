@@ -5,49 +5,66 @@
 {% block main %}
 
     <div class="sidebar-container">
-        <div id="sidebar" class="sidebar-filter">
+        <div id="sidebar" class="sidebar-filter container">
             <p class="h4 text-light text-center">Advanced Search</p>
-
-
-
-            <div class="input-group">
-                <label class="input-group-text" for=""><i class="bi bi-funnel"></i></label>
-                <select class="form-select" aria-label="Filter select">
-                    <option selected><i class="bi bi-funnel"></i> Filter</option>
-                    <option value="1">All</option>
-                    <option value="2">Active</option>
-                    <option value="3">Inactive</option>
-                </select>
-            </div>
 
 
             {{ form_start(filtersForm) }}
 
-            <p class="h4 text-light">Sort</p>
 
-            <div id="alphabetical-container" class="container ">
+            <p class="h4 text-light text-center">Sort</p>
+
+            <div id="alphabetical-container" class=" ">
 
 
-                {% for child in filtersForm.alphabetical %}
+                {% for child in filtersForm.sortBy %}
 
                     {{ form_widget(child) }}
-                    {{ form_label(child)}}
+                    {{ form_label(child) }}
 
                 {% endfor %}
             </div>
 
-            <p class="h4 text-light">Filters</p>
+            <p class="h4 text-light text-center">Filters</p>
+
+            <p class="h4 text-light">Release date</p>
+
+            <div class="my-2 ">
+                <div class="input-group d-flex my-2">
+                    <label class="input-group-text label-max-time input-date-label" for=""><i class="bi bi-hourglass-split"></i></label>
+                    {{ form_widget(filtersForm.minDate) }}
+
+                </div>
+                <div class="input-group d-flex my-2">
+                    <label class="input-group-text label-max-time input-date-label" for=""><i class="bi bi-hourglass-split"></i></label>
+                    {{ form_widget(filtersForm.maxDate) }}
+                </div>
+            </div>
+
+
+            <div class="input-group my-2 ">
+                <label class="input-group-text label-max-time" for="filters[maxTime]"><i
+                            class="bi bi-hourglass-split"></i></label>
+                {{ form_widget(filtersForm.maxTime) }}
+            </div>
+
+
+            <div class="my-2">
+                <img src="/assets/img/pegi-18.svg" class="filter-white"/>
+
+                <label class="toggle">
+                    {{ form_widget(filtersForm.includeAdult) }}
+                    <div class="toggle-switch"></div>
+                </label>
+            </div>
+
 
             <div class="mt-2 d-flex align-content-center justify-content-center">
                 {{ form_widget(filtersForm.search) }}
             </div>
 
+
             {{ form_end(filtersForm) }}
-
-
-
-
-
 
         </div>
 
@@ -94,8 +111,8 @@
 
 
     <div class="bottom-buttons">
-        <a href="{{ path('app_catalog_index', {page: currentPage - 1}) }}" class="previous round">&#8249;</a>
-        <a href="{{ path('app_catalog_index', {page: currentPage + 1}) }}" class="next round">&#8250;</a>
+        <a href="{{ path('app_catalog_index', {page: currentPage - 1, query: currentQuery, filters : currentFilters}) }}" class="previous round">&#8249;</a>
+        <a href="{{ path('app_catalog_index', {page: currentPage + 1,  query: currentQuery, filters : currentFilters}) }}" class="next round">&#8250;</a>
     </div>
 
     <script>
@@ -108,18 +125,18 @@
         let alphabeticalContainer = document.getElementById("alphabetical-container");
         let checkedBox = document.querySelector('input[name="filters[alphabetical]"]:checked');
 
-        if(checkedBox){
+        if (checkedBox) {
             let label = checkedBox.nextElementSibling;
-            label.style.backgroundColor= '#8B1489';
+            label.style.backgroundColor = '#8B1489';
             checkedBox.style.backgroundColor = '#8B1489';
         }
 
         console.log(checkedBox);
 
-        alphabeticalContainer.childNodes.forEach((node)=>{
+        alphabeticalContainer.childNodes.forEach((node) => {
 
-            if(node.tagName === 'LABEL'){
-                node.addEventListener('click', ()=>{
+            if (node.tagName === 'LABEL') {
+                node.addEventListener('click', () => {
                     console.log('click');
                     resetRadioButtons();
                     node.style.backgroundColor = '#8B1489';
@@ -131,21 +148,20 @@
         })
 
 
-        burgerBtn.addEventListener('click',()=>{
-            if(isOpenSideBar){
+        burgerBtn.addEventListener('click', () => {
+            if (isOpenSideBar) {
                 burgerBtn.style.flexDirection = 'row'
                 sidebar.style.display = 'block';
-                for(let item of burgerLines){
+                for (let item of burgerLines) {
                     item.classList.remove('sidebar-lines-close')
                     item.classList.add('sidebar-lines-open')
 
                 }
                 isOpenSideBar = !isOpenSideBar
-            }
-            else{
+            } else {
                 burgerBtn.style.flexDirection = 'column'
                 sidebar.style.display = 'none'
-                for(let item of burgerLines){
+                for (let item of burgerLines) {
                     item.classList.remove('sidebar-lines-open')
                     item.classList.add('sidebar-lines-close');
                 }
@@ -155,19 +171,15 @@
 
         })
 
-        function resetRadioButtons(){
-            alphabeticalContainer.childNodes.forEach((node)=>{
-                if(node.tagName === 'LABEL'){
+        function resetRadioButtons() {
+            alphabeticalContainer.childNodes.forEach((node) => {
+                if (node.tagName === 'LABEL') {
                     node.style.backgroundColor = '#202529';
                 }
 
 
             })
         }
-        
-
-
-
 
 
     </script>

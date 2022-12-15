@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
+use function PHPUnit\Framework\isEmpty;
 
 class CatalogParsing
 {
@@ -47,6 +48,7 @@ class CatalogParsing
         $serieParsing = new SerieParsing();
         $movieParsing = new MovieParsing();
 
+
         if($sortBy !== 'none') {
             if ($sortBy === 'date.asc') {
                 $arrayMovies = $movieParsing->sortParsing($page, 'release_date.asc');
@@ -68,4 +70,38 @@ class CatalogParsing
 
 
     }
+
+    public function filtersParsing(int $page, array $filtersList)
+    {
+        $serieParsing = new SerieParsing();
+        $movieParsing = new MovieParsing();
+
+        //TODO Format de la date dans l'api : 1920-03-11
+        if(isEmpty($filtersList)) {
+
+        }else {
+            $arrayMovies = $movieParsing->popularParsing($page);
+            $arraySeries = $serieParsing->popularParsing($page);
+        }
+
+
+        return array_merge($arrayMovies, $arraySeries);
+
+
+    }
+
+    public function queryMaker(int $page, array $filters = [] ,string $sortBy=null ){
+        $serieParsing = new SerieParsing();
+        $movieParsing = new MovieParsing();
+
+        $arrayMovies = $movieParsing->queryMaker($page,$filters,$sortBy);
+        $arraySeries = $serieParsing->queryMaker($page,$filters,$sortBy);
+
+
+        return array_merge($arrayMovies, $arraySeries);
+
+    }
+
+
+
 }
