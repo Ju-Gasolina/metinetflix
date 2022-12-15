@@ -103,7 +103,6 @@ class CatalogController extends AbstractController
                 'currentFilters' => is_null($filtersForm->getData()) ? null : $filtersForm->getData(),
                 'currentQuery' => $currentQuery,
 
-
             ]);
         }
 
