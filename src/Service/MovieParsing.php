@@ -8,6 +8,7 @@ use PhpParser\Node\Expr\Array_;
 use Symfony\Component\HttpClient\HttpClient;
 use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isNull;
+use App\Entity\Movie;
 
 class MovieParsing
 {
@@ -25,7 +26,7 @@ class MovieParsing
                 $item['id'],
                 $item['title'],
                 $item['release_date'],
-                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_movie_show',
                 'movie');
             $movies[] = $card;
@@ -48,7 +49,7 @@ class MovieParsing
                 $item['id'],
                 $item['title'],
                 $item['release_date'],
-                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_movie_show',
                 'movie');
             $movies[] = $card;
@@ -71,7 +72,7 @@ class MovieParsing
                 $item['id'],
                 $item['title'],
                 $item['release_date'],
-                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_movie_show',
                 'movie');
             $movies[] = $card;
@@ -103,15 +104,15 @@ class MovieParsing
          $item['belongs_to_collection']['id'] ?? 0,
          $item['belongs_to_collection']['name'] ?? 'Aucune',
          $item['belongs_to_collection']['release_date'] ?? 0,
-         'https://image.tmdb.org/t/p/original/' . ($item['belongs_to_collection']['backdrop_path'] ?? ""),
+         'https://image.tmdb.org/t/p/original' . ($item['belongs_to_collection']['backdrop_path'] ?? ""),
          'app_saga_show',
          'saga' );
 
         $movie = array(
             'id' => $item['id'],
             'title' => $item['title'],
-            'backdrop_path' => 'https://image.tmdb.org/t/p/original/' . $item['backdrop_path'],
-            'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+            'backdrop_path' => 'https://image.tmdb.org/t/p/original' . $item['backdrop_path'],
+            'poster_path' => 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
             'original_title' => $item['original_title'],
             'original_language' => $item['original_language'],
             'release_date' => $item['release_date'],
@@ -122,6 +123,20 @@ class MovieParsing
             'type' => 'movie');
 
         return $movie;
+    }
+
+    public function movieCardParsing(Movie $movie): Card
+    {
+        $card = new Card(
+            $movie->getIdTMDB(),
+            $movie->getName(),
+            $movie->getReleaseDate(),
+            $movie->getPosterPath(),
+            'app_movie_show',
+            'movie'
+        );
+
+        return $card;
     }
 
     public function sortParsing(int $page, String $sortBy):array
@@ -143,7 +158,7 @@ class MovieParsing
                 $item['id'],
                 $item['title'],
                 $item['release_date'],
-                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_movie_show',
                 'movie');
             $movies[] = $card;
@@ -195,7 +210,7 @@ class MovieParsing
                 $item['id'],
                 $item['title'],
                 $item['release_date'],
-                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_movie_show',
                 'movie');
             $movies[] = $card;

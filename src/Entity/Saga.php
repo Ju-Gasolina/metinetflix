@@ -19,6 +19,9 @@ class Saga
     #[ORM\Column]
     private ?int $idTMDB = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $poster_path = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class Saga
     public function setIdTMDB(int $idTMDB): self
     {
         $this->idTMDB = $idTMDB;
+
+        return $this;
+    }
+
+    public function getPosterPath(): ?string
+    {
+        return $this->poster_path;
+    }
+
+    public function setPosterPath(string $poster_path): self
+    {
+        $this->poster_path = $poster_path;
 
         return $this;
     }

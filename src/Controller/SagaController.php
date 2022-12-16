@@ -52,7 +52,7 @@ class SagaController extends AbstractController
                     $item['id'],
                     $item['name'],
                     $item['release_date'] ?? 0,
-                    'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                    $item['poster_path'],
                     'app_saga_show',
                     'saga');
                 $sagas[] = $saga;
@@ -80,6 +80,7 @@ class SagaController extends AbstractController
             $saga = new Saga();
             $saga->setName($result['name']);
             $saga->setIdTMDB($result['id']);
+            $saga->setPosterPath($result['poster_path']);
             $sagaRepository->save($saga, true);
 
             foreach($result['movies'] as $part)
@@ -97,6 +98,8 @@ class SagaController extends AbstractController
                     $movie->setGenres(json_encode($result2['genres']));
                     $movie->setName($result2['original_title']);
                     $movie->setDuration($result2['runtime']);
+                    $movie->setReleaseDate($result2['release_date']);
+                    $movie->setPosterPath($result2['poster_path']);
                     $movie->setIdTMDB($result2['id']);
                     $movie->setSaga($saga);
                     $movieRepository->save($movie, true);
@@ -113,7 +116,7 @@ class SagaController extends AbstractController
         $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
         $flush = false;
         $cpt = $popularPage;
-        $limit = 10;
+        $limit = 5;
 
         do
         {
@@ -141,6 +144,7 @@ class SagaController extends AbstractController
                         $saga = new Saga();
                         $saga->setName($result['name']);
                         $saga->setIdTMDB($result['id']);
+                        $saga->setPosterPath($result['poster_path']);
                         $sagaRepository->save($saga);
                     }
                 }

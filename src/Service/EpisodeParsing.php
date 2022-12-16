@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\Episode;
 use Symfony\Component\HttpClient\HttpClient;
+use App\Entity\Card;
 
 class EpisodeParsing
 {
@@ -21,7 +23,7 @@ class EpisodeParsing
         $episode = array(
             'id' => $idTV.'-'.$seasonNumber.'-'.$episodeNumber,
             'name' => $item['name'],
-            'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item2['poster_path'],
+            'poster_path' => 'https://image.tmdb.org/t/p/original' . $item2['poster_path'],
             'season_number' => $item['season_number'],
             'episode_number' => $item['episode_number'],
             'air_date' => $item['air_date'],
@@ -29,4 +31,19 @@ class EpisodeParsing
             'type' => 'episode');
 
         return $episode;
-    }}
+    }
+
+    public function episodeCardParsing(Episode $episode): Card
+    {
+        $card = new Card(
+            $episode->getIdTMDB(),
+            $episode->getName(),
+            $episode->getAirDate(),
+            $episode->getPosterPath(),
+            'app_episode_show',
+            'episode'
+        );
+
+        return $card;
+    }
+}

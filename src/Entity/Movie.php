@@ -31,6 +31,12 @@ class Movie
     #[ORM\Column]
     private ?int $idTMDB = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $release_date = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $poster_path = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +98,30 @@ class Movie
     public function setIdTMDB(int $idTMDB): self
     {
         $this->idTMDB = $idTMDB;
+
+        return $this;
+    }
+
+    public function getReleaseDate(): ?string
+    {
+        return $this->release_date;
+    }
+
+    public function setReleaseDate(string $release_date): self
+    {
+        $this->release_date = $release_date;
+
+        return $this;
+    }
+
+    public function getPosterPath(): ?string
+    {
+        return $this->poster_path;
+    }
+
+    public function setPosterPath(string $poster_path): self
+    {
+        $this->poster_path = $poster_path;
 
         return $this;
     }

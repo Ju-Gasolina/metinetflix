@@ -275,7 +275,8 @@
 
 
 
-/*SEARCHBAR*/
+
+
 
 .poster-on-banner
 {
@@ -301,4 +302,10 @@
 .translate-block-for-poster-on-banner
 {
     transform: translateY(-300px);
+}
+
+.watchlist-card{
+    height: 100px;
+    background-color: white;
+    padding-left: 100px;
 }

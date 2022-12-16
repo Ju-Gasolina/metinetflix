@@ -4,6 +4,7 @@ namespace App\Service;
 
 
 use App\Entity\Card;
+use App\Entity\Saga;
 use Symfony\Component\HttpClient\HttpClient;
 
 class SagaParsing
@@ -24,7 +25,7 @@ class SagaParsing
                 $movie['id'],
                 $movie['title'],
                 $movie['release_date'] ?? "",
-                'https://image.tmdb.org/t/p/original/' . $movie['poster_path'],
+                'https://image.tmdb.org/t/p/original' . $movie['poster_path'],
                 'app_movie_show',
                 'movie');
             $movies[] = $card;
@@ -33,12 +34,26 @@ class SagaParsing
         $saga = array(
             'id' => $item['id'],
             'name' => $item['name'],
-            'backdrop_path' => 'https://image.tmdb.org/t/p/original/' . $item['backdrop_path'],
-            'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+            'backdrop_path' => 'https://image.tmdb.org/t/p/original' . $item['backdrop_path'],
+            'poster_path' => 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
             'overview' => $overview,
             'movies' => $movies,
             'type' => 'saga');
 
         return $saga;
+    }
+
+    public function sagaCardParsing(Saga $saga): Card
+    {
+        $card = new Card(
+            $saga->getIdTMDB(),
+            $saga->getName(),
+            '[Pas de release_date pour les sagas]',
+            $saga->getPosterPath(),
+            'app_saga_show',
+            'saga'
+        );
+
+        return $card;
     }
 }

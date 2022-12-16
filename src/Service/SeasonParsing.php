@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Card;
+use App\Entity\Season;
 use Symfony\Component\HttpClient\HttpClient;
 
 class SeasonParsing
@@ -22,7 +23,7 @@ class SeasonParsing
                 $idTV.'-'.$seasonNumber.'-'.$episode['episode_number'],
                 $episode['name'],
                 $episode['air_date'] ?? "",
-                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_episode_show',
                 'episode');
             $episodes[] = $card;
@@ -31,7 +32,7 @@ class SeasonParsing
         $season = array(
             'id' => $idTV.'-'.$seasonNumber,
             'name' => $item['name'],
-            'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+            'poster_path' => 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
             'season_number' => $item['season_number'],
             'air_date' => $item['air_date'],
             'number_of_episodes' => count($item['episodes']),
@@ -40,5 +41,19 @@ class SeasonParsing
             'type' => 'season');
 
         return $season;
+    }
+
+    public function seasonCardParsing(Season $season): Card
+    {
+        $card = new Card(
+            $season->getIdTMDB(),
+            $season->getName(),
+            $season->getAirDate(),
+            $season->getPosterPath(),
+            'app_season_show',
+            'season'
+        );
+
+        return $card;
     }
 }

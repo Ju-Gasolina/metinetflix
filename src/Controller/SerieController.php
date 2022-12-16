@@ -50,6 +50,8 @@ class SerieController extends AbstractController
             $serie = new Serie();
             $serie->setGenres(json_encode($result['genres']));
             $serie->setName($result['original_name']);
+            $serie->setFirstAirDate($result['first_air_date']);
+            $serie->setPosterPath($result['poster_path']);
             $serie->setIdTMDB($result['id']);
             $serieRepository->save($serie, true);
         }

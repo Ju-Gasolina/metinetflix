@@ -3,8 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Card;
-use App\Entity\Season;
-use phpDocumentor\Reflection\Types\Array_;
+use App\Entity\Serie;
 use Symfony\Component\HttpClient\HttpClient;
 use function PHPUnit\Framework\isEmpty;
 
@@ -24,7 +23,7 @@ class SerieParsing
                 $item['id'],
                 $item['name'],
                 $item['first_air_date'],
-                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_serie_show',
                 'serie');
             $series[] = $card;
@@ -47,7 +46,7 @@ class SerieParsing
                 $item['id'],
                 $item['name'],
                 $item['first_air_date'],
-                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_serie_show',
                 'serie');
             $series[] = $card;
@@ -84,7 +83,7 @@ class SerieParsing
                 $item['id'].'-'.$season['season_number'],
                 $season['name'],
                 $season['air_date'] ?? "",
-                'https://image.tmdb.org/t/p/original/' . $season['poster_path'],
+                'https://image.tmdb.org/t/p/original' . $season['poster_path'],
                 'app_season_show',
                 'season');
             $seasons[] = $card;
@@ -93,8 +92,8 @@ class SerieParsing
         $serie = array(
             'id' => $item['id'],
             'name' => $item['name'],
-            'backdrop_path' => 'https://image.tmdb.org/t/p/original/' . $item['backdrop_path'],
-            'poster_path' => 'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+            'backdrop_path' => 'https://image.tmdb.org/t/p/original' . $item['backdrop_path'],
+            'poster_path' => 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
             'original_name' => $item['original_name'],
             'original_language' => $item['original_language'],
             'first_air_date' => $item['first_air_date'],
@@ -108,6 +107,20 @@ class SerieParsing
             'type' => 'serie');
 
         return $serie;
+    }
+
+    public function serieCardParsing(Serie $serie): Card
+    {
+        $card = new Card(
+            $serie->getIdTMDB(),
+            $serie->getName(),
+            $serie->getFirstAirDate(),
+            $serie->getPosterPath(),
+            'app_serie_show',
+            'serie'
+        );
+
+        return $card;
     }
 
     function queryParsing(int $page, String $query): array
@@ -125,7 +138,7 @@ class SerieParsing
                 $item['id'],
                 $item['name'],
                 $item['first_air_date'],
-                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_serie_show',
                 'serie');
             $series[] = $card;
@@ -152,7 +165,7 @@ class SerieParsing
                 $item['id'],
                 $item['name'],
                 $item['first_air_date'],
-                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_serie_show',
                 'serie');
             $series[] = $card;
@@ -200,7 +213,7 @@ class SerieParsing
                 $item['id'],
                 $item['name'],
                 $item['first_air_date'],
-                'https://image.tmdb.org/t/p/original/' . $item['poster_path'],
+                'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_serie_show',
                 'serie');
             $series[] = $card;

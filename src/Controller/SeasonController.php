@@ -39,6 +39,8 @@ class SeasonController extends AbstractController
                 $serie = new Serie();
                 $serie->setGenres(json_encode($result2['genres']));
                 $serie->setName($result2['original_name']);
+                $serie->setFirstAirDate($result2['first_air_date']);
+                $serie->setPosterPath($result2['poster_path']);
                 $serie->setIdTMDB($result2['id']);
                 $serieRepository->save($serie, true);
             }
@@ -50,6 +52,8 @@ class SeasonController extends AbstractController
             $season = new Season();
             $season->setName($result['name']);
             $season->setSerie($serie);
+            $season->setAirDate($result['air_date']);
+            $season->setPosterPath($result['poster_path']);
             $season->setIdTMDB($idTMDB);
             $seasonRepository->save($season, true);
         }

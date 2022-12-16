@@ -29,6 +29,12 @@ class Episode
     #[ORM\Column]
     private ?string $idTMDB = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $air_date = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $poster_path = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -78,6 +84,30 @@ class Episode
     public function setIdTMDB(string $idTMDB): self
     {
         $this->idTMDB = $idTMDB;
+
+        return $this;
+    }
+
+    public function getAirDate(): ?string
+    {
+        return $this->air_date;
+    }
+
+    public function setAirDate(string $air_date): self
+    {
+        $this->air_date = $air_date;
+
+        return $this;
+    }
+
+    public function getPosterPath(): ?string
+    {
+        return $this->poster_path;
+    }
+
+    public function setPosterPath(string $poster_path): self
+    {
+        $this->poster_path = $poster_path;
 
         return $this;
     }

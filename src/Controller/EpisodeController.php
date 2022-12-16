@@ -41,6 +41,8 @@ class EpisodeController extends AbstractController
                 $serie = new Serie();
                 $serie->setGenres(json_encode($result3['genres']));
                 $serie->setName($result3['original_name']);
+                $serie->setFirstAirDate($result3['first_air_date']);
+                $serie->setPosterPath($result3['poster_path']);
                 $serie->setIdTMDB($result3['id']);
                 $serieRepository->save($serie, true);
             }
@@ -57,6 +59,8 @@ class EpisodeController extends AbstractController
                 $season = new Season();
                 $season->setName($result2['name']);
                 $season->setSerie($serie);
+                $season->setAirDate($result2['air_date']);
+                $season->setPosterPath($result2['poster_path']);
                 $season->setIdTMDB($idTMDB);
                 $seasonRepository->save($season, true);
             }
@@ -69,6 +73,8 @@ class EpisodeController extends AbstractController
             $episode->setName($result['name']);
             $episode->setSerie($serie);
             $episode->setSeason($season);
+            $episode->setAirDate($result['air_date']);
+            $episode->setPosterPath($result['poster_path']);
             $episode->setIdTMDB($idTMDB);
             $episodeRepository->save($episode, true);
         }

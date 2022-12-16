@@ -55,6 +55,8 @@ class MovieController extends AbstractController
             $movie->setGenres(json_encode($result['genres']));
             $movie->setName($result['original_title']);
             $movie->setDuration($result['runtime']);
+            $movie->setReleaseDate($result['release_date']);
+            $movie->setPosterPath($result['poster_path']);
             $movie->setIdTMDB($result['id']);
 
             if(isset($result['belongs_to_collection']))
@@ -70,6 +72,7 @@ class MovieController extends AbstractController
                     //Saga creation
                     $saga = new Saga();
                     $saga->setName($result2['name']);
+                    $saga->setPosterPath($result2['poster_path']);
                     $saga->setIdTMDB($result2['id']);
                     $sagaRepository->save($saga, true);
                 }
