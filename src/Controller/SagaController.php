@@ -52,7 +52,7 @@ class SagaController extends AbstractController
                     $item['id'],
                     $item['name'],
                     $item['release_date'] ?? 0,
-                    $item['poster_path'],
+                    'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                     'app_saga_show',
                     'saga');
                 $sagas[] = $saga;
