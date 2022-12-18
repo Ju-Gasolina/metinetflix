@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\WatchlistItem;
 use App\Repository\WatchlistItemRepository;
+use App\Form\WatchlistItemType;
 use App\Service\EpisodeParsing;
 use App\Service\MovieParsing;
 use App\Service\SagaParsing;
@@ -111,8 +112,10 @@ class WatchlistItemController extends AbstractController
         return $this->redirectToRoute('app_watchlist_show', ['id' => $watchlist->getId()]);
     }
 
-    #[Route('/{id}', name: 'app_watchlist_item_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_watchlist_item_show', methods: ['GET', 'POST'])]
     public function show(Int $id,
+                         Request $request,
+                         WatchlistItem $watchlistItem,
                          WatchlistItemRepository $watchlistItemRepository,
                          MovieParsing $movieParsing,
                          SerieParsing $serieParsing,
@@ -121,33 +124,41 @@ class WatchlistItemController extends AbstractController
                          SagaParsing $sagaParsing
     ): Response
     {
-        $watchlistItem = $watchlistItemRepository->find($id);
+        $result = $watchlistItemRepository->find($id);
 
-        switch($watchlistItem->getItemType())
+        switch($result->getItemType())
         {
             case 'movie':
-                $watchlistCard = $movieParsing->movieWatchlistCardParsing($watchlistItem->getId(), $watchlistItem->getMovie());
+                $watchlistCard = $movieParsing->movieWatchlistCardParsing($result->getId(), $result->getMovie());
                 break;
 
             case 'serie':
-                $watchlistCard = $serieParsing->serieWatchlistCardParsing($watchlistItem->getId(),$watchlistItem->getSerie());
+                $watchlistCard = $serieParsing->serieWatchlistCardParsing($result->getId(), $result->getSerie());
                 break;
 
             case 'season':
-                $watchlistCard = $seasonParsing->seasonWatchlistCardParsing($watchlistItem->getId(),$watchlistItem->getSeason());
+                $watchlistCard = $seasonParsing->seasonWatchlistCardParsing($result->getId(), $result->getSeason());
                 break;
 
             case 'episode':
-                $watchlistCard = $episodeParsing->episodeWatchlistCardParsing($watchlistItem->getId(),$watchlistItem->getEpisode());
+                $watchlistCard = $episodeParsing->episodeWatchlistCardParsing($result->getId(), $result->getEpisode());
                 break;
 
             case 'saga':
-                $watchlistCard = $sagaParsing->sagaWatchlistCardParsing($watchlistItem->getId(),$watchlistItem->getSaga());
+                $watchlistCard = $sagaParsing->sagaWatchlistCardParsing($result->getId(), $result->getSaga());
                 break;
+        }
+
+        $form = $this->createForm(WatchlistItemType::class, $result);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $watchlistItemRepository->save($watchlistItem, true);
         }
 
         return $this->render('watchlist_item/show.html.twig', [
             'watchlistCard' => $watchlistCard,
+            'form' => $form->createView(),
         ]);
     }
 }
