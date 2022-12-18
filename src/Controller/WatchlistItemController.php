@@ -4,6 +4,11 @@ namespace App\Controller;
 
 use App\Entity\WatchlistItem;
 use App\Repository\WatchlistItemRepository;
+use App\Service\EpisodeParsing;
+use App\Service\MovieParsing;
+use App\Service\SagaParsing;
+use App\Service\SeasonParsing;
+use App\Service\SerieParsing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -106,13 +111,43 @@ class WatchlistItemController extends AbstractController
         return $this->redirectToRoute('app_watchlist_show', ['id' => $watchlist->getId()]);
     }
 
-    #[Route('/{id}', name: 'app_watchlist_item_delete', methods: ['POST'])]
-    public function delete(Request $request, WatchlistItem $watchlistItem, WatchlistItemRepository $watchlistItemRepository): Response
+    #[Route('/{id}', name: 'app_watchlist_item_show', methods: ['GET'])]
+    public function show(Int $id,
+                         WatchlistItemRepository $watchlistItemRepository,
+                         MovieParsing $movieParsing,
+                         SerieParsing $serieParsing,
+                         SeasonParsing $seasonParsing,
+                         EpisodeParsing $episodeParsing,
+                         SagaParsing $sagaParsing
+    ): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$watchlistItem->getId(), $request->request->get('_token'))) {
-            $watchlistItemRepository->remove($watchlistItem, true);
+        $watchlistItem = $watchlistItemRepository->find($id);
+
+        switch($watchlistItem->getItemType())
+        {
+            case 'movie':
+                $watchlistCard = $movieParsing->movieWatchlistCardParsing($watchlistItem->getId(), $watchlistItem->getMovie());
+                break;
+
+            case 'serie':
+                $watchlistCard = $serieParsing->serieWatchlistCardParsing($watchlistItem->getId(),$watchlistItem->getSerie());
+                break;
+
+            case 'season':
+                $watchlistCard = $seasonParsing->seasonWatchlistCardParsing($watchlistItem->getId(),$watchlistItem->getSeason());
+                break;
+
+            case 'episode':
+                $watchlistCard = $episodeParsing->episodeWatchlistCardParsing($watchlistItem->getId(),$watchlistItem->getEpisode());
+                break;
+
+            case 'saga':
+                $watchlistCard = $sagaParsing->sagaWatchlistCardParsing($watchlistItem->getId(),$watchlistItem->getSaga());
+                break;
         }
 
-        return $this->redirectToRoute('app_watchlist_item_index', [], Response::HTTP_SEE_OTHER);
+        return $this->render('watchlist_item/show.html.twig', [
+            'watchlistCard' => $watchlistCard,
+        ]);
     }
 }

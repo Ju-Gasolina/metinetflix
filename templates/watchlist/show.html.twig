@@ -6,6 +6,7 @@
     {% for watchlistItem in watchlistItems %}
         {{ component('watchlist-card', {
             id: watchlistItem.id,
+            idTMDB: watchlistItem.idTMDB,
             title: watchlistItem.title,
             posterPath: watchlistItem.posterPath,
             pathName: watchlistItem.pathName,
