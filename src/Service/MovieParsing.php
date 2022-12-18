@@ -3,11 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Card;
-use mysql_xdevapi\Warning;
-use PhpParser\Node\Expr\Array_;
+use App\Entity\WatchlistCard;
 use Symfony\Component\HttpClient\HttpClient;
-use function PHPUnit\Framework\isEmpty;
-use function PHPUnit\Framework\isNull;
 use App\Entity\Movie;
 
 class MovieParsing
@@ -125,9 +122,10 @@ class MovieParsing
         return $movie;
     }
 
-    public function movieCardParsing(Movie $movie): Card
+    public function movieWatchlistCardParsing(String $id, Movie $movie): WatchlistCard
     {
-        $card = new Card(
+        $watchlistCard = new WatchlistCard(
+            $id,
             $movie->getIdTMDB(),
             $movie->getName(),
             $movie->getReleaseDate(),
@@ -136,7 +134,7 @@ class MovieParsing
             'movie'
         );
 
-        return $card;
+        return $watchlistCard;
     }
 
     public function sortParsing(int $page, String $sortBy):array

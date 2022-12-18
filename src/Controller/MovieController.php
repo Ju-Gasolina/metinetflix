@@ -59,7 +59,7 @@ class MovieController extends AbstractController
             $movie->setPosterPath($result['poster_path']);
             $movie->setIdTMDB($result['id']);
 
-            if(isset($result['belongs_to_collection']))
+            if(!empty($result['belongs_to_collection']->id))
             {
                 //Saga find request
                 $saga = $sagaRepository->findOneBy(["idTMDB" => $result['belongs_to_collection']->getId()]);

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Watchlist item{% endblock %}
+
+{% block main %}
+    {{ component('watchlist-card', {
+        id: watchlistCard.id,
+        idTMDB: watchlistCard.idTMDB,
+        title: watchlistCard.title,
+        posterPath: watchlistCard.posterPath,
+        pathName: watchlistCard.pathName,
+        type: watchlistCard.type
+    }) }}
+{% endblock %}
