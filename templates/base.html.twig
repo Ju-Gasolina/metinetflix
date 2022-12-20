@@ -1,3 +1,5 @@
+{% set currentRoute = app.request.pathinfo %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,52 +33,58 @@
             <ul class="nav col-12 col-lg-auto my-2
                         justify-content-center my-md-0 h6">
                 <li>
-                    <a href="/" class="nav-link
-                                text-secondary">
+                    <a href="/" class="nav-link nav-bar-text
+                        {% if currentRoute  == '/' %} text-secondary {% endif %}">
                         <i class="bi bi-house"></i>
                         Accueil
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path('app_catalog_index') }}" class="nav-link text-white">
+                    <a href="{{ path('app_catalog_index') }}" class="nav-link nav-bar-text
+                         {% if '/catalog' in currentRoute %} text-secondary {% endif %}">
                         <i class="bi bi-view-list"></i>
                         Catalogue
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path('app_serie_index') }}" class="nav-link text-white">
+                    <a href="{{ path('app_serie_index') }}" class="nav-link nav-bar-text
+                        {% if '/serie' in currentRoute %} text-secondary {% endif %}">
                         <i class="bi bi-collection-play"></i>
                         Séries
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path('app_movie_index') }}" class="nav-link text-white">
+                    <a href="{{ path('app_movie_index') }}" class="nav-link nav-bar-text
+                        {% if '/movie' in currentRoute %} text-secondary {% endif %}">
                         <i class="bi bi-film"></i>
                         Films
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path('app_saga_index') }}" class="nav-link text-white">
+                    <a href="{{ path('app_saga_index') }}" class="nav-link nav-bar-text
+                        {% if '/saga' in currentRoute %} text-secondary {% endif %}">
                         <i class="bi bi-collection"></i>
                         Sagas
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path('app_saga_fill_db', {'popularPage': 1}) }}" class="nav-link text-white">
+                    <a href="{{ path('app_saga_fill_db', {'popularPage': 1}) }}" class="nav-link nav-bar-text
+                        {% if currentRoute  == '/' %} text-secondary {% endif %}">
                         <i class="bi bi-download"></i>
-                        Remplissage de la BDD (sagas)
+                        Remplissage BDD (sagas)
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle"></i>
-                        Mon compte
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">???</a></li>
-                        <li><a class="dropdown-item" href="#">???</a></li>
-                        <li><a class="dropdown-item" href="#">???</a></li>
-                    </ul>
+                    <div class="dropdown">
+                        <button class="button-basic-custom dropdown-toggle h6 mx-3" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                            Mon compte
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                            <li><a class="dropdown-item active" href="#">Watchlist</a></li>
+                            <li><a class="dropdown-item" href="#">Profil</a></li>
+                            <li><a class="dropdown-item" href="#">Paramètre de compte</a></li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
                     <div id="nav-btn" class="d-flex flex-column h-100 align-content-center">
