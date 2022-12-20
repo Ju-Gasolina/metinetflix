@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Card;
+use App\Entity\WatchlistCard;
 use App\Entity\Serie;
 use Symfony\Component\HttpClient\HttpClient;
 use function PHPUnit\Framework\isEmpty;
@@ -109,9 +110,10 @@ class SerieParsing
         return $serie;
     }
 
-    public function serieCardParsing(Serie $serie): Card
+    public function serieWatchlistCardParsing(String $id, Serie $serie): WatchlistCard
     {
-        $card = new Card(
+        $watchlistCard = new WatchlistCard(
+            $id,
             $serie->getIdTMDB(),
             $serie->getName(),
             $serie->getFirstAirDate(),
@@ -120,7 +122,7 @@ class SerieParsing
             'serie'
         );
 
-        return $card;
+        return $watchlistCard;
     }
 
     function queryParsing(int $page, String $query): array

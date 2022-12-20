@@ -4,6 +4,7 @@ namespace App\Service;
 
 
 use App\Entity\Card;
+use App\Entity\WatchlistCard;
 use App\Entity\Saga;
 use Symfony\Component\HttpClient\HttpClient;
 
@@ -43,9 +44,10 @@ class SagaParsing
         return $saga;
     }
 
-    public function sagaCardParsing(Saga $saga): Card
+    public function sagaWatchlistCardParsing(String $id, Saga $saga): WatchlistCard
     {
-        $card = new Card(
+        $watchlistCard = new WatchlistCard(
+            $id,
             $saga->getIdTMDB(),
             $saga->getName(),
             '[Pas de release_date pour les sagas]',
@@ -54,6 +56,6 @@ class SagaParsing
             'saga'
         );
 
-        return $card;
+        return $watchlistCard;
     }
 }

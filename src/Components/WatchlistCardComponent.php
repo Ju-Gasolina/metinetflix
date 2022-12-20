@@ -8,6 +8,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 class WatchlistCardComponent
 {
     public String $id;
+    public String $idTMDB;
     public String $title;
     public String $posterPath;
     public String $pathName;

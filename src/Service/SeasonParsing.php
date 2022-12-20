@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Card;
+use App\Entity\WatchlistCard;
 use App\Entity\Season;
 use Symfony\Component\HttpClient\HttpClient;
 
@@ -43,9 +44,10 @@ class SeasonParsing
         return $season;
     }
 
-    public function seasonCardParsing(Season $season): Card
+    public function seasonWatchlistCardParsing(String $id, Season $season): WatchlistCard
     {
-        $card = new Card(
+        $watchlistCard = new WatchlistCard(
+            $id,
             $season->getIdTMDB(),
             $season->getName(),
             $season->getAirDate(),
@@ -54,6 +56,6 @@ class SeasonParsing
             'season'
         );
 
-        return $card;
+        return $watchlistCard;
     }
 }

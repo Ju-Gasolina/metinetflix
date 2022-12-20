@@ -36,27 +36,27 @@ class WatchlistController extends AbstractController
             switch($item->getItemType())
             {
                 case 'movie':
-                    $card = $movieParsing->movieCardParsing($item->getMovie());
+                    $watchlistCard = $movieParsing->movieWatchlistCardParsing($item->getId(), $item->getMovie());
                     break;
 
                 case 'serie':
-                    $card = $serieParsing->serieCardParsing($item->getSerie());
+                    $watchlistCard = $serieParsing->serieWatchlistCardParsing($item->getId(),$item->getSerie());
                     break;
 
                 case 'season':
-                    $card = $seasonParsing->seasonCardParsing($item->getSeason());
+                    $watchlistCard = $seasonParsing->seasonWatchlistCardParsing($item->getId(),$item->getSeason());
                     break;
 
                 case 'episode':
-                    $card = $episodeParsing->episodeCardParsing($item->getEpisode());
+                    $watchlistCard = $episodeParsing->episodeWatchlistCardParsing($item->getId(),$item->getEpisode());
                     break;
 
                 case 'saga':
-                    $card = $sagaParsing->sagaCardParsing($item->getSaga());
+                    $watchlistCard = $sagaParsing->sagaWatchlistCardParsing($item->getId(),$item->getSaga());
                     break;
             }
 
-            $watchlistItems[] = $card;
+            $watchlistItems[] = $watchlistCard;
         }
 
         return $this->render('watchlist/show.html.twig', [
