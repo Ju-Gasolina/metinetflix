@@ -1,7 +1,7 @@
 <h1 class="text-white text-center mt-2">{{ this.title }}</h1>
-<div class="container pb-5 pt-5 ">
+<div class="container pb-5 pt-5 scrollbar-custom ">
     <div class="row">
-        <div class="d-flex flex-row flex-nowrap overflow-auto">
+        <div class="scrollbar-custom d-flex flex-row flex-nowrap overflow-auto pb-2">
             {% for item in this.items %}
                 {{ component('carousel-card', {
                     id: item.id,
