@@ -1,4 +1,4 @@
-<div class="row watchlist-card">
+<div class="row watchlist-card mb-2">
     <div class="col-1 ">
         <a href="{{ path(this.pathName, {id: this.idTMDB}) }}" title="Cliquez pour voir les informations détaillées">
             <img class="" src="{{ this.posterPath }}" alt="{{ this.title }}">
@@ -7,7 +7,11 @@
 
     <div class="col-10 watchlist-card-infos">
         <div class="d-flex flex-row ">
-            <i class="me-3 bi bi-collection-play text-light h3"></i>
+            {% if this.type == 'serie' %}  <i class="me-3 bi bi-collection-play text-light h3"></i>
+            {% elseif this.type == 'movie' %}  <i class="me-3 bi bi-film text-light h3"></i>
+            {% else %}  <i class="me-3 bi bi-0-circle text-light h3"></i>
+            {% endif %}
+
             <h4 class="text-truncate ">{{ this.title }}</h4>
         </div>
 
