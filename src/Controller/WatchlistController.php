@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,10 +14,17 @@ use App\Service\SerieParsing;
 use App\Service\SeasonParsing;
 use App\Service\EpisodeParsing;
 use App\Service\SagaParsing;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('/watchlist')]
 class WatchlistController extends AbstractController
 {
+    #[NoReturn] #[Route('/', name: 'app_watchlist_index', methods: ['GET'])]
+    public function index(Security $security){
+        $user = $security->getUser();
+        dd($user);
+    }
+
     #[Route('/{id}', name: 'app_watchlist_show', methods: ['GET'])]
     public function show(Int $id,
                          WatchlistItemRepository $watchlistItemRepository,

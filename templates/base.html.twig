@@ -1,5 +1,11 @@
 {% set currentRoute = app.request.pathinfo %}
 
+{% if is_granted('ROLE_USER') %}
+
+    <div> CONNECTED </div>
+
+{% endif %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,7 +86,7 @@
                             Mon compte
                         </button>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                            <li><a class="dropdown-item active" href="#">Watchlist</a></li>
+                            <li><a class="dropdown-item active" href="{{ path('app_watchlist_index') }}">Watchlist</a></li>
                             <li><a class="dropdown-item" href="#">Profil</a></li>
                             <li><a class="dropdown-item" href="#">Paramètre de compte</a></li>
                         </ul>
