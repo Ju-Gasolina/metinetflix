@@ -146,7 +146,7 @@
 
 
 .home-container-1{
-    height: 600px;
+    height: 95vh;
     width: 100%;
     background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://image.tmdb.org/t/p/original//5DUMPBSnHOZsbBv81GFXZXvDpo6.jpg');
     background-size: cover;
@@ -241,11 +241,19 @@
 .navbar-title-custom:hover{
     color:#8B1489;
     text-shadow: 3px 3px 20px black,
-    -2px 1px 30px black
-;
-
+    -2px 1px 30px black;
 
 }
+
+.nav-bar-text{
+    color: white;
+    text-decoration: none;
+}
+
+.nav-bar-text:hover{
+    color: #8B1489;
+}
+
 
 
 
@@ -304,8 +312,97 @@
     transform: translateY(-300px);
 }
 
+/* width */
+.scrollbar-custom::-webkit-scrollbar {
+    width: 10px;
+
+}
+
+/* Track */
+.scrollbar-custom::-webkit-scrollbar-track {
+    background: none;
+}
+
+/* Handle */
+.scrollbar-custom::-webkit-scrollbar-thumb {
+    background: #202529;
+    border-radius: 10px;
+
+    border: 1px solid #8B1489
+}
+
+/* Handle on hover */
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 .watchlist-card{
+    height: 120px;
+    background-color: #202529;
+    border: 1px solid #8B1489 ;
+    border-radius: 10px;
+    padding: 10px 0 10px 0;
+}
+
+.watchlist-card img{
     height: 100px;
-    background-color: white;
-    padding-left: 100px;
+    border: 1px solid black ;
+    border-radius: 10px;
+}
+
+.watchlist-card-infos h4{
+    color: #8B1489 ;
+    font-style: italic;
+    font-weight: bold;
+
+}
+
+.watchlist-card-infos p{
+
+    font-style: italic;
+
+
+}
+
+
+
+
+
+.watchlist-sidebar-container{
+    /*position: sticky;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*width: 10%;*/
+    /*height: 70vh;*/
+    /*background-color: black;*/
+    /*float:left;*/
+    /*margin-top: 1vh;*/
+    /*margin-bottom: 1vh;*/
+    background-color: #202529;
+    border: 1px solid #8B1489;
+    border-radius: 10px;
+    height: 700px;
+}
+
+.watchlist-item-list{
+
+    padding-left: 30px;
+    /*width: 80vh;*/
+    /*position: absolute;*/
+    /*margin-top: 1vh;*/
+    /*margin-bottom: 1vh;*/
+
+}
+
+.logout-button{
+    color: #8B1489;
+    font-size: 23px;
+
+}
+
+.logout-button:hover{
+    color: red;
+    text-shadow: 3px 3px 20px black,
+    -2px 1px 30px black;
+
 }

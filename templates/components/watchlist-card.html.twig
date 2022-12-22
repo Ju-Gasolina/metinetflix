@@ -1,10 +1,27 @@
-<div class="d-flex flex-row watchlist-card">
-    <a href="{{ path(this.pathName, {id: this.idTMDB}) }}" title="Cliquez pour voir les informations détaillées">
-        <img class= "h-100" src="{{ this.posterPath }}" alt="{{ this.title }}">
-    </a>
-    <div class="block">
-        <p class="h5 text-truncate">Titre : {{ this.title }}</p>
-        <p class="h5 text-truncate">Type: {{ this.type }}</p>
+<div class="row watchlist-card mb-2">
+    <div class="col-1 ">
+        <a href="{{ path(this.pathName, {id: this.idTMDB}) }}" title="Cliquez pour voir les informations détaillées">
+            <img class="" src="{{ this.posterPath }}" alt="{{ this.title }}">
+        </a>
+    </div>
+
+    <div class="col-10 watchlist-card-infos">
+        <div class="d-flex flex-row ">
+            {% if this.type == 'serie' %}  <i class="me-3 bi bi-collection-play text-light h3"></i>
+            {% elseif this.type == 'movie' %}  <i class="me-3 bi bi-film text-light h3"></i>
+            {% else %}  <i class="me-3 bi bi-0-circle text-light h3"></i>
+            {% endif %}
+            <h4 class="text-truncate ">{{ this.title }}</h4>
+        </div>
+
         <a href="{{ path('app_watchlist_item_show', {id: this.id}) }}" title="Cliquez pour voir mes informations sur cet item">Voir mes informations sur cet item</a>
+    </div>
+
+    <div class="col-1 d-flex flex-row justify-content-end ">
+        <a href="#">
+            <i class="bi bi-x text-light h3"></i>
+        </a>
+
+{#        <i class="mx-4 bi bi-collection-play text-light h3"></i>#}
     </div>
 </div>

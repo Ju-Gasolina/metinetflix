@@ -3,14 +3,27 @@
 {% block title %}Watchlist{% endblock %}
 
 {% block main %}
-    {% for watchlistItem in watchlistItems %}
-        {{ component('watchlist-card', {
-            id: watchlistItem.id,
-            idTMDB: watchlistItem.idTMDB,
-            title: watchlistItem.title,
-            posterPath: watchlistItem.posterPath,
-            pathName: watchlistItem.pathName,
-            type: watchlistItem.type
-        }) }}
-    {% endfor %}
+    <div class="container">
+        <div class="row mt-2 ">
+            <div class="col-2 watchlist-sidebar-container">
+
+            </div>
+
+            <div class="pl-2 col-10 watchlist-item-list">
+                {% for watchlistItem in watchlistItems %}
+                    {{ component('watchlist-card', {
+                        id: watchlistItem.id,
+                        idTMDB: watchlistItem.idTMDB,
+                        title: watchlistItem.title,
+                        posterPath: watchlistItem.posterPath,
+                        pathName: watchlistItem.pathName,
+                        type: watchlistItem.type
+                    }) }}
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+
 {% endblock %}
