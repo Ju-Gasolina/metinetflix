@@ -10,6 +10,7 @@ use App\Service\MovieParsing;
 use App\Service\SagaParsing;
 use App\Service\SeasonParsing;
 use App\Service\SerieParsing;
+use App\Service\WatchlistUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +22,7 @@ use App\Repository\SerieRepository;
 use App\Repository\SeasonRepository;
 use App\Repository\EpisodeRepository;
 use App\Repository\SagaRepository;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('/watchlist/item')]
 class WatchlistItemController extends AbstractController
@@ -63,12 +65,14 @@ class WatchlistItemController extends AbstractController
                         SerieRepository $serieRepository,
                         SeasonRepository $seasonRepository,
                         EpisodeRepository $episodeRepository,
-                        SagaRepository $sagaRepository
+                        SagaRepository $sagaRepository,
+                        WatchlistUtils $watchlistUtils,
+    Security $security
     ): Response
     {
         //Watchlist find request
-        $watchlist = $watchlistRepository->findOneBy(['id' => 1]);
-
+        $user = $security->getUser();
+        $watchlist = $watchlistRepository->findOneBy(['id'=>$watchlistUtils->getWatchlistIdByUser($user,$watchlistRepository)]);
         //WatchlistItem creation
         $watchlistItem = $watchlistItemRepository->findOneBy([$type => $idEntity]);
 

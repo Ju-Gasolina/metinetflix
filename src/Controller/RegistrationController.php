@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Watchlist;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,6 +31,7 @@ class RegistrationController extends AbstractController
     {
 
         $user = new User();
+        $watchList = new Watchlist();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -53,8 +55,13 @@ class RegistrationController extends AbstractController
             $user->setEmail($form->get('email')->getData());
             $user->setUsername($form->get('username')->getData());
 
+            $watchList->setUser($user);
+            $watchList->setTotalDuration(0);
+
             $entityManager->persist($user);
+            $entityManager->persist($watchList);
             $entityManager->flush();
+
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,

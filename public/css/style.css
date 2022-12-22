@@ -393,3 +393,16 @@
     /*margin-bottom: 1vh;*/
 
 }
+
+.logout-button{
+    color: #8B1489;
+    font-size: 23px;
+
+}
+
+.logout-button:hover{
+    color: red;
+    text-shadow: 3px 3px 20px black,
+    -2px 1px 30px black;
+
+}
