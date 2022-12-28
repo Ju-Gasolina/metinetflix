@@ -411,15 +411,6 @@
     color: black;
 }
 
-.log-form-logo a{
-    font-size: x-large;
-    color: white;
-
-}
-
-.log-form-logo a:hover{
-    color: #8B1489;
-}
 
 .log-signup-link{
     color: white;
@@ -456,4 +447,28 @@
 
 .log-container{
     border: 1px solid #8B1489;
+}
+
+.log-input-height{
+    height: calc(3.5rem + 2px);
+}
+
+.header-custom{
+    border-bottom: 1px solid #8B1489;
+}
+
+.footer-custom{
+    border-top: 1px solid #8B1489;
+}
+
+
+
+.custom-logo a{
+    font-size: x-large;
+    color: white;
+
+}
+
+.custom-logo a:hover{
+    color: #8B1489;
 }

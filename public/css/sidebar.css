@@ -16,16 +16,23 @@
 }
 .sidebar-burger-btn{
     height: 50px;
-    width: 50px;
-
+    width: 150px;
     margin-top:10px;
-    margin-left: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    background-color: #202529;
+    border: 1px solid #8B1489;
+    border-left: none;
     transition: all 0.2s ease;
+    display: flex;
+    flex-direction: row ;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+}
 
 
+.sidebar-burger-btn i{
+    font-size: large;
 }
 
 .sidebar-burger-container{

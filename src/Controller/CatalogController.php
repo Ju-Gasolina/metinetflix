@@ -26,7 +26,6 @@ class CatalogController extends AbstractController
         $filtersForm->handleRequest($request);
 
         $currentQuery = $request->query->get('query');
-
         $page = $request->query->get('page');
 
         // TODO passer en string le tableau de filtrers puis le passer dans la requête.
@@ -34,13 +33,9 @@ class CatalogController extends AbstractController
 
 
         if(empty($page))
-        {
             return $this->redirectToRoute('app_catalog_index', ['page' => 1], Response::HTTP_SEE_OTHER);
-        }
         else if($page < 1 || $page > 10)
-        {
             throw $this->createNotFoundException('The page does not exist');
-        }
         else
         {
 
@@ -61,7 +56,6 @@ class CatalogController extends AbstractController
                 $page = 1;
                 $data = $filtersForm->getData();
 
-
                 $catalogArray = $catalogParsing->queryMaker(
                     $page,
                     ['primary_release_date.gte' => $data['minDate'],
@@ -70,8 +64,6 @@ class CatalogController extends AbstractController
                         'with_runtime.lte' => $data['maxTime'],
                     ],
                     $data['sortBy']
-
-
                 );
 
                 usort($catalogArray, function($first,$second){

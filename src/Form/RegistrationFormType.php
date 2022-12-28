@@ -30,7 +30,8 @@ class RegistrationFormType extends AbstractType
 
             ])
             ->add('agreeTerms', CheckboxType::class, [
-
+                'attr'=> ['class'=>'form-check-input'],
+                'label_attr' =>['class'=>'form-check-label mx-2'],
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
@@ -65,10 +66,12 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['class'=>'form-control','placeholder'=>'Lastname'],
             ])
             ->add('birthday', DateType::class, [
+                'attr' => ['class'=>'form-control log-input-height'],
                 'widget' => 'single_text',
                 'html5' => true,
             ])
             ->add('gender', ChoiceType::class,[
+                'attr' => ['class'=>'form-select log-input-height', 'aria-label'=>'genders select'],
                 'choices'  => [
                     'Unreferenced' => 'unreferenced',
                     'Man' => 'women',
@@ -80,7 +83,15 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['class'=>'form-control','placeholder'=>'Username'],
             ])
 
+
         ;
+//        <select class="form-select" aria-label="Default select example">
+//                                    <option selected>Open this select menu</option>
+//                                    <option value="1">One</option>
+//                                    <option value="2">Two</option>
+//                                    <option value="3">Three</option>
+//                                </select>
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

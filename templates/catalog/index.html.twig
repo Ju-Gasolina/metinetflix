@@ -31,12 +31,14 @@
 
             <div class="my-2 ">
                 <div class="input-group d-flex my-2">
-                    <label class="input-group-text label-max-time input-date-label" for=""><i class="bi bi-hourglass-split"></i></label>
+                    <label class="input-group-text label-max-time input-date-label" for=""><i
+                                class="bi bi-align-start"></i></label>
                     {{ form_widget(filtersForm.minDate) }}
 
                 </div>
                 <div class="input-group d-flex my-2">
-                    <label class="input-group-text label-max-time input-date-label" for=""><i class="bi bi-hourglass-split"></i></label>
+                    <label class="input-group-text label-max-time input-date-label" for=""><i
+                                class="bi bi-align-end"></i></label>
                     {{ form_widget(filtersForm.maxDate) }}
                 </div>
             </div>
@@ -68,11 +70,10 @@
 
         </div>
 
-        <div class="sidebar-burger-container">
+        <div  class="sidebar-burger-container">
             <div id="burger-btn" class="sidebar-burger-btn">
-                <span class="sidebar-burger-line sidebar-lines-close"></span>
-                <span class="sidebar-burger-line sidebar-lines-close"></span>
-                <span class="sidebar-burger-line sidebar-lines-close"></span>
+                <p class="my-5 h5 px-2 text-center text-light "> Advanced </p>
+                <i class="text-light bi bi-search"> </i>
             </div>
         </div>
 
@@ -111,15 +112,17 @@
 
 
     <div class="bottom-buttons">
-        <a href="{{ path('app_catalog_index', {page: currentPage - 1, query: currentQuery, filters : currentFilters}) }}" class="previous round">&#8249;</a>
-        <a href="{{ path('app_catalog_index', {page: currentPage + 1,  query: currentQuery, filters : currentFilters}) }}" class="next round">&#8250;</a>
+        <a href="{{ path('app_catalog_index', {page: currentPage - 1, query: currentQuery, filters : currentFilters}) }}"
+           class="previous round">&#8249;</a>
+        <a href="{{ path('app_catalog_index', {page: currentPage + 1,  query: currentQuery, filters : currentFilters}) }}"
+           class="next round">&#8250;</a>
     </div>
 
     <script>
 
         let sidebar = document.getElementById("sidebar");
         let main = document.getElementById("main");
-        let burgerLines = document.getElementsByClassName("sidebar-burger-line");
+        // let burgerLines = document.getElementsByClassName("sidebar-burger-line");
         let burgerBtn = document.getElementById("burger-btn");
         let isOpenSideBar = false;
         let alphabeticalContainer = document.getElementById("alphabetical-container");
@@ -150,21 +153,21 @@
 
         burgerBtn.addEventListener('click', () => {
             if (isOpenSideBar) {
-                burgerBtn.style.flexDirection = 'row'
+                // burgerBtn.style.flexDirection = 'row'
                 sidebar.style.display = 'block';
-                for (let item of burgerLines) {
-                    item.classList.remove('sidebar-lines-close')
-                    item.classList.add('sidebar-lines-open')
-
-                }
+                // for (let item of burgerLines) {
+                //     item.classList.remove('sidebar-lines-close')
+                //     item.classList.add('sidebar-lines-open')
+                //
+                // }
                 isOpenSideBar = !isOpenSideBar
             } else {
-                burgerBtn.style.flexDirection = 'column'
+                // burgerBtn.style.flexDirection = 'column'
                 sidebar.style.display = 'none'
-                for (let item of burgerLines) {
-                    item.classList.remove('sidebar-lines-open')
-                    item.classList.add('sidebar-lines-close');
-                }
+                // for (let item of burgerLines) {
+                //     item.classList.remove('sidebar-lines-open')
+                //     item.classList.add('sidebar-lines-close');
+                // }
                 isOpenSideBar = !isOpenSideBar
             }
 
