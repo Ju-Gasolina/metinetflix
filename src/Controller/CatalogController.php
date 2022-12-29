@@ -5,19 +5,25 @@ namespace App\Controller;
 use App\Form\FiltersType;
 use App\Form\RegistrationFormType;
 use App\Form\SearchType;
+
 use App\Service\CatalogParsing;
+use ContainerFS3jsxr\getHeaderUtilsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class CatalogController extends AbstractController
 {
     #[Route('/catalog', name: 'app_catalog_index')]
     public function index( Request $request, CatalogParsing $catalogParsing): Response
     {
+
 
         $queryForm = $this->createForm(SearchType::class);
         $queryForm->handleRequest($request);
@@ -27,6 +33,9 @@ class CatalogController extends AbstractController
 
         $currentQuery = $request->query->get('query');
         $page = $request->query->get('page');
+
+        //$container->parameters()->set('test','value');
+
 
         // TODO passer en string le tableau de filtrers puis le passer dans la requête.
 
@@ -39,22 +48,34 @@ class CatalogController extends AbstractController
         else
         {
 
-            //TODO gérer les cas ou il y'a une recherche et la pagination en même temps.
             if ($queryForm->isSubmitted() && $queryForm->isValid()) {
-                $page = 1;
-
                 $data = $queryForm->getData();
-                $currentQuery = $data['query'];
-
-                $catalogArray = $catalogParsing->queryParsing($page, $data['query']);
-                usort($catalogArray, function($first,$second){
-                    return strtolower($first->getTitle()) > strtolower($second->getTitle());
-                });
+                return $this->redirectToRoute('app_catalog_index', ['page' => 1, 'query' => $data['query']], Response::HTTP_SEE_OTHER);
 
             }
             else if($filtersForm->isSubmitted() && $filtersForm->isValid()){
                 $page = 1;
+
                 $data = $filtersForm->getData();
+
+                //TODO LETSGOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO CA MARCHE
+                $currentFilters = HeaderUtils::toString(
+                    [
+                        'primary_release_date.gte' => $data['minDate']->format('Y-m-d'),
+                        'primary_release_date.lte' => $data['maxDate']->format('Y-m-d'),
+                        'include_adult' => json_encode($data['includeAdult']),
+                        'with_runtime.lte' => strval($data['maxTime']),
+                        'sortBy' => $data['sortBy']
+                    ],
+                    '!');
+
+                //TODO LA FOOOOOOOOOLIIIIIIIIIIIEEEEEEEEEEEE
+
+                $recombine = HeaderUtils::parseQuery($currentFilters, true, '!');
+                $array = array_map(function ($item){return $item[0];},$recombine);
+                dd($array);
+
+                //TODO Refaire les fonctions des services pour les adapter au nouveau cotnenant toutes les filtres en string et le sortBy (ça facilite tout)
 
                 $catalogArray = $catalogParsing->queryMaker(
                     $page,
@@ -73,7 +94,6 @@ class CatalogController extends AbstractController
 
             }
             else if($currentQuery){
-
                 $catalogArray = $catalogParsing->queryParsing($page, $currentQuery);
                 usort($catalogArray, function($first,$second){
                     return strtolower($first->getTitle()) > strtolower($second->getTitle());
@@ -83,7 +103,6 @@ class CatalogController extends AbstractController
                 $catalogArray = $catalogParsing->popularParsing($page);
                 shuffle($catalogArray);
             }
-
 
 
             return $this->render('catalog/index.html.twig', [
@@ -97,8 +116,11 @@ class CatalogController extends AbstractController
 
             ]);
         }
-
-
     }
+
+     function mapping($a){
+        return $a[0];
+    }
+
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use PhpParser\Node\Expr\Array_;
 use Symfony\Component\HttpClient\HttpClient;
 use function PHPUnit\Framework\isEmpty;
 
@@ -49,7 +50,7 @@ class CatalogParsing
         $movieParsing = new MovieParsing();
 
 
-        if($sortBy !== 'none') {
+        if ($sortBy !== 'none') {
             if ($sortBy === 'date.asc') {
                 $arrayMovies = $movieParsing->sortParsing($page, 'release_date.asc');
                 $arraySeries = $serieParsing->sortParsing($page, 'first_air_date.asc');
@@ -60,7 +61,7 @@ class CatalogParsing
                 $arrayMovies = $movieParsing->sortParsing($page, $sortBy);
                 $arraySeries = $serieParsing->sortParsing($page, $sortBy);
             }
-        }else {
+        } else {
             $arrayMovies = $movieParsing->popularParsing($page);
             $arraySeries = $serieParsing->popularParsing($page);
         }
@@ -77,9 +78,9 @@ class CatalogParsing
         $movieParsing = new MovieParsing();
 
         //TODO Format de la date dans l'api : 1920-03-11
-        if(isEmpty($filtersList)) {
+        if (isEmpty($filtersList)) {
 
-        }else {
+        } else {
             $arrayMovies = $movieParsing->popularParsing($page);
             $arraySeries = $serieParsing->popularParsing($page);
         }
@@ -90,18 +91,27 @@ class CatalogParsing
 
     }
 
-    public function queryMaker(int $page, array $filters = [] ,string $sortBy=null ){
+    public function queryMaker(int $page, array $filters = [], string $sortBy = null)
+    {
         $serieParsing = new SerieParsing();
         $movieParsing = new MovieParsing();
 
-        $arrayMovies = $movieParsing->queryMaker($page,$filters,$sortBy);
-        $arraySeries = $serieParsing->queryMaker($page,$filters,$sortBy);
+        $arrayMovies = $movieParsing->queryMaker($page, $filters, $sortBy);
+        $arraySeries = $serieParsing->queryMaker($page, $filters, $sortBy);
 
 
         return array_merge($arrayMovies, $arraySeries);
 
     }
 
+    public function filtersArrayToString(array $filtersTab = [], string $sortBy = null)
+    {
+        $finalString = '';
+
+        foreach ($filtersTab as $filter){
+
+        }
+    }
 
 
 }
