@@ -165,32 +165,24 @@ class MovieParsing
         return $movies;
     }
 
-    public function queryMaker(int $page, array $filters = null, string $sortBy = null ):array
+    public function queryMaker(int $page, array $options = null ):array
     {
 
-
-        //  https://api.themoviedb.org/3/discover/movie?api_key=<<api_key>>&language=en-US&sort_by=release_date.asc&include_adult=false&include_video=false&page=1&primary_release_date.gte=1914-02-12&primary_release_date.lte=2002-18-10&with_watch_monetization_types=flatrate
-
         $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
-        $query =  'https://api.themoviedb.org/3/discover/movie?api_key='.$apiKey.'&language=fr-FR&page='.$page;
+        $query = 'https://api.themoviedb.org/3/discover/movie?api_key=' . $apiKey . '&language=fr-FR&page='.$page;
+
+        $filters = array_slice($options, 0, 4);
         $keysFilters = array_keys($filters);
-        if(!is_null($filters) && !is_null($sortBy) ){
+        $sortBy = $options['sortBy'];
 
-            $query .= '&sort_by=' . $this->formateSortBy($sortBy);
-            foreach ($keysFilters as $keyFilter){
 
-                if(gettype($filters[$keyFilter]) === 'object'){
-                    $query .= '&'.$keyFilter.'='.$filters[$keyFilter]->format('Y-m-d');
-                }else if($keyFilter === 'include_adult'){
-                    $query .= '&'.$keyFilter.'=';
-                    $query .= $filters[$keyFilter] ? 'true' : 'false';
-                }
+        if($sortBy !== "none") $query .= '&sort_by=' . $this->formateSortBy($sortBy);
+        foreach ($keysFilters as $keyFilter) {
 
-            }
-        }else if(is_null($filters)){
-            $query .= '&sort_by=' . $this->formateSortBy($sortBy);
+            if ($filters[$keyFilter] === '""') continue;
+            $query .= '&' . $keyFilter . '=' . $filters[$keyFilter];
+
         }
-
 
 
         $client = HttpClient::create();

@@ -4,6 +4,7 @@
 
 {% block main %}
 
+{#    {{ component('sidebar-filters') }}#}
     <div class="sidebar-container">
         <div id="sidebar" class="sidebar-filter container">
             <p class="h4 text-light text-center">Advanced Search</p>
@@ -155,19 +156,12 @@
             if (isOpenSideBar) {
                 // burgerBtn.style.flexDirection = 'row'
                 sidebar.style.display = 'block';
-                // for (let item of burgerLines) {
-                //     item.classList.remove('sidebar-lines-close')
-                //     item.classList.add('sidebar-lines-open')
-                //
-                // }
+
                 isOpenSideBar = !isOpenSideBar
             } else {
-                // burgerBtn.style.flexDirection = 'column'
+
                 sidebar.style.display = 'none'
-                // for (let item of burgerLines) {
-                //     item.classList.remove('sidebar-lines-open')
-                //     item.classList.add('sidebar-lines-close');
-                // }
+
                 isOpenSideBar = !isOpenSideBar
             }
 

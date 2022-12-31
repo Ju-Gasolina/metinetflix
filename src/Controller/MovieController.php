@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Movie;
+use App\Form\FiltersType;
+use App\Form\SearchType;
 use App\Repository\MovieRepository;
 use App\Service\MovieParsing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +24,12 @@ class MovieController extends AbstractController
     {
         $page = $request->query->get('page');
 
+        $queryForm = $this->createForm(SearchType::class);
+        $queryForm->handleRequest($request);
+
+        $filtersForm = $this->createForm(FiltersType::class);
+        $filtersForm->handleRequest($request);
+
         if(empty($page))
         {
             return $this->redirectToRoute('app_movie_index', ['page' => 1], Response::HTTP_SEE_OTHER);
@@ -34,7 +42,9 @@ class MovieController extends AbstractController
         {
             return $this->render('movie/index.html.twig', [
                 'movies' => $movieParsing->popularParsing($page),
-                'currentPage' => $page
+                'currentPage' => $page,
+                'filtersForm' => $filtersForm->createView(),
+                'queryForm' => $queryForm->createView(),
             ]);
         }
     }

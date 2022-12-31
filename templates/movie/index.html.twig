@@ -3,6 +3,95 @@
 {% block title %}Movie index{% endblock %}
 
 {% block main %}
+
+    <div class="sidebar-container">
+        <div id="sidebar" class="sidebar-filter container">
+            <p class="h4 text-light text-center">Advanced Search</p>
+
+
+            {{ form_start(filtersForm) }}
+
+
+            <p class="h4 text-light text-center">Sort</p>
+
+            <div id="alphabetical-container" class=" ">
+
+
+                {% for child in filtersForm.sortBy %}
+
+                    {{ form_widget(child) }}
+                    {{ form_label(child) }}
+
+                {% endfor %}
+            </div>
+
+            <p class="h4 text-light text-center">Filters</p>
+
+            <p class="h4 text-light">Release date</p>
+
+            <div class="my-2 ">
+                <div class="input-group d-flex my-2">
+                    <label class="input-group-text label-max-time input-date-label" for=""><i
+                                class="bi bi-align-start"></i></label>
+                    {{ form_widget(filtersForm.minDate) }}
+
+                </div>
+                <div class="input-group d-flex my-2">
+                    <label class="input-group-text label-max-time input-date-label" for=""><i
+                                class="bi bi-align-end"></i></label>
+                    {{ form_widget(filtersForm.maxDate) }}
+                </div>
+            </div>
+
+
+            <div class="input-group my-2 ">
+                <label class="input-group-text label-max-time" for="filters[maxTime]"><i
+                            class="bi bi-hourglass-split"></i></label>
+                {{ form_widget(filtersForm.maxTime) }}
+            </div>
+
+
+            <div class="my-2">
+                <img src="/assets/img/pegi-18.svg" class="filter-white"/>
+
+                <label class="toggle">
+                    {{ form_widget(filtersForm.includeAdult) }}
+                    <div class="toggle-switch"></div>
+                </label>
+            </div>
+
+
+            <div class="mt-2 d-flex align-content-center justify-content-center">
+                {{ form_widget(filtersForm.search) }}
+            </div>
+
+
+            {{ form_end(filtersForm) }}
+
+        </div>
+
+        <div  class="sidebar-burger-container">
+            <div id="burger-btn" class="sidebar-burger-btn">
+                <p class="my-5 h5 px-2 text-center text-light "> Advanced </p>
+                <i class="text-light bi bi-search"> </i>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="container w-50 pt-3 ">
+
+        {{ form_start(queryForm) }}
+        <div class="input-group mb-3 row search-bar">
+            {{ form_widget(queryForm.query) }}
+            {{ form_widget(queryForm.search) }}
+        </div>
+        {{ form_end(queryForm) }}
+
+    </div>
+
+
     <div class="container pb-5 pt-5">
         <div class="row">
             {% for movie in movies %}
@@ -17,8 +106,73 @@
         </div>
     </div>
 
+
+
     <div class="bottom-buttons">
         <a href="{{ path('app_movie_index', {page: currentPage - 1}) }}" class="previous round">&#8249;</a>
         <a href="{{ path('app_movie_index', {page: currentPage + 1}) }}" class="next round">&#8250;</a>
     </div>
+
+
+    <script>
+
+        let sidebar = document.getElementById("sidebar");
+        let main = document.getElementById("main");
+        // let burgerLines = document.getElementsByClassName("sidebar-burger-line");
+        let burgerBtn = document.getElementById("burger-btn");
+        let isOpenSideBar = false;
+        let alphabeticalContainer = document.getElementById("alphabetical-container");
+        let checkedBox = document.querySelector('input[name="filters[alphabetical]"]:checked');
+
+        if (checkedBox) {
+            let label = checkedBox.nextElementSibling;
+            label.style.backgroundColor = '#8B1489';
+            checkedBox.style.backgroundColor = '#8B1489';
+        }
+
+        console.log(checkedBox);
+
+        alphabeticalContainer.childNodes.forEach((node) => {
+
+            if (node.tagName === 'LABEL') {
+                node.addEventListener('click', () => {
+                    console.log('click');
+                    resetRadioButtons();
+                    node.style.backgroundColor = '#8B1489';
+                })
+                node.classList.add('btn');
+                node.classList.add('btn-secondary');
+            }
+
+        })
+
+
+        burgerBtn.addEventListener('click', () => {
+            if (isOpenSideBar) {
+                // burgerBtn.style.flexDirection = 'row'
+                sidebar.style.display = 'block';
+
+                isOpenSideBar = !isOpenSideBar
+            } else {
+
+                sidebar.style.display = 'none'
+
+                isOpenSideBar = !isOpenSideBar
+            }
+
+
+        })
+
+        function resetRadioButtons() {
+            alphabeticalContainer.childNodes.forEach((node) => {
+                if (node.tagName === 'LABEL') {
+                    node.style.backgroundColor = '#202529';
+                }
+
+
+            })
+        }
+
+
+    </script>
 {% endblock %}

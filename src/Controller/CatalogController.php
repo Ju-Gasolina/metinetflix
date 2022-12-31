@@ -21,9 +21,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class CatalogController extends AbstractController
 {
     #[Route('/catalog', name: 'app_catalog_index')]
-    public function index( Request $request, CatalogParsing $catalogParsing): Response
+    public function index(Request $request, CatalogParsing $catalogParsing): Response
     {
-
 
         $queryForm = $this->createForm(SearchType::class);
         $queryForm->handleRequest($request);
@@ -32,34 +31,25 @@ class CatalogController extends AbstractController
         $filtersForm->handleRequest($request);
 
         $currentQuery = $request->query->get('query');
+        $currentFilters = $request->query->get('filters');
         $page = $request->query->get('page');
 
-        //$container->parameters()->set('test','value');
 
-
-        // TODO passer en string le tableau de filtrers puis le passer dans la requête.
-
-
-
-        if(empty($page))
+        if (empty($page))
             return $this->redirectToRoute('app_catalog_index', ['page' => 1], Response::HTTP_SEE_OTHER);
-        else if($page < 1 || $page > 10)
+        else if ($page < 1 || $page > 10)
             throw $this->createNotFoundException('The page does not exist');
-        else
-        {
+        else {
 
             if ($queryForm->isSubmitted() && $queryForm->isValid()) {
+
                 $data = $queryForm->getData();
                 return $this->redirectToRoute('app_catalog_index', ['page' => 1, 'query' => $data['query']], Response::HTTP_SEE_OTHER);
 
-            }
-            else if($filtersForm->isSubmitted() && $filtersForm->isValid()){
-                $page = 1;
+            } else if ($filtersForm->isSubmitted() && $filtersForm->isValid()) {
 
                 $data = $filtersForm->getData();
-
-                //TODO LETSGOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO CA MARCHE
-                $currentFilters = HeaderUtils::toString(
+                $currentFilters = str_replace(" ", "",HeaderUtils::toString(
                     [
                         'primary_release_date.gte' => $data['minDate']->format('Y-m-d'),
                         'primary_release_date.lte' => $data['maxDate']->format('Y-m-d'),
@@ -67,39 +57,32 @@ class CatalogController extends AbstractController
                         'with_runtime.lte' => strval($data['maxTime']),
                         'sortBy' => $data['sortBy']
                     ],
-                    '!');
+                    '!'));
 
-                //TODO LA FOOOOOOOOOLIIIIIIIIIIIEEEEEEEEEEEE
 
-                $recombine = HeaderUtils::parseQuery($currentFilters, true, '!');
-                $array = array_map(function ($item){return $item[0];},$recombine);
-                dd($array);
+                return $this->redirectToRoute('app_catalog_index', ['page' => 1, 'filters' => $currentFilters], Response::HTTP_SEE_OTHER);
 
-                //TODO Refaire les fonctions des services pour les adapter au nouveau cotnenant toutes les filtres en string et le sortBy (ça facilite tout)
+            } else if ($currentQuery) {
+
+                $catalogArray = $catalogParsing->queryParsing($page, $currentQuery);
+                usort($catalogArray, function ($first, $second) {
+                    return strtolower($first->getTitle()) > strtolower($second->getTitle());
+                });
+            } else if ($currentFilters) {
+
+                $arrayFilters = array_map(function ($item) {
+                    return $item[0];
+                }, HeaderUtils::parseQuery($currentFilters, true, '!'));
 
                 $catalogArray = $catalogParsing->queryMaker(
                     $page,
-                    ['primary_release_date.gte' => $data['minDate'],
-                        'primary_release_date.lte' => $data['maxDate'],
-                        'include_adult' => $data['includeAdult'],
-                        'with_runtime.lte' => $data['maxTime'],
-                    ],
-                    $data['sortBy']
+                    $arrayFilters
                 );
 
-                usort($catalogArray, function($first,$second){
+                usort($catalogArray, function ($first, $second) {
                     return $first->getReleaseDate() > $second->getReleaseDate();
                 });
-
-
-            }
-            else if($currentQuery){
-                $catalogArray = $catalogParsing->queryParsing($page, $currentQuery);
-                usort($catalogArray, function($first,$second){
-                    return strtolower($first->getTitle()) > strtolower($second->getTitle());
-                });
-            }
-            else{
+            } else {
                 $catalogArray = $catalogParsing->popularParsing($page);
                 shuffle($catalogArray);
             }
@@ -107,18 +90,19 @@ class CatalogController extends AbstractController
 
             return $this->render('catalog/index.html.twig', [
                 'controller_name' => 'CatalogController',
-                'catalog' =>  $catalogArray,
+                'catalog' => $catalogArray,
                 'currentPage' => $page,
                 'queryForm' => $queryForm->createView(),
                 'filtersForm' => $filtersForm->createView(),
-                'currentFilters' => is_null($filtersForm->getData()) ? null : $filtersForm->getData(),
+                'currentFilters' => $currentFilters,
                 'currentQuery' => $currentQuery,
 
             ]);
         }
     }
 
-     function mapping($a){
+    function mapping($a)
+    {
         return $a[0];
     }
 
