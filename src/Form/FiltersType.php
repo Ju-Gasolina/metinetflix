@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'filters_type')]
@@ -58,6 +59,11 @@ class FiltersType extends AbstractType
                     'attr' => ['class' => 'input-date d-flex'],
                     'widget' => 'choice',
                     'required' => 'false',
+                    'years' => range(1899, date('Y')+100),
+                    'months' => range(date('m'), 12),
+                    'days' => range(date('d'), 31),
+                    'data' => new \DateTime(),
+//                    'data' => new DateTime()
                 ]
             )
             ->add( 'maxDate', DateType::class, [
@@ -65,6 +71,10 @@ class FiltersType extends AbstractType
                     'attr' => ['class' => 'input-date d-flex'],
                     'widget' => 'choice',
                     'required' => 'false',
+                    'years' => range(1899, date('Y')+100),
+                    'months' => range(date('m'), 12),
+                    'days' => range(date('d'), 31),
+                    'data' => new \DateTime(),
                 ]
             )
 

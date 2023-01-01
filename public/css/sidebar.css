@@ -2,17 +2,33 @@
 
 
 .sidebar-filter{
+    border: 1px solid #8B1489;
+    border-left: none;
     top:10px;
     margin-top: 10px;
-    border: solid 1px ;
-    position: sticky;
+
     background-color: #202529;
     width: 300px;
-    height: 700px;
-    display:none;
+    padding-top: 20px;
+    padding-bottom: 40px;
     transition: all 0.2s ease;
+
 }
+
+.sidebar-container{
+
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    top:12%;
+    flex-direction: row;
+    transition: all 0.2s ease;
+    left: -300px;
+}
+
+
 .sidebar-burger-btn{
+    margin-left: -1px;
     height: 50px;
     width: 150px;
     margin-top:10px;
@@ -25,8 +41,28 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    /*position: absolute;*/
+    /*left: 0;*/
 
 }
+.sidebar-burger-btn p{
+    color: white;
+
+}
+.sidebar-burger-btn i{
+    color: white;
+
+}
+
+.sidebar-burger-btn:hover i{
+    color: #8B1489;
+
+}
+.sidebar-burger-btn:hover p{
+    color: #8B1489;
+
+}
+
 
 
 .sidebar-burger-btn i{
@@ -34,33 +70,11 @@
 }
 
 .sidebar-burger-container{
-
-    height: 700px;
-    position: sticky;
     top: 10px;
-
-}
-
-.sidebar-container{
-    position: absolute;
-    height: 423vh;
-    z-index: 2;
-    display: flex;
-    flex-direction: row;
-
-
 }
 
 
 
-
-.sidebar-burger-btn span{
-
-    border: solid 1px #202529;
-    border-radius: 8px;
-    background-color: #8B1489;
-    transition: all 0.2s ease;
-}
 
 .sidebar-lines-open{
     height: 100%;
@@ -81,8 +95,10 @@
     transition: all 0.2s ease;
 }
 
+
 #alphabetical-container label {
-    margin : 10px 0;
+
+    margin-bottom: 10px;
     width : 132px;
     background-color: #202529;
     border: solid 1px #8B1489;
@@ -145,8 +161,8 @@
 }
 
 .filter-white{
-    width: 35px;
-    height: 35px;
+    width: 28px;
+    height: 28px;
     margin-right: 10px;
     filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(213deg) brightness(104%) contrast(102%);
 }
