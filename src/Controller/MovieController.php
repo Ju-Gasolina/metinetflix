@@ -8,6 +8,7 @@ use App\Form\SearchType;
 use App\Repository\MovieRepository;
 use App\Service\MovieParsing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,10 +20,9 @@ use App\Service\SagaParsing;
 #[Route('/movie')]
 class MovieController extends AbstractController
 {
-    #[Route('/', name: 'app_movie_index', methods: ['GET'])]
+    #[Route('/', name: 'app_movie_index')]
     public function index(Request $request, MovieParsing $movieParsing): Response
     {
-        $page = $request->query->get('page');
 
         $queryForm = $this->createForm(SearchType::class);
         $queryForm->handleRequest($request);
@@ -30,33 +30,79 @@ class MovieController extends AbstractController
         $filtersForm = $this->createForm(FiltersType::class);
         $filtersForm->handleRequest($request);
 
-        if(empty($page))
-        {
+        $page = $request->query->get('page');
+        $currentQuery = $request->query->get('query');
+        $currentFilters = $request->query->get('filters');
+
+
+        if (empty($page)) {
             return $this->redirectToRoute('app_movie_index', ['page' => 1], Response::HTTP_SEE_OTHER);
-        }
-        else if($page < 1 || $page > 10)
-        {
+        } else if ($page < 1 || $page > 10) {
             throw $this->createNotFoundException('The page does not exist');
-        }
-        else
-        {
+        } else {
+            if ($queryForm->isSubmitted() && $queryForm->isValid()) {
+
+                $data = $queryForm->getData();
+                return $this->redirectToRoute('app_movie_index', ['page' => 1, 'query' => $data['query']], Response::HTTP_SEE_OTHER);
+
+            } else if ($filtersForm->isSubmitted() && $filtersForm->isValid()) {
+
+                $data = $filtersForm->getData();
+                $currentFilters = str_replace(" ", "", HeaderUtils::toString(
+                    [
+                        'primary_release_date.gte' => $data['minDate']->format('Y-m-d'),
+                        'primary_release_date.lte' => $data['maxDate']->format('Y-m-d'),
+                        'include_adult' => json_encode($data['includeAdult']),
+                        'with_runtime.lte' => strval($data['maxTime']),
+                        'sortBy' => $data['sortBy']
+                    ],
+                    '!'));
+
+
+                return $this->redirectToRoute('app_movie_index', ['page' => 1, 'filters' => $currentFilters], Response::HTTP_SEE_OTHER);
+
+            } else if ($currentQuery) {
+                $movieArray = $movieParsing->queryParsing($page, $currentQuery);
+
+            } else if ($currentFilters) {
+
+                $arrayFilters = array_map(function ($item) {
+                    return $item[0];
+                }, HeaderUtils::parseQuery($currentFilters, true, '!'));
+
+                $movieArray = $movieParsing->queryMaker(
+                    $page,
+                    $arrayFilters
+                );
+
+            } else {
+                $movieArray = $movieParsing->popularParsing($page);
+                shuffle($movieArray);
+            }
+
+
             return $this->render('movie/index.html.twig', [
-                'movies' => $movieParsing->popularParsing($page),
+                'controller_name' => 'CatalogController',
+                'movies' => $movieArray,
                 'currentPage' => $page,
-                'filtersForm' => $filtersForm->createView(),
                 'queryForm' => $queryForm->createView(),
+                'filtersForm' => $filtersForm->createView(),
+                'currentFilters' => $currentFilters,
+                'currentQuery' => $currentQuery,
+
             ]);
         }
+
     }
 
+
     #[Route('/new/{idTMDB}', name: 'app_movie_new', methods: ['GET'])]
-    public function new(Int $idTMDB, MovieParsing $movieParsing, MovieRepository $movieRepository, SagaParsing $sagaParsing, SagaRepository $sagaRepository): Response
+    public function new(int $idTMDB, MovieParsing $movieParsing, MovieRepository $movieRepository, SagaParsing $sagaParsing, SagaRepository $sagaRepository): Response
     {
         //Movie find request
         $movie = $movieRepository->findOneBy(["idTMDB" => $idTMDB]);
 
-        if(!isset($movie))
-        {
+        if (!isset($movie)) {
             //Movie API request
             $result = $movieParsing->movieParsing($idTMDB);
 
@@ -69,13 +115,11 @@ class MovieController extends AbstractController
             $movie->setPosterPath($result['poster_path']);
             $movie->setIdTMDB($result['id']);
 
-            if(!empty($result['belongs_to_collection']->id))
-            {
+            if (!empty($result['belongs_to_collection']->id)) {
                 //Saga find request
                 $saga = $sagaRepository->findOneBy(["idTMDB" => $result['belongs_to_collection']->getId()]);
 
-                if(!isset($saga))
-                {
+                if (!isset($saga)) {
                     //Saga API request
                     $result2 = $sagaParsing->sagaParsing($result['belongs_to_collection']->getId());
 

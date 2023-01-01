@@ -49,7 +49,7 @@ class CatalogController extends AbstractController
             } else if ($filtersForm->isSubmitted() && $filtersForm->isValid()) {
 
                 $data = $filtersForm->getData();
-                $currentFilters = str_replace(" ", "",HeaderUtils::toString(
+                $currentFilters = str_replace(" ", "", HeaderUtils::toString(
                     [
                         'primary_release_date.gte' => $data['minDate']->format('Y-m-d'),
                         'primary_release_date.lte' => $data['maxDate']->format('Y-m-d'),
@@ -63,11 +63,8 @@ class CatalogController extends AbstractController
                 return $this->redirectToRoute('app_catalog_index', ['page' => 1, 'filters' => $currentFilters], Response::HTTP_SEE_OTHER);
 
             } else if ($currentQuery) {
-
                 $catalogArray = $catalogParsing->queryParsing($page, $currentQuery);
-                usort($catalogArray, function ($first, $second) {
-                    return strtolower($first->getTitle()) > strtolower($second->getTitle());
-                });
+
             } else if ($currentFilters) {
 
                 $arrayFilters = array_map(function ($item) {
@@ -79,9 +76,6 @@ class CatalogController extends AbstractController
                     $arrayFilters
                 );
 
-                usort($catalogArray, function ($first, $second) {
-                    return $first->getReleaseDate() > $second->getReleaseDate();
-                });
             } else {
                 $catalogArray = $catalogParsing->popularParsing($page);
                 shuffle($catalogArray);
@@ -101,10 +95,6 @@ class CatalogController extends AbstractController
         }
     }
 
-    function mapping($a)
-    {
-        return $a[0];
-    }
 
 
 }

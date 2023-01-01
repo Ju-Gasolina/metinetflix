@@ -37,10 +37,13 @@ class CatalogParsing
         $serieParsing = new SerieParsing();
         $movieParsing = new MovieParsing();
 
-        $arrayMovies = $movieParsing->queryParsing($page, $query);
-        $arraySeries = $serieParsing->queryParsing($page, $query);
+        $arrayCatalog = array_merge($movieParsing->queryParsing($page, $query), $serieParsing->queryParsing($page, $query));
 
-        return array_merge($arrayMovies, $arraySeries);
+        usort($arrayCatalog, function ($first, $second) {
+            return strtolower($first->getTitle()) > strtolower($second->getTitle());
+        });
+
+        return $arrayCatalog;
     }
 
 
@@ -65,6 +68,7 @@ class CatalogParsing
             $arrayMovies = $movieParsing->popularParsing($page);
             $arraySeries = $serieParsing->popularParsing($page);
         }
+
 
 
         return array_merge($arrayMovies, $arraySeries);
@@ -96,15 +100,15 @@ class CatalogParsing
         $serieParsing = new SerieParsing();
         $movieParsing = new MovieParsing();
 
-        $arrayMovies = $movieParsing->queryMaker($page, $options);
-        $arraySeries = $serieParsing->queryMaker($page, $options);
+        $arrayCatalog = array_merge($movieParsing->queryMaker($page, $options), $serieParsing->queryMaker($page, $options));
 
+        usort($arrayCatalog, function ($first, $second) {
+            return strtolower($first->getTitle()) > strtolower($second->getTitle());
+        });
 
-        return array_merge($arrayMovies, $arraySeries);
+        return $arrayCatalog;
 
     }
-
-
 
 
 }

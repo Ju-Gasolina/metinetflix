@@ -109,8 +109,10 @@
 
 
     <div class="bottom-buttons">
-        <a href="{{ path('app_movie_index', {page: currentPage - 1}) }}" class="previous round">&#8249;</a>
-        <a href="{{ path('app_movie_index', {page: currentPage + 1}) }}" class="next round">&#8250;</a>
+        <a href="{{ path('app_movie_index', {page: currentPage - 1, query: currentQuery, filters : currentFilters}) }}"
+           class="previous round">&#8249;</a>
+        <a href="{{ path('app_movie_index', {page: currentPage + 1,  query: currentQuery, filters : currentFilters}) }}"
+           class="next round">&#8250;</a>
     </div>
 
 

@@ -4,9 +4,7 @@
 .sidebar-filter{
     top:10px;
     margin-top: 10px;
-    margin-left: 10px;
-    border: solid 1px;
-    border-radius: 10px;
+    border: solid 1px ;
     position: sticky;
     background-color: #202529;
     width: 300px;
