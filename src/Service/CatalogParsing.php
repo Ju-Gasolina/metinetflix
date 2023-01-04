@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use PhpParser\Node\Expr\Array_;
 use Symfony\Component\HttpClient\HttpClient;
 use function PHPUnit\Framework\isEmpty;
 
@@ -36,10 +37,13 @@ class CatalogParsing
         $serieParsing = new SerieParsing();
         $movieParsing = new MovieParsing();
 
-        $arrayMovies = $movieParsing->queryParsing($page, $query);
-        $arraySeries = $serieParsing->queryParsing($page, $query);
+        $arrayCatalog = array_merge($movieParsing->queryParsing($page, $query), $serieParsing->queryParsing($page, $query));
 
-        return array_merge($arrayMovies, $arraySeries);
+        usort($arrayCatalog, function ($first, $second) {
+            return strtolower($first->getTitle()) > strtolower($second->getTitle());
+        });
+
+        return $arrayCatalog;
     }
 
 
@@ -49,7 +53,7 @@ class CatalogParsing
         $movieParsing = new MovieParsing();
 
 
-        if($sortBy !== 'none') {
+        if ($sortBy !== 'none') {
             if ($sortBy === 'date.asc') {
                 $arrayMovies = $movieParsing->sortParsing($page, 'release_date.asc');
                 $arraySeries = $serieParsing->sortParsing($page, 'first_air_date.asc');
@@ -60,10 +64,11 @@ class CatalogParsing
                 $arrayMovies = $movieParsing->sortParsing($page, $sortBy);
                 $arraySeries = $serieParsing->sortParsing($page, $sortBy);
             }
-        }else {
+        } else {
             $arrayMovies = $movieParsing->popularParsing($page);
             $arraySeries = $serieParsing->popularParsing($page);
         }
+
 
 
         return array_merge($arrayMovies, $arraySeries);
@@ -77,9 +82,9 @@ class CatalogParsing
         $movieParsing = new MovieParsing();
 
         //TODO Format de la date dans l'api : 1920-03-11
-        if(isEmpty($filtersList)) {
+        if (isEmpty($filtersList)) {
 
-        }else {
+        } else {
             $arrayMovies = $movieParsing->popularParsing($page);
             $arraySeries = $serieParsing->popularParsing($page);
         }
@@ -90,18 +95,20 @@ class CatalogParsing
 
     }
 
-    public function queryMaker(int $page, array $filters = [] ,string $sortBy=null ){
+    public function queryMaker(int $page, array $options = [])
+    {
         $serieParsing = new SerieParsing();
         $movieParsing = new MovieParsing();
 
-        $arrayMovies = $movieParsing->queryMaker($page,$filters,$sortBy);
-        $arraySeries = $serieParsing->queryMaker($page,$filters,$sortBy);
+        $arrayCatalog = array_merge($movieParsing->queryMaker($page, $options), $serieParsing->queryMaker($page, $options));
 
+        usort($arrayCatalog, function ($first, $second) {
+            return strtolower($first->getTitle()) > strtolower($second->getTitle());
+        });
 
-        return array_merge($arrayMovies, $arraySeries);
+        return $arrayCatalog;
 
     }
-
 
 
 }

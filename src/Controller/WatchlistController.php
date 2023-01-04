@@ -25,6 +25,7 @@ class WatchlistController extends AbstractController
     #[Route('/', name: 'app_watchlist_index', methods: ['GET'])]
     public function index(Security $security, WatchlistRepository $watchlistRepository)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         $user = $security->getUser();
         if (is_null($user)) return $this->redirectToRoute('app_home');
         $watchlist = $watchlistRepository->findOneBy(["user" => $user->getId()]);
@@ -44,6 +45,7 @@ class WatchlistController extends AbstractController
                          Security                $security
     ): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         if (!$this->isUserVerified($id, $watchlistRepository, $security))
             return $this->redirectToRoute('app_watchlist_index');
 

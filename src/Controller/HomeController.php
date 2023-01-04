@@ -14,6 +14,7 @@ class HomeController extends AbstractController
     public function index(CatalogParsing $catalogParsing): Response
     {
 
+
         $arrayItem = $catalogParsing->upcomingParsing(1);
         shuffle($arrayItem);
 
