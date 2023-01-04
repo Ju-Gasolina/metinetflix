@@ -45,12 +45,14 @@ class WatchlistController extends AbstractController
                          Security                $security
     ): Response
     {
+
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         if (!$this->isUserVerified($id, $watchlistRepository, $security))
             return $this->redirectToRoute('app_watchlist_index');
 
         $items = $watchlistItemRepository->findBy([
             "watchlist" => $id]);
+
 
         $watchlistItems = array();
         foreach ($items as $item) {

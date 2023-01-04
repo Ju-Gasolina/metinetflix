@@ -80,6 +80,7 @@ class WatchlistItemController extends AbstractController
             $watchlistItem = new WatchlistItem();
             $watchlistItem->setWatchlist($watchlist);
             $watchlistItem->setItemType($type);
+            $watchlistItem->setStatus('Plan to watch');
 
             if($type == "movie") {
                 $movie = $movieRepository->find($idEntity);
@@ -166,3 +167,5 @@ class WatchlistItemController extends AbstractController
         ]);
     }
 }
+
+// TODO Faire une route permettant de changer le status d'un item, et faire le
