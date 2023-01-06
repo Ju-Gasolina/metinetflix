@@ -25,7 +25,9 @@ class SerieParsing
                 $item['first_air_date'],
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_serie_show',
-                'serie');
+                'serie',
+                $item['popularity'],
+                $item['vote_average']);
             $series[] = $card;
         }
 
@@ -48,7 +50,9 @@ class SerieParsing
                 $item['first_air_date'],
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_serie_show',
-                'serie');
+                'serie',
+                $item['popularity'],
+                $item['vote_average']);
             $series[] = $card;
         }
 
@@ -85,7 +89,9 @@ class SerieParsing
                 $season['air_date'] ?? "",
                 'https://image.tmdb.org/t/p/original' . $season['poster_path'],
                 'app_season_show',
-                'season');
+                'season',
+                $item['popularity'],
+                $item['vote_average']);
             $seasons[] = $card;
         }
 
@@ -141,7 +147,9 @@ class SerieParsing
                 $item['first_air_date'] ?? '',
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_serie_show',
-                'serie');
+                'serie',
+                $item['popularity'],
+                $item['vote_average']);
             $series[] = $card;
         }
 
@@ -168,7 +176,9 @@ class SerieParsing
                 $item['first_air_date'],
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_serie_show',
-                'serie');
+                'serie',
+                $item['popularity'],
+                $item['vote_average']);
             $series[] = $card;
         }
 
@@ -209,7 +219,9 @@ class SerieParsing
                 $item['first_air_date'],
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_serie_show',
-                'serie');
+                'serie',
+                $item['popularity'],
+                $item['vote_average']);
             $series[] = $card;
         }
 

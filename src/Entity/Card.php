@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use phpDocumentor\Reflection\Types\Integer;
+
 class Card
 {
     private String $id;
@@ -10,11 +12,12 @@ class Card
     private String $posterPath;
     private String $pathName;
     private String $type;
+    private ?float $popularity = null;
+    private ?float $markAverage = null;
 
 
 
-
-    public function __construct(String $_id, String $_title, String $_releaseDate, String $_posterPath, String $_pathName, String $_type)
+    public function __construct(String $_id, String $_title, String $_releaseDate, String $_posterPath, String $_pathName, String $_type, ?float $_popularity, ?float $_markAverage)
     {
         $this->title = $_title;
         $this->id = $_id;
@@ -22,7 +25,43 @@ class Card
         $this->posterPath = $_posterPath;
         $this->pathName = $_pathName;
         $this->type = $_type;
+        $this->popularity = $_popularity;
+        $this->markAverage = $_markAverage;
+
     }
+
+    /**
+     * @return float|null
+     */
+    public function getPopularity(): ?float
+    {
+        return $this->popularity;
+    }
+
+    /**
+     * @param float|null $popularity
+     */
+    public function setPopularity(?float $popularity): void
+    {
+        $this->popularity = $popularity;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getMarkAverage(): ?float
+    {
+        return $this->markAverage;
+    }
+
+    /**
+     * @param float|null $markAverage
+     */
+    public function setMarkAverage(?float $markAverage): void
+    {
+        $this->markAverage = $markAverage;
+    }
+
 
     /**
      * @return String
