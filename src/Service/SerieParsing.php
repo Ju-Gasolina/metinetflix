@@ -124,7 +124,8 @@ class SerieParsing
             $serie->getFirstAirDate(),
             $serie->getPosterPath(),
             'app_serie_show',
-            'serie'
+            'serie',
+            null
         );
 
         return $watchlistCard;

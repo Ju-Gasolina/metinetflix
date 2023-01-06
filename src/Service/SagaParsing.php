@@ -55,7 +55,8 @@ class SagaParsing
             '[Pas de release_date pour les sagas]',
             $saga->getPosterPath(),
             'app_saga_show',
-            'saga'
+            'saga',
+            null
         );
 
         return $watchlistCard;

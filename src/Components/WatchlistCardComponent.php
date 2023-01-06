@@ -13,4 +13,6 @@ class WatchlistCardComponent
     public String $posterPath;
     public String $pathName;
     public String $type;
+    public String $status;
+
 }

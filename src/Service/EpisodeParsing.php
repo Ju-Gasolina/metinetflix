@@ -13,16 +13,16 @@ class EpisodeParsing
     {
         $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
         $client = HttpClient::create();
-        $response = $client->request('GET', 'https://api.themoviedb.org/3/tv/'.$idTV.'/season/'.$seasonNumber.'/episode/'.$episodeNumber.'?api_key='.$apiKey.'&language=fr-FR');
+        $response = $client->request('GET', 'https://api.themoviedb.org/3/tv/' . $idTV . '/season/' . $seasonNumber . '/episode/' . $episodeNumber . '?api_key=' . $apiKey . '&language=fr-FR');
         $item = $response->toArray();
 
-        $response2 = $client->request('GET', 'https://api.themoviedb.org/3/tv/'.$idTV.'/season/'.$seasonNumber.'?api_key='.$apiKey.'&language=fr-FR');
+        $response2 = $client->request('GET', 'https://api.themoviedb.org/3/tv/' . $idTV . '/season/' . $seasonNumber . '?api_key=' . $apiKey . '&language=fr-FR');
         $item2 = $response2->toArray();
 
         $overview = !empty($item['overview']) ? $item['overview'] : "Aucune description";
 
         $episode = array(
-            'id' => $idTV.'-'.$seasonNumber.'-'.$episodeNumber,
+            'id' => $idTV . '-' . $seasonNumber . '-' . $episodeNumber,
             'name' => $item['name'],
             'poster_path' => 'https://image.tmdb.org/t/p/original' . $item2['poster_path'],
             'season_number' => $item['season_number'],
@@ -34,7 +34,7 @@ class EpisodeParsing
         return $episode;
     }
 
-    public function episodeWatchlistCardParsing(String $id, Episode $episode): WatchlistCard
+    public function episodeWatchlistCardParsing(string $id, Episode $episode): WatchlistCard
     {
         $watchlistCard = new WatchlistCard(
             $id,
@@ -43,7 +43,8 @@ class EpisodeParsing
             $episode->getAirDate(),
             $episode->getPosterPath(),
             'app_episode_show',
-            'episode'
+            'episode',
+            null
         );
 
         return $watchlistCard;
