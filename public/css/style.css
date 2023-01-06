@@ -472,3 +472,8 @@
 .custom-logo a:hover{
     color: #8B1489;
 }
+
+#profile
+{
+    height: 100vh;
+}

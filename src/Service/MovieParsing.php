@@ -105,6 +105,8 @@ class MovieParsing
          'app_saga_show',
          'saga' );
 
+        dd($item['belongs_to_collection']);
+
         $movie = array(
             'id' => $item['id'],
             'title' => $item['title'],
