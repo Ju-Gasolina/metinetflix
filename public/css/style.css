@@ -362,18 +362,9 @@
 }
 
 .watchlist-card-status{
-    border: 1px solid white ;
+    border: 1px solid black;
     border-radius: 10px;
     padding: 0 5px 0 5px;
-
-
-
-}
-
-.watchlist-card-status-container{
-
-
-
 
 }
 
