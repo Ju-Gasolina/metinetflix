@@ -25,7 +25,9 @@ class MovieParsing
                 $item['release_date'],
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_movie_show',
-                'movie');
+                'movie',
+                $item['popularity'],
+                $item['vote_average']);
             $movies[] = $card;
         }
 
@@ -48,7 +50,9 @@ class MovieParsing
                 $item['release_date'],
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_movie_show',
-                'movie');
+                'movie',
+                $item['popularity'],
+                $item['vote_average']);
             $movies[] = $card;
         }
 
@@ -71,7 +75,9 @@ class MovieParsing
                 $item['release_date'],
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_movie_show',
-                'movie');
+                'movie',
+                $item['popularity'],
+                $item['vote_average']);
             $movies[] = $card;
         }
 
@@ -103,7 +109,9 @@ class MovieParsing
          $item['belongs_to_collection']['release_date'] ?? 0,
          'https://image.tmdb.org/t/p/original' . ($item['belongs_to_collection']['backdrop_path'] ?? ""),
          'app_saga_show',
-         'saga' );
+         'saga',
+         null,
+         null);
 
         $movie = array(
             'id' => $item['id'],
@@ -158,7 +166,9 @@ class MovieParsing
                 $item['release_date'],
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_movie_show',
-                'movie');
+                'movie',
+                $item['popularity'],
+                $item['vote_average']);
             $movies[] = $card;
         }
 
@@ -202,7 +212,9 @@ class MovieParsing
                 $item['release_date'],
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_movie_show',
-                'movie');
+                'movie',
+                $item['popularity'],
+                $item['vote_average']);
             $movies[] = $card;
         }
 

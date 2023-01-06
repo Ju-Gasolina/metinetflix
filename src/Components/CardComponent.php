@@ -12,4 +12,6 @@ class CardComponent
     public String $posterPath;
     public String $pathName;
     public String $type;
+    public float $markAverage;
+    public float $popularity;
 }

@@ -59,6 +59,9 @@ class WatchlistItem
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $personnal_note = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $status = null;
+
     public function __construct()
     {
 
@@ -209,6 +212,18 @@ class WatchlistItem
     public function setPersonnalNote(?string $personnal_note): self
     {
         $this->personnal_note = $personnal_note;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

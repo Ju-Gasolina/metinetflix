@@ -28,7 +28,9 @@ class SagaParsing
                 $movie['release_date'] ?? "",
                 'https://image.tmdb.org/t/p/original' . $movie['poster_path'],
                 'app_movie_show',
-                'movie');
+                'movie',
+                $movie['popularity'],
+                $movie['vote_average']);
             $movies[] = $card;
         }
 

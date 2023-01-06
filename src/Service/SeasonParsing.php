@@ -26,7 +26,9 @@ class SeasonParsing
                 $episode['air_date'] ?? "",
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_episode_show',
-                'episode');
+                'episode',
+                null,
+                $episode['vote_average']);
             $episodes[] = $card;
         }
 
