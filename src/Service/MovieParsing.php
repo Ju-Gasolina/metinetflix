@@ -113,6 +113,8 @@ class MovieParsing
          null,
          null);
 
+        dd($item['belongs_to_collection']);
+
         $movie = array(
             'id' => $item['id'],
             'title' => $item['title'],

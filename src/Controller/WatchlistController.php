@@ -30,7 +30,6 @@ class WatchlistController extends AbstractController
         if (is_null($user)) return $this->redirectToRoute('app_home');
         $watchlist = $watchlistRepository->findOneBy(["user" => $user->getId()]);
         return $this->redirectToRoute('app_watchlist_show', ['id' => $watchlist->getId()]);
-
     }
 
     #[Route('/{id}', name: 'app_watchlist_show', methods: ['GET'])]

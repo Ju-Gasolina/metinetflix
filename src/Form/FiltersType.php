@@ -57,7 +57,7 @@ class FiltersType extends AbstractType
             ->add( 'minDate', DateType::class, [
 
                     'attr' => ['class' => 'input-date d-flex'],
-                    'widget' => 'choice',
+                    'widget' => 'single_text',
                     'required' => 'false',
                     'years' => range(1899, date('Y')+100),
                     'months' => range(date('m'), 12),
@@ -69,7 +69,7 @@ class FiltersType extends AbstractType
             ->add( 'maxDate', DateType::class, [
 
                     'attr' => ['class' => 'input-date d-flex'],
-                    'widget' => 'choice',
+                    'widget' => 'single_text',
                     'required' => 'false',
                     'years' => range(1899, date('Y')+100),
                     'months' => range(date('m'), 12),
