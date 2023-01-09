@@ -4,6 +4,7 @@
 
 {% block main %}
     {{ component('show-header', {
+        backdropPath: movie.backdrop_path,
         posterPath: movie.poster_path,
         name: movie.title,
         type: movie.type,

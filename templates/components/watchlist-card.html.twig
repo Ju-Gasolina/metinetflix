@@ -7,8 +7,11 @@
 
     <div class="col-10 watchlist-card-infos">
         <div class="d-flex flex-row ">
-            {% if this.type == 'serie' %}  <i class="me-3 bi bi-collection-play text-light h3"></i>
+            {% if this.type == 'season' %}  <i class="me-3 bi bi-collection-play text-light h3"></i>
             {% elseif this.type == 'movie' %}  <i class="me-3 bi bi-film text-light h3"></i>
+            {% elseif this.type == 'saga' %}  <i class="me-3 bi bi-aspect-ratio text-light h3"></i>
+            {% elseif this.type == 'serie' %}  <i class="me-3 bi bi-collection text-light h3"></i>
+            {% elseif this.type == 'episode' %}  <i class="me-3 bi bi-play-btn text-light h3"></i>
             {% else %}  <i class="me-3 bi bi-0-circle text-light h3"></i>
             {% endif %}
             <h4 class="text-truncate ">{{ this.title }}</h4>
