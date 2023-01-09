@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Serie{% endblock %}
+{% block title %}{{ serie.name }}{% endblock %}
 
 {% block main %}
     {{ component('show-header', {
+        backdropPath: serie.backdrop_path,
         posterPath: serie.poster_path,
         name: serie.name,
         type: serie.type,
@@ -90,11 +91,11 @@
                     </div>
                 </div>
             </div>
-
-            {{ component('horizontal-carousel', {
-                title: 'Saisons',
-                items: serie.seasons
-            }) }}
         </div>
+
+        {{ component('horizontal-carousel', {
+            title: 'Saisons',
+            items: serie.seasons
+        }) }}
     </div>
 {% endblock %}

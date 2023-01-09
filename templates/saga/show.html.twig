@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Saga{% endblock %}
+{% block title %}{{ saga.name }}{% endblock %}
 
 {% block main %}
     {{ component('show-header', {
+        backdropPath: saga.backdrop_path,
         posterPath: saga.poster_path,
         name: saga.name,
         type: saga.type,
@@ -45,11 +46,11 @@
                     </div>
                 </div>
             </div>
-
-            {{ component('horizontal-carousel', {
-                title: 'Films',
-                items: saga.movies
-            }) }}
         </div>
+
+        {{ component('horizontal-carousel', {
+            title: 'Films',
+            items: saga.movies
+        }) }}
     </div>
 {% endblock %}

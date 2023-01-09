@@ -59,7 +59,7 @@
                 <li>
                     <a href="{{ path('app_serie_index') }}" class="nav-link nav-bar-text
                         {% if '/serie' in currentRoute %} text-secondary {% endif %}">
-                        <i class="bi bi-collection-play"></i>
+                        <i class="bi bi-collection"></i>
                         Séries
                     </a>
                 </li>
@@ -73,15 +73,8 @@
                 <li>
                     <a href="{{ path('app_saga_index') }}" class="nav-link nav-bar-text
                         {% if '/saga' in currentRoute %} text-secondary {% endif %}">
-                        <i class="bi bi-collection"></i>
+                        <i class="bi bi-aspect-ratio"></i>
                         Sagas
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('app_saga_fill_db', {'popularPage': 1}) }}" class="nav-link nav-bar-text
-                        {% if currentRoute  == '/' %} text-secondary {% endif %}">
-                        <i class="bi bi-download"></i>
-                        Remplissage BDD (sagas)
                     </a>
                 </li>
                 {% if isUserConnected %}
@@ -93,9 +86,9 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
                                 <li><a class="dropdown-item"
+                                       href="{{ path('app_user_index') }}">Profil</a></li>
+                                <li><a class="dropdown-item"
                                        href="{{ path('app_watchlist_index') }}">Watchlist</a></li>
-                                <li><a class="dropdown-item" href="#">Profil</a></li>
-                                <li><a class="dropdown-item" href="#">Paramètre de compte</a></li>
                             </ul>
                         </div>
                     </li>

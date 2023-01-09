@@ -1,6 +1,6 @@
-<img class="image-rognage" src="{{ this.posterPath }}" alt="{{ this.name }}">
+<img class="image-rognage" src="{{ this.backdropPath == 'https://image.tmdb.org/t/p/original' ? '/assets/img/no-backdrop.jpg' : this.backdropPath }}" alt="{{ this.name }}">
 
-<img class="poster-on-banner" src="{{ this.posterPath }}" alt="{{ this.name }}">
+<img class="poster-on-banner" src="{{ this.posterPath == 'https://image.tmdb.org/t/p/original' ? '/assets/img/no-poster.jpg' : this.posterPath }}" alt="{{ this.name }}">
 
 <div class="d-flex flex-column justify-content-center align-items-center">
     <div  id="title-for-poster-on-banner" class="card box-shadow translate-title-for-poster-on-banner">

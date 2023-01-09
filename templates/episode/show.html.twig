@@ -1,17 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Episode{% endblock %}
+{% block title %}{{ episode.serie ~ " - " ~ episode.season ~ " - " ~ episode.name }}{% endblock %}
 
 {% block main %}
     {{ component('show-header', {
+        backdropPath: episode.poster_path,
         posterPath: episode.poster_path,
-        name: episode.name,
+        name: episode.serie ~ " - " ~ episode.season ~ " - " ~ episode.name,
         type: episode.type,
         id: episode.id,
     }) }}
 
     <div class="translate-block-for-poster-on-banner">
         <div class="container pb-5 pt-5">
+            <div class="pb-5">
+                <img class="card-img-top rounded" src="/assets/img/video.jpg" alt="Cliquez pour voir lancer le film">
+            </div>
+
             <div class="row">
                 <div class="col-lg-6 col-sm">
                     <div>
@@ -22,6 +27,8 @@
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-unstyled text-start m-0">
+                                        <li>Titre de la série : <a href="{{ path('app_serie_show', {id: episode.serie_id}) }}" title="{{ episode.serie }}">{{ episode.serie }}</a></li>
+                                        <li>Titre de la saison : <a href="{{ path('app_season_show', {id: episode.season_id}) }}" title="{{ episode.season }}">{{ episode.season }}</a></li>
                                         <li>Numéro de saison : {{ episode.season_number }}</li>
                                         <li>Numéro de l'épisode : {{ episode.episode_number }}</li>
                                         <li>Date de diffusion : {{ episode.air_date }}</li>

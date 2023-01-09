@@ -184,22 +184,6 @@
 
 }
 
-.home-container-3 {
-    margin-top: 50px;
-    background-color: #0007;
-    height: 600px;
-    width: 100%;
-
-}
-
-
-.home-container-4 {
-    margin-top: 50px;
-    height: 600px;
-    width: 100%;
-
-}
-
 
 @keyframes rotate360 {
     from {
@@ -482,3 +466,24 @@
 .custom-logo a:hover {
     color: #8B1489;
 }
+
+#profile label, input
+{
+    width: 50%;
+    margin-bottom: 10px;
+}
+
+#profile button
+{
+    margin-top: 15px;
+    width: 100%;
+}
+
+.horizontal-carousel
+{
+    margin-top: 50px;
+    background-color: #0007;
+    height: 600px;
+    width: 100%;
+}
+

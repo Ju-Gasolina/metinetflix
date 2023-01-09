@@ -1,21 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Season{% endblock %}
+{% block title %}{{ season.serie ~ " - " ~ season.name }}{% endblock %}
 
 {% block main %}
-    <img class="image-rognage" src="{{ season.poster_path }}" alt="{{ season.name }}">
-
-    <img class="poster-on-banner" src="{{ season.poster_path }}" alt="{{ season.name }}">
-
-    <div class="d-flex flex-column justify-content-center align-items-center">
-        <div  id="title-for-poster-on-banner" class="card box-shadow translate-title-for-poster-on-banner">
-            <div class="card-header border-0">
-                <h1 class="text-dark text-center mt-2 h3">{{ season.name }}</h1>
-            </div>
-        </div>
-
-        <a href="{{ path('app_watchlist_item_new', {type: season.type, idTMDB: season.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger translate-title-for-poster-on-banner h3 mt-3"></a>
-    </div>
+    {{ component('show-header', {
+        backdropPath: season.poster_path,
+        posterPath: season.poster_path,
+        name: season.serie ~ " - " ~ season.name,
+        type: season.type,
+        id: season.id,
+    }) }}
 
     <div class="translate-block-for-poster-on-banner">
         <div class="container pb-5 pt-5">
@@ -29,6 +23,7 @@
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-unstyled text-start m-0">
+                                        <li>Titre de la série : <a href="{{ path('app_serie_show', {id: season.serie_id}) }}" title="{{ season.serie }}">{{ season.serie }}</a></li>
                                         <li>Numéro de saison : {{ season.season_number }}</li>
                                         <li>Date de diffusion : {{ season.air_date }}</li>
                                         <li>Nombre d'épisodes : {{ season.number_of_episodes }}</li>
@@ -54,11 +49,11 @@
                     </div>
                 </div>
             </div>
-
-            {{ component('horizontal-carousel', {
-                title: 'Episodes',
-                items: season.episodes
-            }) }}
         </div>
+
+        {{ component('horizontal-carousel', {
+            title: 'Episodes',
+            items: season.episodes
+        }) }}
     </div>
 {% endblock %}
