@@ -4,6 +4,7 @@
 
 {% block main %}
     {{ component('show-header', {
+        backdropPath: serie.backdrop_path,
         posterPath: serie.poster_path,
         name: serie.name,
         type: serie.type,

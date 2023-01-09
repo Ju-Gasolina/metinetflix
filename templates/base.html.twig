@@ -57,7 +57,7 @@
                 <li>
                     <a href="{{ path('app_serie_index') }}" class="nav-link nav-bar-text
                         {% if '/serie' in currentRoute %} text-secondary {% endif %}">
-                        <i class="bi bi-collection-play"></i>
+                        <i class="bi bi-collection"></i>
                         Séries
                     </a>
                 </li>
@@ -71,15 +71,8 @@
                 <li>
                     <a href="{{ path('app_saga_index') }}" class="nav-link nav-bar-text
                         {% if '/saga' in currentRoute %} text-secondary {% endif %}">
-                        <i class="bi bi-collection"></i>
+                        <i class="bi bi-aspect-ratio"></i>
                         Sagas
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ path('app_saga_fill_db', {'popularPage': 1}) }}" class="nav-link nav-bar-text
-                        {% if currentRoute  == '/' %} text-secondary {% endif %}">
-                        <i class="bi bi-download"></i>
-                        Remplissage BDD (sagas)
                     </a>
                 </li>
                 {% if isUserConnected %}

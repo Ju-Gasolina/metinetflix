@@ -4,6 +4,7 @@
 
 {% block main %}
     {{ component('show-header', {
+        backdropPath: saga.backdrop_path,
         posterPath: saga.poster_path,
         name: saga.name,
         type: saga.type,
