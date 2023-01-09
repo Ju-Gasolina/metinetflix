@@ -82,7 +82,7 @@
                                 </div>
                                 <div class="card-body p-0">
                                     <a href="{{ path(movie.belongs_to_collection.pathName, {id: movie.belongs_to_collection.id}) }}" title="Cliquez pour voir les informations détaillées">
-                                        <img class="card-img-top rounded" src="{{ movie.belongs_to_collection.posterPath }}" alt="{{ movie.belongs_to_collection.title }}">
+                                        <img class="card-img-top rounded" src="{{ movie.belongs_to_collection.posterPath == 'https://image.tmdb.org/t/p/original' ? '/assets/img/no-backdrop.jpg' : movie.belongs_to_collection.posterPath }}" alt="{{ movie.belongs_to_collection.title }}">
                                     </a>
                                 </div>
                             </div>
