@@ -77,6 +77,7 @@ class WatchlistController extends AbstractController
                     break;
             }
 
+            $watchlistCard->setStatus($item->getStatus());
             $watchlistItems[] = $watchlistCard;
         }
 

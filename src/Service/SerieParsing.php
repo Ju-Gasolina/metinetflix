@@ -22,7 +22,7 @@ class SerieParsing
             $card = new Card(
                 $item['id'],
                 $item['name'],
-                $item['first_air_date'],
+                $item['first_air_date'] ?? '',
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_serie_show',
                 'serie',
@@ -47,7 +47,7 @@ class SerieParsing
             $card = new Card(
                 $item['id'],
                 $item['name'],
-                $item['first_air_date'],
+                $item['first_air_date'] ?? '',
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_serie_show',
                 'serie',
@@ -124,7 +124,8 @@ class SerieParsing
             $serie->getFirstAirDate(),
             $serie->getPosterPath(),
             'app_serie_show',
-            'serie'
+            'serie',
+            null
         );
 
         return $watchlistCard;
@@ -173,7 +174,7 @@ class SerieParsing
             $card = new Card(
                 $item['id'],
                 $item['name'],
-                $item['first_air_date'],
+                $item['first_air_date'] ?? '',
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_serie_show',
                 'serie',
@@ -216,7 +217,7 @@ class SerieParsing
             $card = new Card(
                 $item['id'],
                 $item['name'],
-                $item['first_air_date'],
+                $item['first_air_date'] ?? '',
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_serie_show',
                 'serie',

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use function Symfony\Bridge\Twig\Extension\twig_is_selected_choice;
+
 class WatchlistCard
 {
     private String $id;
@@ -11,11 +13,12 @@ class WatchlistCard
     private String $posterPath;
     private String $pathName;
     private String $type;
+    private ?String $status=null;
 
 
 
 
-    public function __construct(String $_id, String $_idTMDB, String $_title, String $_releaseDate, String $_posterPath, String $_pathName, String $_type)
+    public function __construct(String $_id, String $_idTMDB, String $_title, String $_releaseDate, String $_posterPath, String $_pathName, String $_type, ?String $_status)
     {
         $this->id = $_id;
         $this->idTMDB = $_idTMDB;
@@ -24,6 +27,23 @@ class WatchlistCard
         $this->posterPath = $_posterPath;
         $this->pathName = $_pathName;
         $this->type = $_type;
+        $this->status = $_status;
+    }
+
+    /**
+     * @return String
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param String $status
+     */
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
     }
 
     /**

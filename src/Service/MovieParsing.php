@@ -139,7 +139,9 @@ class MovieParsing
             $movie->getReleaseDate(),
             $movie->getPosterPath(),
             'app_movie_show',
-            'movie'
+            'movie',
+            null
+
         );
 
         return $watchlistCard;

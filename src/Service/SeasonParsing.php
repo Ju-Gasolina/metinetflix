@@ -60,7 +60,8 @@ class SeasonParsing
             $season->getAirDate(),
             $season->getPosterPath(),
             'app_season_show',
-            'season'
+            'season',
+            null
         );
 
         return $watchlistCard;
