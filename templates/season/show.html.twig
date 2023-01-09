@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Season{% endblock %}
+{% block title %}{{ season.serie ~ " - " ~ season.name }}{% endblock %}
 
 {% block main %}
     {{ component('show-header', {
         backdropPath: season.poster_path,
         posterPath: season.poster_path,
-        name: season.name,
+        name: season.serie ~ " - " ~ season.name,
         type: season.type,
         id: season.id,
     }) }}
@@ -23,6 +23,7 @@
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-unstyled text-start m-0">
+                                        <li>Titre de la série : {{ season.serie }}</li>
                                         <li>Numéro de saison : {{ season.season_number }}</li>
                                         <li>Date de diffusion : {{ season.air_date }}</li>
                                         <li>Nombre d'épisodes : {{ season.number_of_episodes }}</li>

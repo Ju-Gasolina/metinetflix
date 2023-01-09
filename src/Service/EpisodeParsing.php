@@ -19,11 +19,15 @@ class EpisodeParsing
         $response2 = $client->request('GET', 'https://api.themoviedb.org/3/tv/'.$idTV.'/season/'.$seasonNumber.'?api_key='.$apiKey.'&language=fr-FR');
         $item2 = $response2->toArray();
 
-        $overview = !empty($item['overview']) ? $item['overview'] : "Aucune description";
+        $response3 = $client->request('GET', 'https://api.themoviedb.org/3/tv/' . $idTV . '?api_key=' . $apiKey . '&language=fr-FR');
+        $serie = $response3->toArray()["name"];
 
+        $overview = !empty($item['overview']) ? $item['overview'] : "Aucune description";
         $episode = array(
             'id' => $idTV.'-'.$seasonNumber.'-'.$episodeNumber,
             'name' => $item['name'],
+            'serie' => $serie,
+            'season' => $item2['name'],
             'poster_path' => 'https://image.tmdb.org/t/p/original' . $item2['poster_path'],
             'season_number' => $item['season_number'],
             'episode_number' => $item['episode_number'],
