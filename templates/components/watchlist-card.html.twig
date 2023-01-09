@@ -61,7 +61,13 @@
                         </li>
                     </ul>
                 </div>
-                <a class="text-decoration-none" href="{{ path('app_watchlist_item_show', {id: this.id}) }}"
+                <a class="text-decoration-none"
+                   hx-target="#response-div"
+                   hx-get="{{ path('app_serie_index') }}"
+                   hx-swap="outerHTML"
+                   href="#"
+{#                   href="{{ path('app_watchlist_item_show', {id: this.id}) }}"#}
+
                    title="Cliquez pour voir mes informations sur cet item">
                     {{ component('button', {
                         title: 'Infos',

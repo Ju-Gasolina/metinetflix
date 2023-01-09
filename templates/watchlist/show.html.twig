@@ -3,11 +3,11 @@
 {% block title %}Watchlist{% endblock %}
 
 {% block main %}
-    <div class="container my-5">
+    <div id="response-div" class="container my-5">
         <div class="row mt-2 ">
 
 
-            <div class="pl-2 col-12 watchlist-item-list">
+            <div class="col-12">
                 {% for watchlistItem in watchlistItems %}
                     {{ component('watchlist-card', {
                         id: watchlistItem.id,
