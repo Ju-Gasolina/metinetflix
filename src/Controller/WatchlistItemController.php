@@ -117,6 +117,26 @@ class WatchlistItemController extends AbstractController
         return $this->redirectToRoute('app_watchlist_show', ['id' => $watchlist->getId()]);
     }
 
+    #[Route('/delete/{id}', name: 'app_watchlist_item_delete',methods: ['GET','POST'])]
+    public function delete(Int $id, WatchlistItemRepository $watchlistItemRepository ): Response
+    {
+        $item = $watchlistItemRepository->find($id);
+        $watchlistId = $watchlistItemRepository->find($id)->getWatchlist()->getId();
+        $watchlistItemRepository->remove($item, true);
+        return $this->redirectToRoute('app_watchlist_show', ['id' => $watchlistId]);
+    }
+
+    #[Route('/modify/{id}/{status}', name: 'app_watchlist_item_modify_status',methods: ['GET'])]
+    public function modifyStatus(Int $id, String $status, WatchlistItemRepository $watchlistItemRepository ): Response
+    {
+        $item = $watchlistItemRepository->find($id);
+        $item->setStatus($status);
+        $watchlistItemRepository->save($item, true);
+        $watchlistId = $item->getWatchlist()->getId();
+
+        return $this->redirectToRoute('app_watchlist_show', ['id' => $watchlistId]);
+    }
+
     #[Route('/{id}', name: 'app_watchlist_item_show', methods: ['GET', 'POST'])]
     public function show(Int $id,
                          Request $request,
