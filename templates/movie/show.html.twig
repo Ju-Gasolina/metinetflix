@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Movie{% endblock %}
+{% block title %}{{ movie.title }}{% endblock %}
 
 {% block main %}
     {{ component('show-header', {

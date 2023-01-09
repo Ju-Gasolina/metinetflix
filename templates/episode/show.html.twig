@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Episode{% endblock %}
+{% block title %}{{ episode.serie ~ " - " ~ episode.season ~ " - " ~ episode.name }}{% endblock %}
 
 {% block main %}
     {{ component('show-header', {
         backdropPath: episode.poster_path,
         posterPath: episode.poster_path,
-        name: episode.name,
+        name: episode.serie ~ " - " ~ episode.season ~ " - " ~ episode.name,
         type: episode.type,
         id: episode.id,
     }) }}
@@ -27,6 +27,7 @@
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-unstyled text-start m-0">
+                                        <li>Titre de la série : {{ episode.serie }}</li>
                                         <li>Numéro de saison : {{ episode.season_number }}</li>
                                         <li>Numéro de l'épisode : {{ episode.episode_number }}</li>
                                         <li>Date de diffusion : {{ episode.air_date }}</li>

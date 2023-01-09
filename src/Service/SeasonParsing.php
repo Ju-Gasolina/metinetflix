@@ -32,10 +32,14 @@ class SeasonParsing
             $episodes[] = $card;
         }
 
+        $response2 = $client->request('GET', 'https://api.themoviedb.org/3/tv/' . $idTV . '?api_key=' . $apiKey . '&language=fr-FR');
+        $serie = $response2->toArray()["name"];
+
         $season = array(
             'id' => $idTV.'-'.$seasonNumber,
             'name' => $item['name'],
             'poster_path' => 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
+            'serie' => $serie,
             'season_number' => $item['season_number'],
             'air_date' => $item['air_date'],
             'number_of_episodes' => count($item['episodes']),
