@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-unstyled text-start m-0">
-                                        <li>Titre de la série : {{ season.serie }}</li>
+                                        <li>Titre de la série : <a href="{{ path('app_serie_show', {id: season.serie_id}) }}" title="{{ season.serie }}">{{ season.serie }}</a></li>
                                         <li>Numéro de saison : {{ season.season_number }}</li>
                                         <li>Date de diffusion : {{ season.air_date }}</li>
                                         <li>Nombre d'épisodes : {{ season.number_of_episodes }}</li>

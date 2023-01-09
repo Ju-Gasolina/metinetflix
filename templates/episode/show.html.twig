@@ -27,7 +27,8 @@
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-unstyled text-start m-0">
-                                        <li>Titre de la série : {{ episode.serie }}</li>
+                                        <li>Titre de la série : <a href="{{ path('app_serie_show', {id: episode.serie_id}) }}" title="{{ episode.serie }}">{{ episode.serie }}</a></li>
+                                        <li>Titre de la saison : <a href="{{ path('app_season_show', {id: episode.season_id}) }}" title="{{ episode.season }}">{{ episode.season }}</a></li>
                                         <li>Numéro de saison : {{ episode.season_number }}</li>
                                         <li>Numéro de l'épisode : {{ episode.episode_number }}</li>
                                         <li>Date de diffusion : {{ episode.air_date }}</li>
