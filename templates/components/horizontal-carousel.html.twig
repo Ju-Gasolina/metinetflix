@@ -1,16 +1,18 @@
-<h1 class="text-white text-center mt-2">{{ this.title }}</h1>
-<div class="container pb-5 pt-5 ">
-    <div class="row">
-        <div class="d-flex flex-row flex-nowrap overflow-auto scrollbar-custom pb-2">
-            {% for item in this.items %}
-                {{ component('carousel-card', {
-                    id: item.id,
-                    title: item.title,
-                    posterPath: item.posterPath,
-                    pathName: item.pathName,
-                    type: item.type,
-                }) }}
-            {% endfor %}
+<div class="horizontal-carousel">
+    <h1 class="text-white text-center mt-2">{{ this.title }}</h1>
+    <div class="container pb-5 pt-5 ">
+        <div class="row">
+            <div class="d-flex flex-row flex-nowrap overflow-auto scrollbar-custom pb-2">
+                {% for item in this.items %}
+                    {{ component('carousel-card', {
+                        id: item.id,
+                        title: item.title,
+                        posterPath: item.posterPath,
+                        pathName: item.pathName,
+                        type: item.type,
+                    }) }}
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
