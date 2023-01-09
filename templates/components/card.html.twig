@@ -1,7 +1,7 @@
 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
     <div class="card text-center">
         <a href="{{ path(this.pathName, {id: this.id}) }}" title="Cliquez pour voir les informations détaillées">
-            <img class="card-img-top" src="{{ this.posterPath }}" alt="{{ this.title }}">
+            <img class="card-img-top" src="{{ this.posterPath == 'https://image.tmdb.org/t/p/original' ? '/assets/img/no-poster.jpg' : this.posterPath }}" alt="{{ this.title }}">
         </a>
         <div class="card-body">
             <p class="card-title h5 text-truncate">{{ this.title }}</p>
