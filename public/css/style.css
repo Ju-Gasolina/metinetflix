@@ -473,7 +473,15 @@
     color: #8B1489;
 }
 
-#profile
+#profile label, input
 {
-    height: 100vh;
+    width: 50%;
+    margin-bottom: 10px;
 }
+
+#profile button
+{
+    margin-top: 15px;
+    width: 100%;
+}
+

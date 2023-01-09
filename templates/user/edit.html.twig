@@ -4,14 +4,14 @@
 
 {% block main %}
     <div class="container pt-5 d-flex justify-content-center" id="profile">
-        <div class="card mb-4 rounded-3 shadow-sm w-50 h-50">
+        <div class="card mb-4 rounded-3 shadow-sm w-50">
             <div class="card-header py-3">
-                <h4 class="my-0 fw-normal">{{ user.username }}</h4>
+                <h4 class="my-0 fw-normal">Mon profil</h4>
             </div>
             <div class="card-body">
                 {{ form_start(form) }}
                     {{ form_widget(form) }}
-                    <button class="btn">{{ button_label|default('Save') }}</button>
+                    <button class="btn btn-dark">{{ button_label|default('Save') }}</button>
                 {{ form_end(form) }}
             </div>
         </div>
