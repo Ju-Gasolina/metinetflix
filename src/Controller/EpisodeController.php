@@ -8,12 +8,15 @@ use App\Entity\Serie;
 use App\Repository\EpisodeRepository;
 use App\Repository\SeasonRepository;
 use App\Repository\SerieRepository;
+use App\Repository\WatchlistRepository;
+use App\Repository\WatchlistItemRepository;
 use App\Service\EpisodeParsing;
 use App\Service\SeasonParsing;
 use App\Service\SerieParsing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('/episode')]
 class EpisodeController extends AbstractController
@@ -83,12 +86,35 @@ class EpisodeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_episode_show', methods: ['GET'])]
-    public function show(String $id, EpisodeParsing $episodeParsing): Response
+    public function show(String $id, EpisodeParsing $episodeParsing, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, EpisodeRepository $episodeRepository): Response
     {
         $ids = explode("-", $id);
 
+        $episode = $episodeParsing->episodeParsing($ids[0], $ids[1], $ids[2]);
+
+        $episode["isWatchlistItem"] = $this->isWatchlistItem($id, $security, $watchlistRepository, $watchlistItemRepository, $episodeRepository);
+
         return $this->render('episode/show.html.twig', [
-            'episode' => $episodeParsing->episodeParsing($ids[0], $ids[1], $ids[2]),
+            'episode' => $episode,
         ]);
+    }
+
+    private function isWatchlistItem(string $idTMDB, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, EpisodeRepository $episodeRepository): bool
+    {
+        if(!$this->isGranted('ROLE_USER')) return false;
+
+        $searchEpisode = $episodeRepository->findOneBy(["idTMDB" => $idTMDB]);
+
+        if(isset($searchEpisode))
+        {
+            $result = $watchlistItemRepository->findOneBy([
+                "watchlist" => $watchlistRepository->findOneBy(["user" => $security->getUser()->getId()]),
+                "episode" => $searchEpisode->getId()
+            ]);
+
+            if(isset($result)) return true;
+            else return false;
+        }
+        else return false;
     }
 }

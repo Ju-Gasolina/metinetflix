@@ -9,5 +9,9 @@
         </div>
     </div>
 
-    <a href="{{ path('app_watchlist_item_new', {type: this.type, idTMDB: this.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger translate-title-for-poster-on-banner h3 mt-3"></a>
+    {% if this.isWatchlistItem %}
+        <i class="bi bi-heart-fill text-danger translate-title-for-poster-on-banner h3 mt-3"></i>
+    {% else %}
+        <a href="{{ path('app_watchlist_item_new', {type: this.type, idTMDB: this.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger translate-title-for-poster-on-banner h3 mt-3"></a>
+    {% endif %}
 </div>

@@ -15,7 +15,11 @@
                 {{ this.title }}
             </p>
             <div class="d-flex justify-content-between align-items-center">
-                <a href="{{ path('app_watchlist_item_new', {type: this.type, idTMDB: this.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger like"></a>
+                {% if this.isWatchlistItem %}
+                    <i class="bi bi-heart-fill text-danger like"></i>
+                {% else %}
+                    <a href="{{ path('app_watchlist_item_new', {type: this.type, idTMDB: this.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger like"></a>
+                {% endif %}
 
                 {% if (this.markAverage*10) >= 0 and (this.markAverage*10) < 25 %} <div class="circle mark0-25">{{ this.markAverage*10 }}%</div>
                 {% elseif (this.markAverage*10) >= 25 and (this.markAverage*10) < 50 %} <div class="circle mark25-50">{{ this.markAverage*10 }}%</div>

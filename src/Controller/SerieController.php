@@ -5,19 +5,23 @@ namespace App\Controller;
 use App\Entity\Serie;
 use App\Form\FiltersType;
 use App\Form\SearchType;
+use App\Repository\SeasonRepository;
 use App\Repository\SerieRepository;
+use App\Repository\WatchlistItemRepository;
+use App\Repository\WatchlistRepository;
 use App\Service\SerieParsing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('/serie')]
 class SerieController extends AbstractController
 {
     #[Route('/', name: 'app_serie_index')]
-    public function index(Request $request, SerieParsing $serieParsing): Response
+    public function index(Request $request, SerieParsing $serieParsing, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, SerieRepository $serieRepository): Response
     {
 
         $queryForm = $this->createForm(SearchType::class);
@@ -80,6 +84,11 @@ class SerieController extends AbstractController
                 shuffle($seriesArray);
             }
 
+            foreach($seriesArray as $serie) {
+                $serie->setIsWatchlistItem($this->isWatchlistItem($serie->getId(), $security, $watchlistRepository, $watchlistItemRepository, $serieRepository));
+            }
+
+
 
             return $this->render('serie/index.html.twig', [
                 'controller_name' => 'CatalogController',
@@ -119,10 +128,56 @@ class SerieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_serie_show', methods: ['GET'])]
-    public function show(int $id, SerieParsing $serieParsing): Response
+    public function show(int $id, SerieParsing $serieParsing, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, SerieRepository $serieRepository, SeasonRepository $seasonRepository): Response
     {
+        $serie = $serieParsing->serieParsing($id);
+
+        $serie["isWatchlistItem"] = $this->isWatchlistItem($id, $security, $watchlistRepository, $watchlistItemRepository, $serieRepository);
+
+        foreach($serie["seasons"] as $season) {
+            $season->setIsWatchlistItem($this->isWatchlistItemSeason($season->getId(), $security, $watchlistRepository, $watchlistItemRepository, $seasonRepository));
+        }
+
         return $this->render('serie/show.html.twig', [
-            'serie' => $serieParsing->serieParsing($id),
+            'serie' => $serie,
         ]);
+    }
+
+    private function isWatchlistItem(string $idTMDB, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, SerieRepository $serieRepository): bool
+    {
+        if(!$this->isGranted('ROLE_USER')) return false;
+
+        $searchSerie = $serieRepository->findOneBy(["idTMDB" => $idTMDB]);
+
+        if(isset($searchSerie))
+        {
+            $result = $watchlistItemRepository->findOneBy([
+                "watchlist" => $watchlistRepository->findOneBy(["user" => $security->getUser()->getId()]),
+                "serie" => $searchSerie->getId()
+            ]);
+
+            if(isset($result)) return true;
+            else return false;
+        }
+        else return false;
+    }
+
+    private function isWatchlistItemSeason(string $idTMDB, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, SeasonRepository $seasonRepository): bool
+    {
+        if(!$this->isGranted('ROLE_USER')) return false;
+
+        $searchSeason = $seasonRepository->findOneBy(["idTMDB" => $idTMDB]);
+
+        if(isset($searchSeason))
+        {
+            $result = $watchlistItemRepository->findOneBy([
+                "watchlist" => $watchlistRepository->findOneBy(["user" => $security->getUser()->getId()]),
+                "season" => $searchSeason->getId()
+            ]);
+
+            if(isset($result)) return true;
+            else return false;
+        }
+        else return false;
     }
 }
