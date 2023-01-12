@@ -4,8 +4,30 @@
             <img class="card-img-top h-100" src="{{ this.posterPath == 'https://image.tmdb.org/t/p/original' ? '/assets/img/no-poster.jpg' : this.posterPath }}" alt="{{ this.title }}">
         </a>
         <div class="card-body">
-            <p class="card-title h5 text-truncate">{{ this.title }}</p>
-            <a href="{{ path('app_watchlist_item_new', {type: this.type, idTMDB: this.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger"></a>
+            <p class="card-title h5 text-truncate">
+                {% if this.type == 'season' %}  <i class="me-3 bi bi-collection-play"></i>
+                {% elseif this.type == 'movie' %}  <i class="me-3 bi bi-film"></i>
+                {% elseif this.type == 'saga' %}  <i class="me-3 bi bi-aspect-ratio"></i>
+                {% elseif this.type == 'serie' %}  <i class="me-3 bi bi-collection"></i>
+                {% elseif this.type == 'episode' %}  <i class="me-3 bi bi-play-btn"></i>
+                {% else %}  <i class="me-3 bi bi-0-circle"></i>
+                {% endif %}
+                {{ this.title }}
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+                {% if this.isWatchlistItem %}
+                    <i class="bi bi-heart-fill text-danger like"></i>
+                {% else %}
+                    <a href="{{ path('app_watchlist_item_new', {type: this.type, idTMDB: this.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger like"></a>
+                {% endif %}
+
+                {% if (this.markAverage*10) >= 0 and (this.markAverage*10) < 25 %} <div class="circle mark0-25 bg-dark">{{ this.markAverage*10 }}%</div>
+                {% elseif (this.markAverage*10) >= 25 and (this.markAverage*10) < 50 %} <div class="circle mark25-50 bg-dark">{{ this.markAverage*10 }}%</div>
+                {% elseif (this.markAverage*10) >= 50 and (this.markAverage*10) < 75 %} <div class="circle mark50-75 bg-dark">{{ this.markAverage*10 }}%</div>
+                {% elseif (this.markAverage*10) >= 75 and (this.markAverage*10) < 100 %} <div class="circle mark75-100 bg-dark">{{ this.markAverage*10 }}%</div>
+                {% else %} <div class="circle markNull bg-dark">X</div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

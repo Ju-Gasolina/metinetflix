@@ -5,10 +5,14 @@ namespace App\Controller;
 use App\Entity\Season;
 use App\Entity\Serie;
 use App\Repository\SeasonRepository;
+use App\Repository\WatchlistRepository;
+use App\Repository\WatchlistItemRepository;
+use App\Repository\EpisodeRepository;
 use App\Service\SeasonParsing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 use App\Repository\SerieRepository;
 use App\Service\SerieParsing;
@@ -62,12 +66,58 @@ class SeasonController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_season_show', methods: ['GET'])]
-    public function show(String $id, SeasonParsing $seasonParsing): Response
+    public function show(String $id, SeasonParsing $seasonParsing, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, SeasonRepository $seasonRepository, EpisodeRepository $episodeRepository): Response
     {
         $ids = explode("-", $id);
 
+        $season = $seasonParsing->seasonParsing($ids[0], $ids[1]);
+
+        $season["isWatchlistItem"] = $this->isWatchlistItem($id, $security, $watchlistRepository, $watchlistItemRepository, $seasonRepository);
+
+        foreach($season["episodes"] as $episode) {
+            $episode->setIsWatchlistItem($this->isWatchlistItemEpisode($episode->getId(), $security, $watchlistRepository, $watchlistItemRepository, $episodeRepository));
+        }
+
         return $this->render('season/show.html.twig', [
-            'season' => $seasonParsing->seasonParsing($ids[0], $ids[1]),
+            'season' => $season,
         ]);
+    }
+
+    private function isWatchlistItem(string $idTMDB, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, SeasonRepository $seasonRepository): bool
+    {
+        if(!$this->isGranted('ROLE_USER')) return false;
+
+        $searchSeason = $seasonRepository->findOneBy(["idTMDB" => $idTMDB]);
+
+        if(isset($searchSeason))
+        {
+            $result = $watchlistItemRepository->findOneBy([
+                "watchlist" => $watchlistRepository->findOneBy(["user" => $security->getUser()->getId()]),
+                "season" => $searchSeason->getId()
+            ]);
+
+            if(isset($result)) return true;
+            else return false;
+        }
+        else return false;
+    }
+
+    private function isWatchlistItemEpisode(string $idTMDB, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, EpisodeRepository $episodeRepository): bool
+    {
+        if(!$this->isGranted('ROLE_USER')) return false;
+
+        $searchEpisode = $episodeRepository->findOneBy(["idTMDB" => $idTMDB]);
+
+        if(isset($searchEpisode))
+        {
+            $result = $watchlistItemRepository->findOneBy([
+                "watchlist" => $watchlistRepository->findOneBy(["user" => $security->getUser()->getId()]),
+                "episode" => $searchEpisode->getId()
+            ]);
+
+            if(isset($result)) return true;
+            else return false;
+        }
+        else return false;
     }
 }

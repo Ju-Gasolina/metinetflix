@@ -6,6 +6,10 @@ use App\Form\FiltersType;
 use App\Form\RegistrationFormType;
 use App\Form\SearchType;
 
+use App\Repository\MovieRepository;
+use App\Repository\WatchlistItemRepository;
+use App\Repository\WatchlistRepository;
+use App\Repository\SerieRepository;
 use App\Service\CatalogParsing;
 use ContainerFS3jsxr\getHeaderUtilsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,12 +20,13 @@ use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 
 class CatalogController extends AbstractController
 {
     #[Route('/catalog', name: 'app_catalog_index')]
-    public function index(Request $request, CatalogParsing $catalogParsing): Response
+    public function index(Request $request, CatalogParsing $catalogParsing, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, MovieRepository $movieRepository, SerieRepository $serieRepository): Response
     {
 
         $queryForm = $this->createForm(SearchType::class);
@@ -81,6 +86,14 @@ class CatalogController extends AbstractController
                 shuffle($catalogArray);
             }
 
+            foreach($catalogArray as $item) {
+                if($item->getType() == "movie"){
+                    $item->setIsWatchlistItem($this->isWatchlistItemMovie($item->getId(), $security, $watchlistRepository, $watchlistItemRepository, $movieRepository));
+                }
+                else if ($item->getType() == "serie") {
+                    $item->setIsWatchlistItem($this->isWatchlistItemSerie($item->getId(), $security, $watchlistRepository, $watchlistItemRepository, $serieRepository));
+                }
+            }
 
             return $this->render('catalog/index.html.twig', [
                 'controller_name' => 'CatalogController',
@@ -95,6 +108,42 @@ class CatalogController extends AbstractController
         }
     }
 
+    private function isWatchlistItemMovie(Int $idTMDB, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, MovieRepository $movieRepository): bool
+    {
+        if(!$this->isGranted('ROLE_USER')) return false;
 
+        $searchMovie = $movieRepository->findOneBy(["idTMDB" => $idTMDB]);
+
+        if(isset($searchMovie))
+        {
+            $result = $watchlistItemRepository->findOneBy([
+                "watchlist" => $watchlistRepository->findOneBy(["user" => $security->getUser()->getId()]),
+                "movie" => $searchMovie->getId()
+            ]);
+
+            if(isset($result)) return true;
+            else return false;
+        }
+        else return false;
+    }
+
+    private function isWatchlistItemSerie(string $idTMDB, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, SerieRepository $serieRepository): bool
+    {
+        if(!$this->isGranted('ROLE_USER')) return false;
+
+        $searchSerie = $serieRepository->findOneBy(["idTMDB" => $idTMDB]);
+
+        if(isset($searchSerie))
+        {
+            $result = $watchlistItemRepository->findOneBy([
+                "watchlist" => $watchlistRepository->findOneBy(["user" => $security->getUser()->getId()]),
+                "serie" => $searchSerie->getId()
+            ]);
+
+            if(isset($result)) return true;
+            else return false;
+        }
+        else return false;
+    }
 
 }

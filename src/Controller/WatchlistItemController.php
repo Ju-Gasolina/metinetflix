@@ -30,6 +30,8 @@ class WatchlistItemController extends AbstractController
     #[Route('/new/{type}/{idTMDB}', name: 'app_watchlist_item_new', methods: ['GET', 'POST'])]
     public function new(String $type, String $idTMDB): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+
         if($type == "movie")
         {
             return $this->redirectToRoute('app_movie_new', ['idTMDB' => $idTMDB]);
@@ -70,6 +72,8 @@ class WatchlistItemController extends AbstractController
     Security $security
     ): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+
         //Watchlist find request
         $user = $security->getUser();
         $watchlist = $watchlistRepository->findOneBy(['id'=>$watchlistUtils->getWatchlistIdByUser($user,$watchlistRepository)]);
@@ -120,6 +124,8 @@ class WatchlistItemController extends AbstractController
     #[Route('/delete/{id}', name: 'app_watchlist_item_delete',methods: ['GET','POST'])]
     public function delete(Int $id, WatchlistItemRepository $watchlistItemRepository ): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+
         $item = $watchlistItemRepository->find($id);
         $watchlistId = $watchlistItemRepository->find($id)->getWatchlist()->getId();
         $watchlistItemRepository->remove($item, true);
@@ -129,6 +135,8 @@ class WatchlistItemController extends AbstractController
     #[Route('/modify/{id}/{status}', name: 'app_watchlist_item_modify_status',methods: ['GET'])]
     public function modifyStatus(Int $id, String $status, WatchlistItemRepository $watchlistItemRepository ): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+
         $item = $watchlistItemRepository->find($id);
         $item->setStatus($status);
         $watchlistItemRepository->save($item, true);
@@ -159,6 +167,8 @@ class WatchlistItemController extends AbstractController
                          SagaParsing $sagaParsing
     ): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+
         $result = $watchlistItemRepository->find($id);
 
         switch($result->getItemType())
@@ -197,5 +207,3 @@ class WatchlistItemController extends AbstractController
         ]);
     }
 }
-
-// TODO Faire une route permettant de changer le status d'un item, et faire le

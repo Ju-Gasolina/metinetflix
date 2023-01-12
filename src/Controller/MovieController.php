@@ -6,6 +6,8 @@ use App\Entity\Movie;
 use App\Form\FiltersType;
 use App\Form\SearchType;
 use App\Repository\MovieRepository;
+use App\Repository\WatchlistItemRepository;
+use App\Repository\WatchlistRepository;
 use App\Service\MovieParsing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
@@ -16,12 +18,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Saga;
 use App\Repository\SagaRepository;
 use App\Service\SagaParsing;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('/movie')]
 class MovieController extends AbstractController
 {
     #[Route('/', name: 'app_movie_index')]
-    public function index(Request $request, MovieParsing $movieParsing): Response
+    public function index(Request $request, MovieParsing $movieParsing, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, MovieRepository $movieRepository): Response
     {
 
         $queryForm = $this->createForm(SearchType::class);
@@ -80,6 +83,9 @@ class MovieController extends AbstractController
                 shuffle($movieArray);
             }
 
+            foreach($movieArray as $movie) {
+                $movie->setIsWatchlistItem($this->isWatchlistItem($movie->getId(), $security, $watchlistRepository, $watchlistItemRepository, $movieRepository));
+            }
 
             return $this->render('movie/index.html.twig', [
                 'controller_name' => 'CatalogController',
@@ -141,10 +147,33 @@ class MovieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_movie_show', methods: ['GET'])]
-    public function show(int $id, MovieParsing $movieParsing): Response
+    public function show(int $id, MovieParsing $movieParsing, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, MovieRepository $movieRepository): Response
     {
+        $movie = $movieParsing->movieParsing($id);
+
+        $movie["isWatchlistItem"] = $this->isWatchlistItem($id, $security, $watchlistRepository, $watchlistItemRepository, $movieRepository);
+
         return $this->render('movie/show.html.twig', [
-            'movie' => $movieParsing->movieParsing($id),
+            'movie' => $movie,
         ]);
+    }
+
+    private function isWatchlistItem(Int $idTMDB, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, MovieRepository $movieRepository): bool
+    {
+        if(!$this->isGranted('ROLE_USER')) return false;
+
+        $searchMovie = $movieRepository->findOneBy(["idTMDB" => $idTMDB]);
+
+        if(isset($searchMovie))
+        {
+            $result = $watchlistItemRepository->findOneBy([
+                "watchlist" => $watchlistRepository->findOneBy(["user" => $security->getUser()->getId()]),
+                "movie" => $searchMovie->getId()
+            ]);
+
+            if(isset($result)) return true;
+            else return false;
+        }
+        else return false;
     }
 }

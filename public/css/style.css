@@ -488,3 +488,37 @@
     width: 100%;
 }
 
+.circle{
+    width:50px;
+    height:50px;
+    text-align:center;
+    border-radius:100px;
+    line-height: 44px;
+    color: #fff;
+    font-family: cursive;
+    font-size: 15px;
+}
+
+.like {
+    font-size: 25px;
+}
+
+.mark0-25 {
+    border: 3px solid #ff0000;
+}
+
+.mark25-50 {
+    border: 3px solid #ff7f00;
+}
+
+.mark50-75 {
+    border: 3px solid #FFD700;
+}
+
+.mark75-100 {
+    border: 3px solid #34C924;
+}
+
+.markNull {
+    border: 3px solid #A9A9A9;
+}

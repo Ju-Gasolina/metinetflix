@@ -30,7 +30,7 @@ class SagaParsing
                 'app_movie_show',
                 'movie',
                 $movie['popularity'],
-                $movie['vote_average']);
+                round($movie['vote_average'], 1));
             $movies[] = $card;
         }
 

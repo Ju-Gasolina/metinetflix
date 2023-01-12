@@ -14,6 +14,7 @@ class Card
     private String $type;
     private ?float $popularity = null;
     private ?float $markAverage = null;
+    private bool $isWatchlistItem;
 
 
 
@@ -27,6 +28,7 @@ class Card
         $this->type = $_type;
         $this->popularity = $_popularity;
         $this->markAverage = $_markAverage;
+        $this->isWatchlistItem = false;
 
     }
 
@@ -112,6 +114,22 @@ class Card
     public function getType(): string
     {
         return $this->type;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsWatchlistItem(): bool
+    {
+        return $this->isWatchlistItem;
+    }
+
+    /**
+     * @param bool $isWatchlistItem
+     */
+    public function setIsWatchlistItem(?bool $isWatchlistItem): void
+    {
+        $this->isWatchlistItem = $isWatchlistItem;
     }
 
 }

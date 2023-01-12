@@ -12,6 +12,7 @@ class CarouselCardComponent
     public String $posterPath;
     public String $pathName;
     public String $type;
-    public float $markAverage;
-    public float $popularity;
+    public ?float $popularity = null;
+    public ?float $markAverage = null;
+    public bool $isWatchlistItem;
 }
