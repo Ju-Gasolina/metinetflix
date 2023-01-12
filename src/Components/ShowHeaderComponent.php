@@ -12,4 +12,5 @@ class ShowHeaderComponent
     public String $name;
     public String $type;
     public String $id;
+    public bool $isWatchlistItem;
 }

@@ -14,4 +14,5 @@ class CardComponent
     public String $type;
     public ?float $popularity = null;
     public ?float $markAverage = null;
+    public bool $isWatchlistItem;
 }
