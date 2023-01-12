@@ -29,9 +29,7 @@ class FiltersType extends AbstractType
                 'sortBy',
                 ChoiceType::class,
                 [
-
                     'choices' => [
-
                         'Vote average ↑' => 'vote_average.asc',
                         'Vote average ↓' => 'vote_average.desc',
                         'Popularity ↑' => 'popularity.asc',

@@ -14,5 +14,6 @@ class WatchlistCardComponent
     public String $pathName;
     public String $type;
     public String $status;
+    public String $watchlistId;
 
 }

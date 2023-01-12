@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Form\UserType;
+use App\Form\WatchlistItemType;
 use App\Repository\WatchlistRepository;
 use JetBrains\PhpStorm\NoReturn;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -41,13 +44,33 @@ class WatchlistController extends AbstractController
                          EpisodeParsing          $episodeParsing,
                          SagaParsing             $sagaParsing,
                          WatchlistRepository     $watchlistRepository,
-                         Security                $security
+                         Security                $security,
+                         Request                 $request
     ): Response
     {
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         if (!$this->isUserVerified($id, $watchlistRepository, $security))
             return $this->redirectToRoute('app_watchlist_index');
+
+        $watchlistItemId = $request->query->get('watchlistItemId');
+
+        //dd($watchlistItemId);
+        //  dd($watchlistItemId);
+
+
+        if ($watchlistItemId) {
+            $watchlistItem = $watchlistItemRepository->findOneBy(['id' => $watchlistItemId]);
+            $watchlistItemForm = $this->createForm(WatchlistItemType::class, $watchlistItem, [
+                'action' => $this->generateUrl('app_watchlist_item_modify', ['id' => $watchlistItemId]),
+            ]);
+            $watchlistItemForm->handleRequest($request);
+        }
+
+        if (isset($watchlistItemForm) && $watchlistItemForm->isSubmitted() && $watchlistItemForm->isValid()) {
+            dd('validation');
+        }
+
 
         $items = $watchlistItemRepository->findBy([
             "watchlist" => $id]);
@@ -83,6 +106,8 @@ class WatchlistController extends AbstractController
 
         return $this->render('watchlist/show.html.twig', [
             'watchlistItems' => $watchlistItems,
+            'watchlistItemForm' => isset($watchlistItemForm) ? $watchlistItemForm->createView() : null,
+            'watchlistId' => $id
         ]);
     }
 
