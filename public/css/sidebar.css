@@ -20,7 +20,7 @@
     position: absolute;
     z-index: 2;
     display: flex;
-    top:12%;
+
     flex-direction: row;
     transition: all 0.2s ease;
     left: -300px;
@@ -36,13 +36,14 @@
     border: 1px solid #8B1489;
     border-left: none;
     transition: all 0.2s ease;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
     display: flex;
     flex-direction: row ;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    /*position: absolute;*/
-    /*left: 0;*/
+
 
 }
 .sidebar-burger-btn p{

@@ -468,7 +468,7 @@
     color: #8B1489;
 }
 
-#profile label, input
+#profile label, #profile input
 {
     width: 50%;
     margin-bottom: 10px;

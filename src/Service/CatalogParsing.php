@@ -47,34 +47,34 @@ class CatalogParsing
     }
 
 
-    public function sortParsing(int $page, string $sortBy)
-    {
-        $serieParsing = new SerieParsing();
-        $movieParsing = new MovieParsing();
-
-
-        if ($sortBy !== 'none') {
-            if ($sortBy === 'date.asc') {
-                $arrayMovies = $movieParsing->sortParsing($page, 'release_date.asc');
-                $arraySeries = $serieParsing->sortParsing($page, 'first_air_date.asc');
-            } else if ($sortBy === 'date.desc') {
-                $arrayMovies = $movieParsing->sortParsing($page, 'release_date.desc');
-                $arraySeries = $serieParsing->sortParsing($page, 'first_air_date.desc');
-            } else {
-                $arrayMovies = $movieParsing->sortParsing($page, $sortBy);
-                $arraySeries = $serieParsing->sortParsing($page, $sortBy);
-            }
-        } else {
-            $arrayMovies = $movieParsing->popularParsing($page);
-            $arraySeries = $serieParsing->popularParsing($page);
-        }
-
-
-
-        return array_merge($arrayMovies, $arraySeries);
-
-
-    }
+//    public function sortParsing(int $page, string $sortBy)
+//    {
+//        $serieParsing = new SerieParsing();
+//        $movieParsing = new MovieParsing();
+//
+//
+//        if ($sortBy !== 'none') {
+//            if ($sortBy === 'date.asc') {
+//                $arrayMovies = $movieParsing->sortParsing($page, 'release_date.asc');
+//                $arraySeries = $serieParsing->sortParsing($page, 'first_air_date.asc');
+//            } else if ($sortBy === 'date.desc') {
+//                $arrayMovies = $movieParsing->sortParsing($page, 'release_date.desc');
+//                $arraySeries = $serieParsing->sortParsing($page, 'first_air_date.desc');
+//            } else {
+//                $arrayMovies = $movieParsing->sortParsing($page, $sortBy);
+//                $arraySeries = $serieParsing->sortParsing($page, $sortBy);
+//            }
+//        } else {
+//            $arrayMovies = $movieParsing->popularParsing($page);
+//            $arraySeries = $serieParsing->popularParsing($page);
+//        }
+//
+//
+//
+//        return array_merge($arrayMovies, $arraySeries);
+//
+//
+//    }
 
     public function filtersParsing(int $page, array $filtersList)
     {
@@ -103,7 +103,7 @@ class CatalogParsing
         $arrayCatalog = array_merge($movieParsing->queryMaker($page, $options), $serieParsing->queryMaker($page, $options));
 
         usort($arrayCatalog, function ($first, $second) {
-            return strtolower($first->getTitle()) > strtolower($second->getTitle());
+            return strtolower($first->getMarkAverage()) > strtolower($second->getMarkAverage());
         });
 
         return $arrayCatalog;
