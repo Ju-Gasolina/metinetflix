@@ -22,7 +22,7 @@ class MovieParsing
             $card = new Card(
                 $item['id'],
                 $item['title'],
-                $item['release_date'],
+                $item['release_date'] ?? 0,
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_movie_show',
                 'movie',
@@ -47,7 +47,7 @@ class MovieParsing
             $card = new Card(
                 $item['id'],
                 $item['title'],
-                $item['release_date'],
+                $item['release_date'] ?? 0,
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_movie_show',
                 'movie',
@@ -72,7 +72,7 @@ class MovieParsing
             $card = new Card(
                 $item['id'],
                 $item['title'],
-                $item['release_date'],
+                $item['release_date'] ?? 0,
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_movie_show',
                 'movie',
@@ -120,7 +120,7 @@ class MovieParsing
             'poster_path' => 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
             'original_title' => $item['original_title'],
             'original_language' => $item['original_language'],
-            'release_date' => $item['release_date'],
+            'release_date' => $item['release_date'] ?? 0,
             'runtime' => $item['runtime'],
             'overview' => $overview,
             'genres' => $genres,
@@ -212,7 +212,7 @@ class MovieParsing
             $card = new Card(
                 $item['id'],
                 $item['title'],
-                $item['release_date'],
+                $item['release_date'] ?? 0,
                 'https://image.tmdb.org/t/p/original' . $item['poster_path'],
                 'app_movie_show',
                 'movie',
