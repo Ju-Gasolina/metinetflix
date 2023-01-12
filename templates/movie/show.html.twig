@@ -81,13 +81,19 @@
                                 <div class="card-header">
                                     <p class="text-center my-0 font-weight-normal h4">
                                         Saga : {{ movie.belongs_to_collection.title }}
-                                        <a href="{{ path('app_watchlist_item_new', {type: movie.belongs_to_collection.type, idTMDB: movie.belongs_to_collection.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger"></a>
+                                        {% if movie.belongs_to_collection.id != 0 %}
+                                            <a href="{{ path('app_watchlist_item_new', {type: movie.belongs_to_collection.type, idTMDB: movie.belongs_to_collection.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger"></a>
+                                        {% endif %}
                                     </p>
                                 </div>
                                 <div class="card-body p-0">
-                                    <a href="{{ path(movie.belongs_to_collection.pathName, {id: movie.belongs_to_collection.id}) }}" title="Cliquez pour voir les informations détaillées">
-                                        <img class="card-img-top rounded" src="{{ movie.belongs_to_collection.posterPath == 'https://image.tmdb.org/t/p/original' ? '/assets/img/no-backdrop.jpg' : movie.belongs_to_collection.posterPath }}" alt="{{ movie.belongs_to_collection.title }}">
-                                    </a>
+                                    {% if movie.belongs_to_collection.id != 0 %}
+                                        <a href="{{ path(movie.belongs_to_collection.pathName, {id: movie.belongs_to_collection.id}) }}" title="Cliquez pour voir les informations détaillées">
+                                            <img class="card-img-top rounded" src="{{ movie.belongs_to_collection.posterPath == 'https://image.tmdb.org/t/p/original' ? '/assets/img/no-backdrop.jpg' : movie.belongs_to_collection.posterPath }}" alt="{{ movie.belongs_to_collection.title }}">
+                                        </a>
+                                    {% else %}
+                                        <p></p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
