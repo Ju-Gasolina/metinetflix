@@ -182,7 +182,7 @@ class MovieParsing
 
         $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
         //https://api.themoviedb.org/3/discover/movie?api_key=' . $apiKey . '&vote_count.gte=40&vote_average.gte=1&language=fr-FR&page='.$page
-        $query = 'https://api.themoviedb.org/3/discover/movie?api_key=' . $apiKey . '&vote_count.gte=40&vote_average.gte=1&language=fr-FR&page='.$page;
+        $query = 'https://api.themoviedb.org/3/discover/movie?api_key=' . $apiKey . '&vote_count.gte=30&vote_average.gte=1&language=fr-FR&page='.$page;
 
         $filters = array_slice($options, 0, 4);
         $keysFilters = array_keys($filters);

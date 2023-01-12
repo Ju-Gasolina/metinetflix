@@ -101,13 +101,57 @@ class CatalogParsing
         $movieParsing = new MovieParsing();
 
         $arrayCatalog = array_merge($movieParsing->queryMaker($page, $options), $serieParsing->queryMaker($page, $options));
+        //dd($arrayCatalog);
+        return  $this->getArraySorted($options['sortBy'], $arrayCatalog);;
 
-        usort($arrayCatalog, function ($first, $second) {
-            return strtolower($first->getMarkAverage()) > strtolower($second->getMarkAverage());
-        });
+    }
 
-        return $arrayCatalog;
+    public function getArraySorted($sortBy, $arrayMovies){
 
+        $sortedArray = $arrayMovies;
+        switch ($sortBy){
+            case 'vote_average.desc':
+                usort($sortedArray, function ($first, $second) {
+                    return strtolower($first->getMarkAverage()) < strtolower($second->getMarkAverage());
+                });
+                break;
+            case 'vote_average.asc':
+
+                usort($sortedArray, function ($first, $second) {
+                    return strtolower($first->getMarkAverage()) > strtolower($second->getMarkAverage());
+                });
+                break;
+
+            case 'popularity.asc':
+
+                usort($sortedArray, function ($first, $second) {
+                    return strtolower($first->getPopularity()) < strtolower($second->getPopularity());
+                });
+                break;
+
+            case 'popularity.desc':
+
+                usort($sortedArray, function ($first, $second) {
+                    return strtolower($first->getPopularity()) > strtolower($second->getPopularity());
+                });
+                break;
+
+//            case 'date.asc':
+//                shuffle($sortedArray);
+//                break;
+//
+//            case 'date.desc':
+//                shuffle($sortedArray);
+//                break;
+
+            default:
+
+                shuffle($sortedArray);
+                break;
+
+        }
+
+        return $sortedArray;
     }
 
 
