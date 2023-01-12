@@ -3,9 +3,39 @@
 {% block title %}Watchlist{% endblock %}
 
 {% block main %}
-    <div id="response-div" class="container my-5">
+    <div class="container my-5">
         <div class="row mt-2 ">
 
+            {% if (watchlistItemForm) %}
+            <div class="col-12 bg-danger">
+                {{ form_start(watchlistItemForm) }}
+
+                    {{ form_widget(watchlistItemForm.start_date) }}
+                    {{ form_label(watchlistItemForm.start_date) }}
+
+                    {{ form_widget(watchlistItemForm.finish_date) }}
+                    {{ form_label(watchlistItemForm.finish_date) }}
+
+                    {{ form_widget(watchlistItemForm.episode_progress) }}
+                    {{ form_label(watchlistItemForm.episode_progress) }}
+
+                    {{ form_widget(watchlistItemForm.mark) }}
+                    {{ form_label(watchlistItemForm.mark) }}
+
+                    {{ form_widget(watchlistItemForm.personnal_note) }}
+                    {{ form_label(watchlistItemForm.personnal_note) }}
+
+                    {{ form_widget(watchlistItemForm.status) }}
+                    {{ form_label(watchlistItemForm.status) }}
+
+                    {{ form_widget(watchlistItemForm.submit) }}
+                    {{ form_label(watchlistItemForm.submit) }}
+
+
+                {{ form_end(watchlistItemForm) }}
+            </div>
+
+            {% endif %}
 
             <div class="col-12">
                 {% for watchlistItem in watchlistItems %}
@@ -16,11 +46,14 @@
                         posterPath: watchlistItem.posterPath,
                         pathName: watchlistItem.pathName,
                         type: watchlistItem.type,
-                        status: watchlistItem.status
+                        status: watchlistItem.status,
+                        watchlistId: watchlistId
                     }) }}
                 {% endfor %}
 
             </div>
+
+
         </div>
 
     </div>

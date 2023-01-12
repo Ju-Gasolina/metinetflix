@@ -204,6 +204,7 @@
 }
 
 .button-basic-custom {
+    text-decoration: none;
     padding: 7px 16px;
     border: 1px solid #8B1489;
     margin-bottom: 0;

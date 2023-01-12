@@ -137,6 +137,16 @@ class WatchlistItemController extends AbstractController
         return $this->redirectToRoute('app_watchlist_show', ['id' => $watchlistId]);
     }
 
+    #[Route('/modify/{id}', name: 'app_watchlist_item_modify',methods: ['GET', 'POST'])]
+    public function modify(Request $request,WatchlistItem $watchlistItem, WatchlistItemRepository $watchlistItemRepository){
+        //dd($watchlistItem);
+
+        $form = $this->createForm(WatchlistItemType::class, $watchlistItem);
+        $form->handleRequest($request);
+        $watchlistItemRepository->save($watchlistItem, true);
+        return $this->redirectToRoute('app_watchlist_index', ['id' => $watchlistItem->getWatchlist()->getId()]);
+    }
+
     #[Route('/{id}', name: 'app_watchlist_item_show', methods: ['GET', 'POST'])]
     public function show(Int $id,
                          Request $request,
