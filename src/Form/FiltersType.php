@@ -60,7 +60,7 @@ class FiltersType extends AbstractType
                     'years' => range(1899, date('Y')+100),
                     'months' => range(date('m'), 12),
                     'days' => range(date('d'), 31),
-                    'data' => new \DateTime(),
+                    'data' => new \DateTime('1900-01-01 00:00:00'),
 //                    'data' => new DateTime()
                 ]
             )
