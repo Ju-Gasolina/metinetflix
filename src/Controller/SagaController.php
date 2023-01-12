@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Saga;
 use App\Form\SagaType;
 use App\Repository\SagaRepository;
+use App\Repository\WatchlistItemRepository;
+use App\Repository\WatchlistRepository;
 use App\Service\SagaParsing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
@@ -17,12 +19,13 @@ use App\Service\MovieParsing;
 use App\Repository\MovieRepository;
 
 use App\Entity\Card;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('/saga')]
 class SagaController extends AbstractController
 {
     #[Route('/', name: 'app_saga_index', methods: ['GET'])]
-    public function index(Request $request, SagaRepository $sagaRepository): Response
+    public function index(Request $request, SagaRepository $sagaRepository, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository): Response
     {
         $page = $request->query->get('page');
 
@@ -58,6 +61,10 @@ class SagaController extends AbstractController
                     null,
                     null);
                 $sagas[] = $saga;
+            }
+
+            foreach($sagas as $saga) {
+                $saga->setIsWatchlistItem($this->isWatchlistItem($saga->getId(), $security, $watchlistRepository, $watchlistItemRepository, $sagaRepository));
             }
 
             return $this->render('saga/index.html.twig', [
@@ -167,10 +174,33 @@ class SagaController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_saga_show', methods: ['GET'])]
-    public function show(int $id, SagaParsing $sagaParsing): Response
+    public function show(int $id, SagaParsing $sagaParsing, SagaRepository $sagaRepository, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository): Response
     {
+        $saga = $sagaParsing->sagaParsing($id);
+
+        $saga["isWatchlistItem"] = $this->isWatchlistItem($id, $security, $watchlistRepository, $watchlistItemRepository, $sagaRepository);
+
         return $this->render('saga/show.html.twig', [
-            'saga' => $sagaParsing->sagaParsing($id),
+            'saga' => $saga,
         ]);
+    }
+
+    private function isWatchlistItem(Int $idTMDB, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, SagaRepository $sagaRepository): bool
+    {
+        if(!$this->isGranted('ROLE_USER')) return false;
+
+        $searchSaga = $sagaRepository->findOneBy(["idTMDB" => $idTMDB]);
+
+        if(isset($searchSaga))
+        {
+            $result = $watchlistItemRepository->findOneBy([
+                "watchlist" => $watchlistRepository->findOneBy(["user" => $security->getUser()->getId()]),
+                "saga" => $searchSaga->getId()
+            ]);
+
+            if(isset($result)) return true;
+            else return false;
+        }
+        else return false;
     }
 }
