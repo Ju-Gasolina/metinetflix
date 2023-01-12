@@ -28,7 +28,7 @@ class SeasonParsing
                 'app_episode_show',
                 'episode',
                 null,
-                $episode['vote_average']);
+                round($episode['vote_average'], 1));
             $episodes[] = $card;
         }
 
