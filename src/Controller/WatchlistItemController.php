@@ -69,7 +69,8 @@ class WatchlistItemController extends AbstractController
                         EpisodeRepository $episodeRepository,
                         SagaRepository $sagaRepository,
                         WatchlistUtils $watchlistUtils,
-    Security $security
+                        Request $request,
+                        Security $security
     ): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
@@ -118,10 +119,10 @@ class WatchlistItemController extends AbstractController
             $watchlistItemRepository->save($watchlistItem, true);
         }
 
-        return $this->redirectToRoute('app_watchlist_show', ['id' => $watchlist->getId()]);
+        return $this->redirect($request->headers->get('referer'));
     }
 
-    #[Route('/delete/{id}', name: 'app_watchlist_item_delete',methods: ['GET','POST'])]
+    #[Route('/{id}', name: 'app_watchlist_item_delete',methods: ['GET'])]
     public function delete(Int $id, WatchlistItemRepository $watchlistItemRepository ): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
@@ -131,6 +132,40 @@ class WatchlistItemController extends AbstractController
         $watchlistItemRepository->remove($item, true);
         return $this->redirectToRoute('app_watchlist_show', ['id' => $watchlistId]);
     }
+
+    #[Route('/delete/{idTMDB}/{type}', name: 'app_watchlist_item_deleteByIdTMDB',methods: ['GET'])]
+    public function deleteByIdTMDB(string $idTMDB, string $type, Security $security, WatchlistItemRepository $watchlistItemRepository, WatchlistRepository $watchlistRepository, Request $request, MovieRepository $movieRepository, SerieRepository $serieRepository, SeasonRepository $seasonRepository, EpisodeRepository $episodeRepository, SagaRepository $sagaRepository): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+
+        $watchlistId = $watchlistRepository->findOneBy(["user" => $security->getUser()->getId()])->getId();
+
+        if($type == "movie"){
+            $id = $movieRepository->findOneBy(["idTMDB" => $idTMDB])->getId();
+            $item = $watchlistItemRepository->findOneBy(["watchlist" => $watchlistId, "movie" => $id]);
+        }
+        else if($type == "serie") {
+            $id = $serieRepository->findOneBy(["idTMDB" => $idTMDB])->getId();
+            $item = $watchlistItemRepository->findOneBy(["watchlist" => $watchlistId, "serie" => $id]);
+        }
+        else if($type == "season") {
+            $id = $seasonRepository->findOneBy(["idTMDB" => $idTMDB])->getId();
+            $item = $watchlistItemRepository->findOneBy(["watchlist" => $watchlistId, "season" => $id]);
+        }
+        else if($type == "episode") {
+            $id = $episodeRepository->findOneBy(["idTMDB" => $idTMDB])->getId();
+            $item = $watchlistItemRepository->findOneBy(["watchlist" => $watchlistId, "episode" => $id]);
+        }
+        else if($type == "saga") {
+            $id = $sagaRepository->findOneBy(["idTMDB" => $idTMDB])->getId();
+            $item = $watchlistItemRepository->findOneBy(["watchlist" => $watchlistId, "saga" => $id]);
+        }
+
+        $watchlistItemRepository->remove($item, true);
+
+        return $this->redirect($request->headers->get('referer'));
+    }
+
 
     #[Route('/modify/{id}/{status}', name: 'app_watchlist_item_modify_status',methods: ['GET'])]
     public function modifyStatus(Int $id, String $status, WatchlistItemRepository $watchlistItemRepository ): Response
