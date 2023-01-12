@@ -21,11 +21,11 @@
                     <a href="{{ path('app_watchlist_item_new', {type: this.type, idTMDB: this.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger like"></a>
                 {% endif %}
 
-                {% if (this.markAverage*10) >= 0 and (this.markAverage*10) < 25 %} <div class="circle mark0-25">{{ this.markAverage*10 }}%</div>
-                {% elseif (this.markAverage*10) >= 25 and (this.markAverage*10) < 50 %} <div class="circle mark25-50">{{ this.markAverage*10 }}%</div>
-                {% elseif (this.markAverage*10) >= 50 and (this.markAverage*10) < 75 %} <div class="circle mark50-75">{{ this.markAverage*10 }}%</div>
-                {% elseif (this.markAverage*10) >= 75 and (this.markAverage*10) < 100 %} <div class="circle mark75-100">{{ this.markAverage*10 }}%</div>
-                {% else %} <div class="circle markNull">X</div>
+                {% if (this.markAverage*10) >= 0 and (this.markAverage*10) < 25 %} <div class="circle mark0-25 bg-dark">{{ this.markAverage*10 }}%</div>
+                {% elseif (this.markAverage*10) >= 25 and (this.markAverage*10) < 50 %} <div class="circle mark25-50 bg-dark">{{ this.markAverage*10 }}%</div>
+                {% elseif (this.markAverage*10) >= 50 and (this.markAverage*10) < 75 %} <div class="circle mark50-75 bg-dark">{{ this.markAverage*10 }}%</div>
+                {% elseif (this.markAverage*10) >= 75 and (this.markAverage*10) < 100 %} <div class="circle mark75-100 bg-dark">{{ this.markAverage*10 }}%</div>
+                {% else %} <div class="circle markNull bg-dark">X</div>
                 {% endif %}
             </div>
         </div>
