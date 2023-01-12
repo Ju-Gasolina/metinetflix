@@ -16,7 +16,7 @@
             </p>
             <div class="d-flex justify-content-between align-items-center">
                 {% if this.isWatchlistItem %}
-                    <i class="bi bi-heart-fill text-danger like"></i>
+                    <a href="{{ path('app_watchlist_item_deleteByIdTMDB', {idTMDB: this.id, type: this.type} ) }}" title="Supprimer de votre watchlist" class="bi bi-heart-fill text-danger like"></a>
                 {% else %}
                     <a href="{{ path('app_watchlist_item_new', {type: this.type, idTMDB: this.id}) }}" title="Ajouter à votre watchlist" class="bi bi-heart text-danger like"></a>
                 {% endif %}
