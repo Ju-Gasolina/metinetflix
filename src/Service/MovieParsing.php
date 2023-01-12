@@ -27,7 +27,7 @@ class MovieParsing
                 'app_movie_show',
                 'movie',
                 $item['popularity'],
-                $item['vote_average']);
+                round($item['vote_average'], 1));
             $movies[] = $card;
         }
 
@@ -52,7 +52,7 @@ class MovieParsing
                 'app_movie_show',
                 'movie',
                 $item['popularity'],
-                $item['vote_average']);
+                round($item['vote_average'], 1));
             $movies[] = $card;
         }
 
@@ -77,7 +77,7 @@ class MovieParsing
                 'app_movie_show',
                 'movie',
                 $item['popularity'],
-                $item['vote_average']);
+                round($item['vote_average'], 1));
             $movies[] = $card;
         }
 
@@ -170,7 +170,7 @@ class MovieParsing
                 'app_movie_show',
                 'movie',
                 $item['popularity'],
-                $item['vote_average']);
+                round($item['vote_average'], 1));
             $movies[] = $card;
         }
 
@@ -216,7 +216,7 @@ class MovieParsing
                 'app_movie_show',
                 'movie',
                 $item['popularity'],
-                $item['vote_average']);
+                round($item['vote_average'], 1));
             $movies[] = $card;
         }
 

@@ -27,7 +27,7 @@ class SerieParsing
                 'app_serie_show',
                 'serie',
                 $item['popularity'],
-                $item['vote_average']);
+                round($item['vote_average'], 1));
             $series[] = $card;
         }
 
@@ -52,7 +52,7 @@ class SerieParsing
                 'app_serie_show',
                 'serie',
                 $item['popularity'],
-                $item['vote_average']);
+                round($item['vote_average'], 1));
             $series[] = $card;
         }
 
@@ -91,7 +91,7 @@ class SerieParsing
                 'app_season_show',
                 'season',
                 $item['popularity'],
-                $item['vote_average']);
+                round($item['vote_average'], 1));
             $seasons[] = $card;
         }
 
@@ -150,7 +150,7 @@ class SerieParsing
                 'app_serie_show',
                 'serie',
                 $item['popularity'],
-                $item['vote_average']);
+                round($item['vote_average'], 1));
             $series[] = $card;
         }
 
@@ -179,7 +179,7 @@ class SerieParsing
                 'app_serie_show',
                 'serie',
                 $item['popularity'],
-                $item['vote_average']);
+                round($item['vote_average'], 1));
             $series[] = $card;
         }
 
@@ -222,7 +222,7 @@ class SerieParsing
                 'app_serie_show',
                 'serie',
                 $item['popularity'],
-                $item['vote_average']);
+                round($item['vote_average'], 1));
             $series[] = $card;
         }
 
