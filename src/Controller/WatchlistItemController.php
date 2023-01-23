@@ -136,18 +136,15 @@ class WatchlistItemController extends AbstractController
     public function modifyStatus(Int $id, String $status, WatchlistItemRepository $watchlistItemRepository ): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-
         $item = $watchlistItemRepository->find($id);
         $item->setStatus($status);
         $watchlistItemRepository->save($item, true);
         $watchlistId = $item->getWatchlist()->getId();
-
         return $this->redirectToRoute('app_watchlist_show', ['id' => $watchlistId]);
     }
 
     #[Route('/modify/{id}', name: 'app_watchlist_item_modify',methods: ['GET', 'POST'])]
     public function modify(Request $request,WatchlistItem $watchlistItem, WatchlistItemRepository $watchlistItemRepository){
-        //dd($watchlistItem);
 
         $form = $this->createForm(WatchlistItemType::class, $watchlistItem);
         $form->handleRequest($request);
@@ -155,55 +152,4 @@ class WatchlistItemController extends AbstractController
         return $this->redirectToRoute('app_watchlist_index', ['id' => $watchlistItem->getWatchlist()->getId()]);
     }
 
-    #[Route('/{id}', name: 'app_watchlist_item_show', methods: ['GET', 'POST'])]
-    public function show(Int $id,
-                         Request $request,
-                         WatchlistItem $watchlistItem,
-                         WatchlistItemRepository $watchlistItemRepository,
-                         MovieParsing $movieParsing,
-                         SerieParsing $serieParsing,
-                         SeasonParsing $seasonParsing,
-                         EpisodeParsing $episodeParsing,
-                         SagaParsing $sagaParsing
-    ): Response
-    {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-
-        $result = $watchlistItemRepository->find($id);
-
-        switch($result->getItemType())
-        {
-            case 'movie':
-                $watchlistCard = $movieParsing->movieWatchlistCardParsing($result->getId(), $result->getMovie());
-                break;
-
-            case 'serie':
-                $watchlistCard = $serieParsing->serieWatchlistCardParsing($result->getId(), $result->getSerie());
-                break;
-
-            case 'season':
-                $watchlistCard = $seasonParsing->seasonWatchlistCardParsing($result->getId(), $result->getSeason());
-                break;
-
-            case 'episode':
-                $watchlistCard = $episodeParsing->episodeWatchlistCardParsing($result->getId(), $result->getEpisode());
-                break;
-
-            case 'saga':
-                $watchlistCard = $sagaParsing->sagaWatchlistCardParsing($result->getId(), $result->getSaga());
-                break;
-        }
-
-        $form = $this->createForm(WatchlistItemType::class, $result);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $watchlistItemRepository->save($watchlistItem, true);
-        }
-
-        return $this->render('watchlist_item/show.html.twig', [
-            'watchlistCard' => $watchlistCard,
-            'form' => $form->createView(),
-        ]);
-    }
 }

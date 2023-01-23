@@ -20,24 +20,35 @@ class WatchlistItemType extends AbstractType
             ->add('start_date', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Start date',
+                'label_attr' => ['class'=>'log-form-label'],
+                'attr' => ['autocomplete' => 'new-password','class'=>'form-control','placeholder'=>'************'],
                 'required' => false,
             ])
             ->add('finish_date', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Finish date',
+                'label_attr' => ['class'=>'log-form-label'],
+                'attr' => ['autocomplete' => 'new-password','class'=>'form-control','placeholder'=>'************'],
                 'required' => false,
             ])
             ->add('episode_progress', IntegerType::class, [
                 'required' => false,
+                'label_attr' => ['class'=>'log-form-label'],
+                'attr' => ['autocomplete' => 'new-password','class'=>'form-control','placeholder'=>'************'],
             ])
             ->add('mark', IntegerType::class, [
                 'required' => false,
+                'label_attr' => ['class'=>'log-form-label'],
+                'attr' => ['autocomplete' => 'new-password','class'=>'form-control','placeholder'=>'************'],
             ])
             ->add('personnal_note', TextType::class, [
                 'required' => false,
+                'label_attr' => ['class'=>'log-form-label'],
+                'attr' => ['autocomplete' => 'new-password','class'=>'form-control','placeholder'=>'************'],
             ])
             ->add('status', ChoiceType::class,[
-                'attr' => ['class'=>''],
+                'attr' => ['autocomplete' => 'new-password','class'=>'form-control','placeholder'=>'************'],
+                'label_attr' => ['class'=>'log-form-label'],
                 'choices'  => [
                     'Plan to watch' => 'Plan to watch',
                     'Completed' => 'Completed',
@@ -48,7 +59,7 @@ class WatchlistItemType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Save',
                 'attr'  => [
-                    'class' => 'btn btn-primary',
+                    'class' => 'log-button-basic-custom',
                     'hx-post' => $options['action'],
                     'hx-target' => '#body'
                 ],

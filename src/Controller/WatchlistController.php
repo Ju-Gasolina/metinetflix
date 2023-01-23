@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\UserType;
 use App\Form\WatchlistItemType;
 use App\Repository\WatchlistRepository;
+use App\Service\WatchlistUtils;
 use JetBrains\PhpStorm\NoReturn;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,7 +46,8 @@ class WatchlistController extends AbstractController
                          SagaParsing             $sagaParsing,
                          WatchlistRepository     $watchlistRepository,
                          Security                $security,
-                         Request                 $request
+                         Request                 $request,
+                         WatchlistUtils $watchlistUtils
     ): Response
     {
 
@@ -55,12 +57,11 @@ class WatchlistController extends AbstractController
 
         $watchlistItemId = $request->query->get('watchlistItemId');
 
-        //dd($watchlistItemId);
-        //  dd($watchlistItemId);
-
 
         if ($watchlistItemId) {
             $watchlistItem = $watchlistItemRepository->findOneBy(['id' => $watchlistItemId]);
+            $entityInformations = $watchlistUtils->getEntityInformationsByItem($watchlistItem);
+            // todo récupérer l'item et le renvoyer pr l'afficher, ne pas oublier de remettre l'htmx dans la vue
             $watchlistItemForm = $this->createForm(WatchlistItemType::class, $watchlistItem, [
                 'action' => $this->generateUrl('app_watchlist_item_modify', ['id' => $watchlistItemId]),
             ]);
@@ -107,6 +108,7 @@ class WatchlistController extends AbstractController
         return $this->render('watchlist/show.html.twig', [
             'watchlistItems' => $watchlistItems,
             'watchlistItemForm' => isset($watchlistItemForm) ? $watchlistItemForm->createView() : null,
+            'entityInformations' => $entityInformations ?? null,
             'watchlistId' => $id
         ]);
     }
