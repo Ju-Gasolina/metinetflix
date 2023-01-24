@@ -57,21 +57,30 @@
                         <li><a class="dropdown-item"
                                hx-target="#body"
                                hx-get="{{ path('app_watchlist_item_modify_status', {id:this.id, status: 'Watching'}) }}"
-                               hx-swap="outerHTML" >Watching</a>
+                               hx-swap="outerHTML"
+                               hx-indicator="#loading"
+                            >Watching</a>
+
                         </li>
                         <li><a class="dropdown-item"
                                hx-target="#body"
                                hx-get="{{ path('app_watchlist_item_modify_status', {id:this.id, status: 'Plan to watch'}) }}"
-                               hx-swap="outerHTML" >Plan to watch</a></li>
+                               hx-swap="outerHTML"
+                               hx-indicator="#loading"
+                            >Plan to watch</a></li>
                         <li><a class="dropdown-item"
                                hx-target="#body"
                                hx-get="{{ path('app_watchlist_item_modify_status', {id:this.id, status: 'Paused'}) }}"
-                               hx-swap="outerHTML" >Paused</a>
+                               hx-swap="outerHTML"
+                               hx-indicator="#loading"
+                            >Paused</a>
                         </li>
                         <li><a class="dropdown-item"
                                hx-target="#body"
                                hx-get="{{ path('app_watchlist_item_modify_status', {id:this.id, status: 'Completed'}) }}"
-                               hx-swap="outerHTML" >Completed</a>
+                               hx-swap="outerHTML"
+                               hx-indicator="#loading"
+                            >Completed</a>
                         </li>
                     </ul>
                 </div>
@@ -79,10 +88,9 @@
                    hx-target="#body"
                    hx-get="{{ path('app_watchlist_show', {id: this.watchlistId, watchlistItemId: this.id}) }}"
                    hx-swap="outerHTML"
-
-                        {#                   href="{{ path('app_watchlist_show', {id: this.watchlistId, watchlistItemId: this.id}) }}"#}
+                   hx-indicator="#loading"
                     href="#"
-                   title="Cliquez pour voir mes informations sur cet item">
+                   title="Cliquer pour voir mes informations sur cet item">
                     {{ component('button', {
                         title: 'Infos',
                     }) }}

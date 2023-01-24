@@ -61,6 +61,7 @@ class WatchlistItemType extends AbstractType
                 'attr'  => [
                     'class' => 'log-button-basic-custom',
                     'hx-post' => $options['action'],
+                    'hx-indicator' => '#loading',
                     'hx-target' => '#body'
                 ],
 

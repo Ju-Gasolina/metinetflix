@@ -553,15 +553,38 @@
     border: 3px solid #A9A9A9;
 }
 
-#loading-container{
+.loading-screen-container {
     z-index: 3;
+    position:fixed;
+    padding:0;
+    margin:0;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background:rgba(0,0,0,0.5);
+    display: none;
+
+}
+
+.loading-container{
+
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    display: none;
+
 
 }
+
+.htmx-request .loading-screen-container{
+    display: block;
+}
+
+.htmx-request.loading-screen-container{
+    display:block;
+}
+
 
 .lds-ring {
     display: inline-block;
