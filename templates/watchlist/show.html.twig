@@ -3,39 +3,96 @@
 {% block title %}Watchlist{% endblock %}
 
 {% block main %}
-    <div class="container my-5">
-        <div class="row mt-2 ">
-
-            {% if (watchlistItemForm) %}
-            <div class="col-12 bg-danger">
-                {{ form_start(watchlistItemForm) }}
-
-                    {{ form_widget(watchlistItemForm.start_date) }}
-                    {{ form_label(watchlistItemForm.start_date) }}
-
-                    {{ form_widget(watchlistItemForm.finish_date) }}
-                    {{ form_label(watchlistItemForm.finish_date) }}
-
-                    {{ form_widget(watchlistItemForm.episode_progress) }}
-                    {{ form_label(watchlistItemForm.episode_progress) }}
-
-                    {{ form_widget(watchlistItemForm.mark) }}
-                    {{ form_label(watchlistItemForm.mark) }}
-
-                    {{ form_widget(watchlistItemForm.personnal_note) }}
-                    {{ form_label(watchlistItemForm.personnal_note) }}
-
-                    {{ form_widget(watchlistItemForm.status) }}
-                    {{ form_label(watchlistItemForm.status) }}
-
-                    {{ form_widget(watchlistItemForm.submit) }}
-                    {{ form_label(watchlistItemForm.submit) }}
 
 
-                {{ form_end(watchlistItemForm) }}
+
+    {% if (watchlistItemForm) %}
+        <div class="watchlist-form-container">
+            <div class="watchlist-form-container-sub bg-dark text-white px-1 py-5">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <h2 class="log-title text-uppercase">Informations</h2>
+                            <p class="text-white-50 mb-5">Please enter your informations about this show!</p>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-4 px-3 align-items-center px-5">
+                        <div class="col-2">
+                            <img class="watchlist-form-img" src="{{ entityInformations['poster_path'] }}"
+                                 alt="{{ entityInformations['name'] }}">
+                        </div>
+
+                        <div class="col-10 pb-5">
+                            <h4 class="">{{ entityInformations['name'] }}</h4>
+                        </div>
+
+                    </div>
+
+                    <div class="px-5">
+
+                        {{ form_start(watchlistItemForm) }}
+
+                        <div class="row mb-4 ">
+                            <div class="form-floating  col">
+                                {{ form_widget(watchlistItemForm.start_date) }}
+                                {{ form_label(watchlistItemForm.start_date) }}
+
+                            </div>
+                            <div class="form-floating col">
+                                {{ form_widget(watchlistItemForm.finish_date) }}
+                                {{ form_label(watchlistItemForm.finish_date) }}
+
+                            </div>
+                            <div class="form-floating  col">
+                                {{ form_widget(watchlistItemForm.episode_progress) }}
+                                {{ form_label(watchlistItemForm.episode_progress) }}
+
+                            </div>
+                        </div>
+                        <div class="row mb-5 ">
+                            <div class="form-floating  col">
+                                {{ form_widget(watchlistItemForm.mark) }}
+                                {{ form_label(watchlistItemForm.mark) }}
+
+                            </div>
+                            <div class="form-floating  col">
+                                {{ form_widget(watchlistItemForm.personnal_note) }}
+                                {{ form_label(watchlistItemForm.personnal_note) }}
+
+                            </div>
+
+                            <div class="form-floating  col">
+                                {{ form_widget(watchlistItemForm.status) }}
+                                {{ form_label(watchlistItemForm.status) }}
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                {{ form_widget(watchlistItemForm.submit) }}
+                            </div>
+
+                        </div>
+
+
+                        {{ form_end(watchlistItemForm) }}
+                    </div>
+
+                </div>
+
             </div>
 
-            {% endif %}
+        </div>
+
+
+    {% endif %}
+
+    <div class="container my-5  {% if (watchlistItemForm) %} watchlist-main-container {% endif %}">
+        <div class="row mt-2 ">
 
             <div class="col-12">
                 {% for watchlistItem in watchlistItems %}
@@ -53,9 +110,24 @@
 
             </div>
 
-
         </div>
 
     </div>
 
+    <div id="loading" class="loading-screen-container">
+        <div  class="loading-container">
+            <div class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 {% endblock %}
+

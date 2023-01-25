@@ -190,7 +190,7 @@ class SerieParsing
     {
 
         $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
-        $query = 'https://api.themoviedb.org/3/discover/tv?api_key=' . $apiKey . '&language=fr-FR&page=1&vote_average.gte=1&vote_count.gte=50&page='.$page;;
+        $query = 'https://api.themoviedb.org/3/discover/tv?api_key=' . $apiKey . '&language=fr-FR&vote_average.gte=1&vote_count.gte=30&page='.$page;;
         $filters = array_slice($options, 0, 4);
         $keysFilters = array_keys($filters);
         $sortBy = $options['sortBy'];

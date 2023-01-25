@@ -1,7 +1,7 @@
 <div class="row watchlist-card mb-2">
     <div class="col-1 ">
         <a href="{{ path(this.pathName, {id: this.idTMDB}) }}" title="Cliquez pour voir les informations détaillées">
-            <img class="" src="{{ this.posterPath == 'https://image.tmdb.org/t/p/original' ? '/assets/img/no-poster.jpg' : this.posterPath }}" alt="{{ this.title }}">
+            <img src="{{ this.posterPath == 'https://image.tmdb.org/t/p/original' ? '/assets/img/no-poster.jpg' : this.posterPath }}" alt="{{ this.title }}">
         </a>
     </div>
 
@@ -37,7 +37,11 @@
 
     <div class="col-1 d-flex flex-column ">
         <div class="watchlist-card-right-c d-flex flex-row justify-content-end">
-            <a href="{{ path('app_watchlist_item_delete', {id: this.id} ) }}">
+            <a
+                    hx-target="#body"
+                    hx-get="{{ path('app_watchlist_item_delete', {id: this.id} ) }}"
+                    hx-swap="outerHTML"
+                    href="#">
                 <i class="bi bi-x text-danger h3"></i>
             </a>
         </div>
@@ -53,30 +57,40 @@
                         <li><a class="dropdown-item"
                                hx-target="#body"
                                hx-get="{{ path('app_watchlist_item_modify_status', {id:this.id, status: 'Watching'}) }}"
-                               hx-swap="outerHTML" >Watching</a>
+                               hx-swap="outerHTML"
+                               hx-indicator="#loading"
+                            >Watching</a>
+
                         </li>
                         <li><a class="dropdown-item"
                                hx-target="#body"
                                hx-get="{{ path('app_watchlist_item_modify_status', {id:this.id, status: 'Plan to watch'}) }}"
-                               hx-swap="outerHTML" >Plan to watch</a></li>
+                               hx-swap="outerHTML"
+                               hx-indicator="#loading"
+                            >Plan to watch</a></li>
                         <li><a class="dropdown-item"
                                hx-target="#body"
                                hx-get="{{ path('app_watchlist_item_modify_status', {id:this.id, status: 'Paused'}) }}"
-                               hx-swap="outerHTML" >Paused</a>
+                               hx-swap="outerHTML"
+                               hx-indicator="#loading"
+                            >Paused</a>
                         </li>
                         <li><a class="dropdown-item"
                                hx-target="#body"
                                hx-get="{{ path('app_watchlist_item_modify_status', {id:this.id, status: 'Completed'}) }}"
-                               hx-swap="outerHTML" >Completed</a>
+                               hx-swap="outerHTML"
+                               hx-indicator="#loading"
+                            >Completed</a>
                         </li>
                     </ul>
                 </div>
-                <a class="text-decoration-none"
+                <a class="text-decoration-none loading-activator"
                    hx-target="#body"
                    hx-get="{{ path('app_watchlist_show', {id: this.watchlistId, watchlistItemId: this.id}) }}"
                    hx-swap="outerHTML"
-
-                   title="Cliquez pour voir mes informations sur cet item">
+                   hx-indicator="#loading"
+                    href="#"
+                   title="Cliquer pour voir mes informations sur cet item">
                     {{ component('button', {
                         title: 'Infos',
                     }) }}
@@ -85,7 +99,5 @@
             </div>
         </div>
 
-
-        {#        <i class="mx-4 bi bi-collection-play text-light h3"></i> #}
     </div>
 </div>
