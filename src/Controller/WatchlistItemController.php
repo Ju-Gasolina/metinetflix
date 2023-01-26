@@ -75,10 +75,9 @@ class WatchlistItemController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
-        //Watchlist find request
+
         $user = $security->getUser();
         $watchlist = $watchlistRepository->findOneBy(['id'=>$watchlistUtils->getWatchlistIdByUser($user,$watchlistRepository)]);
-        //WatchlistItem creation
         $watchlistItem = $watchlistItemRepository->findOneBy([$type => $idEntity]);
 
         if(!isset($watchlistItem)) {
