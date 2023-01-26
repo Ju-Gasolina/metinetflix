@@ -3,19 +3,14 @@
 namespace App\Controller;
 
 use App\Form\FiltersType;
-use App\Form\RegistrationFormType;
 use App\Form\SearchType;
-
 use App\Repository\MovieRepository;
+use App\Repository\SerieRepository;
 use App\Repository\WatchlistItemRepository;
 use App\Repository\WatchlistRepository;
-use App\Repository\SerieRepository;
 use App\Service\CatalogParsing;
 use ContainerFS3jsxr\getHeaderUtilsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,7 +37,7 @@ class CatalogController extends AbstractController
 
         if (empty($page))
             return $this->redirectToRoute('app_catalog_index', ['page' => 1], Response::HTTP_SEE_OTHER);
-        else if ($page < 1 || $page > 10)
+        else if ($page < 1 || $page > 100)
             throw $this->createNotFoundException('The page does not exist');
         else {
 

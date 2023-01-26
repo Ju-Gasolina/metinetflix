@@ -147,41 +147,12 @@ class MovieParsing
         return $watchlistCard;
     }
 
-//    public function sortParsing(int $page, String $sortBy):array
-//    {
-//        $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
-//
-//        $client = HttpClient::create();
-//        $response = $client
-//            ->request(
-//                'GET',
-//                'https://api.themoviedb.org/3/discover/movie?api_key='.$apiKey.'&language=fr-FR&sort_by='.$sortBy.'&include_adult=false&include_video=false&page='.$page.'&with_watch_monetization_types=flatrate'
-//            );
-//        $items = $response->toArray();
-//
-//
-//        $movies = array();
-//        foreach($items['results'] as $item) {
-//            $card = new Card(
-//                $item['id'],
-//                $item['title'],
-//                $item['release_date'],
-//                'https://image.tmdb.org/t/p/original' . $item['poster_path'],
-//                'app_movie_show',
-//                'movie',
-//                $item['popularity'],
-//                round($item['vote_average'], 1));
-//            $movies[] = $card;
-//        }
-//
-//        return $movies;
-//    }
+
 
     public function queryMaker(int $page, array $options = null ):array
     {
 
         $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
-        //https://api.themoviedb.org/3/discover/movie?api_key=' . $apiKey . '&vote_count.gte=40&vote_average.gte=1&language=fr-FR&page='.$page
         $query = 'https://api.themoviedb.org/3/discover/movie?api_key=' . $apiKey . '&vote_count.gte=30&vote_average.gte=1&language=fr-FR&page='.$page;
 
         $filters = array_slice($options, 0, 4);

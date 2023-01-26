@@ -2,26 +2,20 @@
 
 namespace App\Controller;
 
-use App\Form\UserType;
 use App\Form\WatchlistItemType;
+use App\Repository\WatchlistItemRepository;
 use App\Repository\WatchlistRepository;
+use App\Service\EpisodeParsing;
+use App\Service\MovieParsing;
+use App\Service\SagaParsing;
+use App\Service\SeasonParsing;
+use App\Service\SerieParsing;
 use App\Service\WatchlistUtils;
-use JetBrains\PhpStorm\NoReturn;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-use App\Repository\WatchlistItemRepository;
-
-use App\Service\MovieParsing;
-use App\Service\SerieParsing;
-use App\Service\SeasonParsing;
-use App\Service\EpisodeParsing;
-use App\Service\SagaParsing;
 use Symfony\Component\Security\Core\Security;
-use function PHPUnit\Framework\isNull;
 
 #[Route('/watchlist')]
 class WatchlistController extends AbstractController
@@ -57,11 +51,9 @@ class WatchlistController extends AbstractController
 
         $watchlistItemId = $request->query->get('watchlistItemId');
 
-
         if ($watchlistItemId) {
             $watchlistItem = $watchlistItemRepository->findOneBy(['id' => $watchlistItemId]);
             $entityInformations = $watchlistUtils->getEntityInformationsByItem($watchlistItem);
-            // todo récupérer l'item et le renvoyer pr l'afficher, ne pas oublier de remettre l'htmx dans la vue
             $watchlistItemForm = $this->createForm(WatchlistItemType::class, $watchlistItem, [
                 'action' => $this->generateUrl('app_watchlist_item_modify', ['id' => $watchlistItemId]),
             ]);
@@ -72,12 +64,12 @@ class WatchlistController extends AbstractController
             dd('validation');
         }
 
-
         $items = $watchlistItemRepository->findBy([
             "watchlist" => $id]);
 
 
         $watchlistItems = array();
+
         foreach ($items as $item) {
             switch ($item->getItemType()) {
                 case 'movie':

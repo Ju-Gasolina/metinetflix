@@ -39,15 +39,17 @@ class WatchlistItemType extends AbstractType
             ->add('mark', IntegerType::class, [
                 'required' => false,
                 'label_attr' => ['class'=>'log-form-label'],
-                'attr' => ['autocomplete' => 'new-password','class'=>'form-control','placeholder'=>'************'],
+                'attr' => ['autocomplete' => 'new-password','class'=>'form-control','placeholder'=>'************', 'min' => 0, 'max' => 100],
+
+
             ])
             ->add('personnal_note', TextType::class, [
                 'required' => false,
                 'label_attr' => ['class'=>'log-form-label'],
-                'attr' => ['autocomplete' => 'new-password','class'=>'form-control','placeholder'=>'************'],
+                'attr' => ['autocomplete' => 'personnal_note','class'=>'form-control','placeholder'=>'your note'],
             ])
             ->add('status', ChoiceType::class,[
-                'attr' => ['autocomplete' => 'new-password','class'=>'form-control','placeholder'=>'************'],
+                'attr' => ['autocomplete' => 'status','class'=>'form-control','placeholder'=>'status'],
                 'label_attr' => ['class'=>'log-form-label'],
                 'choices'  => [
                     'Plan to watch' => 'Plan to watch',
