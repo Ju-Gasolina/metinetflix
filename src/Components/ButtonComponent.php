@@ -8,5 +8,4 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 class ButtonComponent
 {
     public String $title;
-
 }

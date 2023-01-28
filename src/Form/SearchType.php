@@ -11,7 +11,6 @@ class SearchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
             ->add('query', TextType::class, array(
                 'attr' => array(
@@ -19,8 +18,5 @@ class SearchType extends AbstractType
                     'placeholder' => 'Search a tv show or a movie'),
                 'label' => false))
             ->add('search', SubmitType::class,  array('attr' => array('class' => 'btn btn-outline col-2 search-bar-btn')));
-
     }
-
-
 }

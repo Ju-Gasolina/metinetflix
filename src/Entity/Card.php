@@ -16,8 +16,6 @@ class Card
     private ?float $markAverage = null;
     private bool $isWatchlistItem;
 
-
-
     public function __construct(String $_id, String $_title, String $_releaseDate, String $_posterPath, String $_pathName, String $_type, ?float $_popularity, ?float $_markAverage)
     {
         $this->title = $_title;
@@ -64,7 +62,6 @@ class Card
         $this->markAverage = $markAverage;
     }
 
-
     /**
      * @return String
      */
@@ -72,9 +69,6 @@ class Card
     {
         return $this->pathName;
     }
-
-
-
 
     /**
      * @return String
@@ -131,5 +125,4 @@ class Card
     {
         $this->isWatchlistItem = $isWatchlistItem;
     }
-
 }

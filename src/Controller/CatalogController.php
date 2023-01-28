@@ -23,7 +23,6 @@ class CatalogController extends AbstractController
     #[Route('/catalog', name: 'app_catalog_index')]
     public function index(Request $request, CatalogParsing $catalogParsing, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, MovieRepository $movieRepository, SerieRepository $serieRepository): Response
     {
-
         $queryForm = $this->createForm(SearchType::class);
         $queryForm->handleRequest($request);
 
@@ -34,19 +33,18 @@ class CatalogController extends AbstractController
         $currentFilters = $request->query->get('filters');
         $page = $request->query->get('page');
 
-
         if (empty($page))
             return $this->redirectToRoute('app_catalog_index', ['page' => 1], Response::HTTP_SEE_OTHER);
         else if ($page < 1 || $page > 100)
             throw $this->createNotFoundException('The page does not exist');
         else {
-
             if ($queryForm->isSubmitted() && $queryForm->isValid()) {
 
                 $data = $queryForm->getData();
                 return $this->redirectToRoute('app_catalog_index', ['page' => 1, 'query' => $data['query']], Response::HTTP_SEE_OTHER);
 
-            } else if ($filtersForm->isSubmitted() && $filtersForm->isValid()) {
+            }
+            else if ($filtersForm->isSubmitted() && $filtersForm->isValid()) {
 
                 $data = $filtersForm->getData();
                 $currentFilters = str_replace(" ", "", HeaderUtils::toString(
@@ -59,14 +57,12 @@ class CatalogController extends AbstractController
                     ],
                     '!'));
 
-
                 return $this->redirectToRoute('app_catalog_index', ['page' => 1, 'filters' => $currentFilters], Response::HTTP_SEE_OTHER);
-
-            } else if ($currentQuery) {
+            }
+            else if ($currentQuery) {
                 $catalogArray = $catalogParsing->queryParsing($page, $currentQuery);
-
-            } else if ($currentFilters) {
-
+            }
+            else if ($currentFilters) {
                 $arrayFilters = array_map(function ($item) {
                     return $item[0];
                 }, HeaderUtils::parseQuery($currentFilters, true, '!'));
@@ -76,7 +72,8 @@ class CatalogController extends AbstractController
                     $arrayFilters
                 );
 
-            } else {
+            }
+            else {
                 $catalogArray = $catalogParsing->popularParsing($page);
                 shuffle($catalogArray);
             }
@@ -98,7 +95,6 @@ class CatalogController extends AbstractController
                 'filtersForm' => $filtersForm->createView(),
                 'currentFilters' => $currentFilters,
                 'currentQuery' => $currentQuery,
-
             ]);
         }
     }
@@ -140,5 +136,4 @@ class CatalogController extends AbstractController
         }
         else return false;
     }
-
 }
