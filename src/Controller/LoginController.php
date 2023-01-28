@@ -17,19 +17,18 @@ class LoginController extends AbstractController
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
 
-        //Le controleur ne sert qu'a rediriger sur la page de connexion.
+        // Le controleur ne sert qu'a rediriger sur la page de connexion.
 
-//        $user = new User();
-//        $form = $this->createForm(LoginFormType::class, $user);
-//        $form->handleRequest($request);
+        // $user = new User();
+        // $form = $this->createForm(LoginFormType::class, $user);
+        // $form->handleRequest($request);
 
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('login/index.html.twig', [
             'last_username' => $lastUsername,
-            'error'         => $error,
-//            'loginForm' => $form->createView(),
+            'error'         => $error
         ]);
     }
 

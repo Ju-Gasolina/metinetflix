@@ -26,7 +26,6 @@ class MovieController extends AbstractController
     #[Route('/', name: 'app_movie_index')]
     public function index(Request $request, MovieParsing $movieParsing, Security $security, WatchlistRepository $watchlistRepository, WatchlistItemRepository $watchlistItemRepository, MovieRepository $movieRepository): Response
     {
-
         $queryForm = $this->createForm(SearchType::class);
         $queryForm->handleRequest($request);
 
@@ -37,12 +36,13 @@ class MovieController extends AbstractController
         $currentQuery = $request->query->get('query');
         $currentFilters = $request->query->get('filters');
 
-
         if (empty($page)) {
             return $this->redirectToRoute('app_movie_index', ['page' => 1], Response::HTTP_SEE_OTHER);
-        } else if ($page < 1 || $page > 10) {
+        } 
+        else if ($page < 1 || $page > 10) {
             throw $this->createNotFoundException('The page does not exist');
-        } else {
+        } 
+        else {
             if ($queryForm->isSubmitted() && $queryForm->isValid()) {
 
                 $data = $queryForm->getData();
@@ -61,13 +61,14 @@ class MovieController extends AbstractController
                     ],
                     '!'));
 
-
                 return $this->redirectToRoute('app_movie_index', ['page' => 1, 'filters' => $currentFilters], Response::HTTP_SEE_OTHER);
 
-            } else if ($currentQuery) {
+            } 
+            else if ($currentQuery) {
                 $movieArray = $movieParsing->queryParsing($page, $currentQuery);
 
-            } else if ($currentFilters) {
+            } 
+            else if ($currentFilters) {
 
                 $arrayFilters = array_map(function ($item) {
                     return $item[0];
@@ -78,7 +79,8 @@ class MovieController extends AbstractController
                     $arrayFilters
                 );
 
-            } else {
+            } 
+            else {
                 $movieArray = $movieParsing->popularParsing($page);
                 shuffle($movieArray);
             }

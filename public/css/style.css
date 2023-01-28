@@ -1,4 +1,3 @@
-
 .image-rognage {
     width: 100%;
     height: 400px;
@@ -18,13 +17,11 @@
     text-align: justify;
 }
 
-
 .bottom-buttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
     padding-bottom: 50px;
-
 }
 
 .bottom-buttons a {
@@ -60,7 +57,6 @@
     position: relative;
     width: 320px;
     margin: 0px auto 0 auto;
-
     perspective: 1000px;
 }
 
@@ -71,7 +67,6 @@
     transform-style: preserve-3d;
     animation: rotate360 60s infinite forwards linear;
 }
-
 
 .carousel__face {
     position: absolute;
@@ -89,7 +84,6 @@
     margin: auto;
     font-size: 2rem;
 }
-
 
 .carousel__face:nth-child(1) {
     background-image: url("https://image.tmdb.org/t/p/original//5DUMPBSnHOZsbBv81GFXZXvDpo6.jpg");
@@ -136,22 +130,18 @@
     transform: rotateY(320deg) translateZ(430px);
 }
 
-
 .cards-crl {
     transition: all 0.2s ease;
     cursor: pointer;
 }
 
-
 .cards-crl:hover {
     box-shadow: 5px 6px 6px 2px #e9ecef;
-
 }
 
 .cards-crl:hover .icon-crl {
     font-size: 60px;
     transform: scale(1);
-
 }
 
 .icon-crl {
@@ -159,7 +149,6 @@
     font-size: 30px;
     color: white;
 }
-
 
 .home-container-1 {
     height: 95vh;
@@ -170,18 +159,15 @@
     margin-bottom: 50px;
 }
 
-
 .home-container-1 img {
 
     box-shadow: black;
 }
 
 .home-container-2 {
-
     height: 400px;
     left: 100px;
     right: 100px
-
 }
 
 
@@ -194,9 +180,7 @@
     }
 }
 
-
 /* CARROUSSEUL ACCUEIL */
-
 
 .background-custom {
     background-size: cover;
@@ -233,7 +217,6 @@
     color: #8B1489;
     text-shadow: 3px 3px 20px black,
     -2px 1px 30px black;
-
 }
 
 .nav-bar-text {
@@ -245,7 +228,6 @@
     color: #8B1489;
 }
 
-
 /*SEARCHBAR*/
 
 .search-bar-custom {
@@ -254,9 +236,7 @@
 
 .search-bar-input {
     border: 1px solid #8B1489;
-
 }
-
 
 .search-bar-btn {
     border: 1px solid #8B1489;
@@ -269,7 +249,6 @@
     color: white;
     background-color: #8B1489;
 }
-
 
 .poster-on-banner {
     height: 400px;
@@ -284,7 +263,6 @@
     width: 35%;
 }
 
-
 .translate-title-for-poster-on-banner {
     transform: translateY(-370px);
 }
@@ -296,7 +274,6 @@
 /* width */
 .scrollbar-custom::-webkit-scrollbar {
     width: 10px;
-
 }
 
 /* Track */
@@ -308,7 +285,6 @@
 .scrollbar-custom::-webkit-scrollbar-thumb {
     background: #202529;
     border-radius: 10px;
-
     border: 1px solid #8B1489
 }
 
@@ -333,14 +309,12 @@
     transform: translate(-50%, -50%);
     width: 65%;
     height:50%;
-
 }
 
 .watchlist-form-container-sub {
     width: 100%;
     border: 1px solid #8B1489;
     border-radius: 10px;
-
 }
 
 .watchlist-form-img {
@@ -348,8 +322,6 @@
     border: 1px solid #8B1489;
     border-radius: 10px;
 }
-
-
 
 .watchlist-main-container{
     filter: brightness(0.6);
@@ -365,7 +337,6 @@
     color: #8B1489;
     font-style: italic;
     font-weight: bold;
-
 }
 
 .watchlist-card-infos p {
@@ -376,23 +347,17 @@
     border: 1px solid black;
     border-radius: 10px;
     padding: 0 5px 0 5px;
-
 }
-
 
 .watchlist-card-status p {
     height: 100%;
     text-align: center;
     margin: auto;
-
-
 }
 
 .watchlist-card-right-c {
     height: 50%;
-
 }
-
 
 .status-completed {
     background-color: green;
@@ -410,7 +375,6 @@
     background-color: red;
 }
 
-
 .watchlist-sidebar-container {
 
     background-color: #202529;
@@ -418,7 +382,6 @@
     border-radius: 10px;
     height: 700px;
 }
-
 
 .logout-button {
     color: #8B1489;
@@ -430,13 +393,11 @@
     color: red;
     text-shadow: 3px 3px 20px black,
     -2px 1px 30px black;
-
 }
 
 .log-form-label {
     color: black;
 }
-
 
 .log-signup-link {
     color: white;
@@ -451,7 +412,6 @@
     font-weight: bold;
     color: #8B1489;
 }
-
 
 .log-button-basic-custom {
     padding: 10px 64px;
@@ -468,7 +428,6 @@
     color: white;
     background-color: #8B1489;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-
 }
 
 .log-container {
@@ -487,38 +446,33 @@
     border-top: 1px solid #8B1489;
 }
 
-
 .custom-logo a {
     font-size: x-large;
     color: white;
-
 }
 
 .custom-logo a:hover {
     color: #8B1489;
 }
 
-#profile label, #profile input
-{
+#profile label, #profile input {
     width: 50%;
     margin-bottom: 10px;
 }
 
-#profile button
-{
+#profile button {
     margin-top: 15px;
     width: 100%;
 }
 
-.horizontal-carousel
-{
+.horizontal-carousel {
     margin-top: 50px;
     background-color: #0007;
     height: 600px;
     width: 100%;
 }
 
-.circle{
+.circle {
     width:50px;
     height:50px;
     text-align:center;
@@ -564,27 +518,22 @@
     height: 100%;
     background:rgba(0,0,0,0.5);
     display: none;
-
 }
 
-.loading-container{
-
+.loading-container {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
-
 }
 
-.htmx-request .loading-screen-container{
+.htmx-request .loading-screen-container {
     display: block;
 }
 
-.htmx-request.loading-screen-container{
+.htmx-request.loading-screen-container {
     display:block;
 }
-
 
 .lds-ring {
     display: inline-block;
@@ -592,6 +541,7 @@
     width: 80px;
     height: 80px;
 }
+
 .lds-ring div {
     box-sizing: border-box;
     display: block;
@@ -604,15 +554,19 @@
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     border-color: #8B1489 transparent transparent transparent;
 }
+
 .lds-ring div:nth-child(1) {
     animation-delay: -0.45s;
 }
+
 .lds-ring div:nth-child(2) {
     animation-delay: -0.3s;
 }
+
 .lds-ring div:nth-child(3) {
     animation-delay: -0.15s;
 }
+
 @keyframes lds-ring {
     0% {
         transform: rotate(0deg);
@@ -622,7 +576,6 @@
     }
 }
 
-
 .progress {
     height: 20px;
     margin-bottom: 20px;
@@ -631,6 +584,7 @@
     border-radius: 4px;
     box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
 }
+
 .progress-bar {
     float: left;
     width: 0%;

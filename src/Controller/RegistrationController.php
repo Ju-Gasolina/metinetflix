@@ -38,8 +38,6 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
 
-
-
             $password =  $userPasswordHasher->hashPassword(
                 $user,
                 $form->get('plainPassword')->getData()
@@ -61,7 +59,6 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->persist($watchList);
             $entityManager->flush();
-
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
@@ -95,7 +92,6 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('app_register');

@@ -81,8 +81,6 @@ class MovieParsing
             $movies[] = $card;
         }
 
-
-
         return $movies;
     }
 
@@ -101,7 +99,6 @@ class MovieParsing
             array_push($genres, $genre['name']);
         }
         if(count($genres) == 0) array_push($genres, "Aucun genre");
-
 
         $belongs_to_collection = new Card(
          $item['belongs_to_collection']['id'] ?? 0,
@@ -147,11 +144,8 @@ class MovieParsing
         return $watchlistCard;
     }
 
-
-
     public function queryMaker(int $page, array $options = null ):array
     {
-
         $apiKey = '357ffc10ea12b3e3226406719d3f9fe5';
         $query = 'https://api.themoviedb.org/3/discover/movie?api_key=' . $apiKey . '&vote_count.gte=30&vote_average.gte=1&language=fr-FR&page='.$page;
 
@@ -159,15 +153,12 @@ class MovieParsing
         $keysFilters = array_keys($filters);
         $sortBy = $options['sortBy'];
 
-
         if($sortBy !== "none") $query .= '&sort_by=' . $this->formateSortBy($sortBy);
         foreach ($keysFilters as $keyFilter) {
 
             if ($filters[$keyFilter] === '""') continue;
             $query .= '&' . $keyFilter . '=' . $filters[$keyFilter];
-
         }
-
 
         $client = HttpClient::create();
         $response = $client
@@ -176,7 +167,6 @@ class MovieParsing
                 $query
             );
         $items = $response->toArray();
-
 
         $movies = array();
         foreach($items['results'] as $item) {
@@ -204,6 +194,5 @@ class MovieParsing
             return 'release_date.desc';
         }
         return $sortBy;
-
     }
 }

@@ -21,8 +21,6 @@ class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-//        <input placeholder="name@example.com" class="form-control" type="email" id="username" name="_username" value="{{ last_username }}">
-//        <label class="log-form-label" for="username">Email</label>
         $builder
             ->add('email', EmailType::class, [
                 'label_attr' => ['class'=>'log-form-label'],
@@ -79,17 +77,7 @@ class RegistrationFormType extends AbstractType
             ->add('username', TextType::class,[
                 'label_attr' => ['class'=>'log-form-label'],
                 'attr' => ['class'=>'form-control','placeholder'=>'Username'],
-            ])
-
-
-        ;
-//        <select class="form-select" aria-label="Default select example">
-//                                    <option selected>Open this select menu</option>
-//                                    <option value="1">One</option>
-//                                    <option value="2">Two</option>
-//                                    <option value="3">Three</option>
-//                                </select>
-
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -1,33 +1,27 @@
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 
-
-.sidebar-filter{
+.sidebar-filter {
     border: 1px solid #8B1489;
     border-left: none;
     top:10px;
     margin-top: 10px;
-
     background-color: #202529;
     width: 300px;
     padding-top: 20px;
     padding-bottom: 40px;
     transition: all 0.2s ease;
-
 }
 
-.sidebar-container{
-
+.sidebar-container {
     position: absolute;
     z-index: 2;
     display: flex;
-
     flex-direction: row;
     transition: all 0.2s ease;
     left: -300px;
 }
 
-
-.sidebar-burger-btn{
+.sidebar-burger-btn {
     margin-left: -1px;
     height: 50px;
     width: 150px;
@@ -43,41 +37,31 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-
-
 }
-.sidebar-burger-btn p{
+
+.sidebar-burger-btn p {
     color: white;
-
 }
-.sidebar-burger-btn i{
+.sidebar-burger-btn i {
     color: white;
-
 }
 
-.sidebar-burger-btn:hover i{
+.sidebar-burger-btn:hover i {
     color: #8B1489;
-
 }
-.sidebar-burger-btn:hover p{
+.sidebar-burger-btn:hover p {
     color: #8B1489;
-
 }
 
-
-
-.sidebar-burger-btn i{
+.sidebar-burger-btn i {
     font-size: large;
 }
 
-.sidebar-burger-container{
+.sidebar-burger-container {
     top: 10px;
 }
 
-
-
-
-.sidebar-lines-open{
+.sidebar-lines-open {
     height: 100%;
     width: 10px;
     border: solid 1px #202529;
@@ -86,7 +70,7 @@
     transition: all 0.2s ease;
 }
 
-.sidebar-lines-close{
+.sidebar-lines-close {
 
     width: 100%;
     height: 10px;
@@ -96,18 +80,12 @@
     transition: all 0.2s ease;
 }
 
-
 #alphabetical-container label {
-
     margin-bottom: 10px;
     width : 132px;
     background-color: #202529;
     border: solid 1px #8B1489;
 }
-
-
-/*CHECKBOX*/
-
 
 .toggle {
     cursor: pointer;
@@ -124,9 +102,11 @@
     vertical-align: middle;
     transition: background 0.25s;
 }
+
 .toggle-switch:before, .toggle-switch:after {
     content: "";
 }
+
 .toggle-switch:before {
     display: block;
     background: linear-gradient(to bottom, #fff 0%, #eee 100%);
@@ -139,13 +119,16 @@
     left: 4px;
     transition: left 0.25s;
 }
+
 .toggle:hover .toggle-switch:before {
     background: linear-gradient(to bottom, #fff 0%, #fff 100%);
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
 }
+
 .toggle-checkbox:checked + .toggle-switch {
     background: #8B1489;
 }
+
 .toggle-checkbox:checked + .toggle-switch:before {
     left: 30px;
 }
@@ -168,20 +151,18 @@
     filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(213deg) brightness(104%) contrast(102%);
 }
 
-.label-max-time{
+.label-max-time {
     color: white;
     background-color:#202529 ;
     border-color:#8B1489 ;
 }
 
-
-
-.input-max-time{
+.input-max-time {
     border-color:#8B1489 ;
     border-left: none;
 }
 
-.input-date{
+.input-date {
     border: 1px solid #8B1489 ;
     width: 85%;
     border-bottom-right-radius: 0.375rem;
@@ -192,14 +173,11 @@
 
 }
 
-.input-date select{
-
+.input-date select {
     height: 100%;
     width: 100%;
-
 }
 
-
-.input-date-label{
+.input-date-label {
     width: 15%;
 }

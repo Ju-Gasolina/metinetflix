@@ -8,10 +8,8 @@ use function PHPUnit\Framework\isEmpty;
 
 class CatalogParsing
 {
-
     public function popularParsing(int $page): array
     {
-
         $serieParsing = new SerieParsing();
         $movieParsing = new MovieParsing();
 
@@ -59,10 +57,7 @@ class CatalogParsing
             $arraySeries = $serieParsing->popularParsing($page);
         }
 
-
         return array_merge($arrayMovies, $arraySeries);
-
-
     }
 
     public function queryMaker(int $page, array $options = [])
@@ -72,7 +67,6 @@ class CatalogParsing
 
         $arrayCatalog = array_merge($movieParsing->queryMaker($page, $options), $serieParsing->queryMaker($page, $options));
         return  $this->getArraySorted($options['sortBy'], $arrayCatalog);;
-
     }
 
     public function getArraySorted($sortBy, $arrayMovies){
@@ -110,11 +104,7 @@ class CatalogParsing
 
                 shuffle($sortedArray);
                 break;
-
         }
-
         return $sortedArray;
     }
-
-
 }

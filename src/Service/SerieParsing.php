@@ -197,7 +197,6 @@ class SerieParsing
                 round($item['vote_average'], 1));
             $series[] = $card;
         }
-
         return $series;
     }
 
@@ -210,6 +209,5 @@ class SerieParsing
             return 'first_air_date.desc';
         }
         return $sortBy;
-
     }
 }
