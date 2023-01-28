@@ -5,8 +5,9 @@
 {% block main %}
 
     {% if error %}
-        {{ dump(error) }}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div class="alert alert-danger mt-3 mx-5" role="alert">
+            {{ error.message }}
+        </div>
     {% endif %}
 
 
