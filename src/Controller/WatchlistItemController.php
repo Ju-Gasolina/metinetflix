@@ -27,7 +27,7 @@ use Symfony\Component\Security\Core\Security;
 #[Route('/watchlist/item')]
 class WatchlistItemController extends AbstractController
 {
-    #[Route('/new/{type}/{idTMDB}', name: 'app_watchlist_item_new', methods: ['GET', 'POST'])]
+    #[Route('/new/{type}/{idTMDB}', name: 'app_watchlist_item_new', methods: ['GET'])]
     public function new(String $type, String $idTMDB): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
@@ -58,7 +58,7 @@ class WatchlistItemController extends AbstractController
         }
     }
 
-    #[Route('/add/{type}/{idEntity}', name: 'app_watchlist_item_add', methods: ['GET', 'POST'])]
+    #[Route('/add/{type}/{idEntity}', name: 'app_watchlist_item_add', methods: ['GET'])]
     public function add(String $type,
                         Int $idEntity,
                         WatchlistRepository $watchlistRepository,
@@ -74,7 +74,6 @@ class WatchlistItemController extends AbstractController
     ): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
-
 
         $user = $security->getUser();
         $watchlist = $watchlistRepository->findOneBy(['id'=>$watchlistUtils->getWatchlistIdByUser($user,$watchlistRepository)]);
